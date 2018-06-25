@@ -13,6 +13,10 @@ group :development, :test do
   gem 'pry'
   gem 'faker'
   gem 'rspec-rails'
+  gem 'database_cleaner'
+  gem 'shoulda-matchers', git: 'https://github.com/thoughtbot/shoulda-matchers.git', branch: 'rails-5'
+  gem 'simplecov'
+  gem 'factory_bot_rails'
 end
 
 group :development do
