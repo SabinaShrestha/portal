@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2018_06_26_204702) do
+ActiveRecord::Schema.define(version: 2018_06_26_213842) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -138,6 +138,24 @@ ActiveRecord::Schema.define(version: 2018_06_26_204702) do
     t.index ["grading_group_id"], name: "index_quizzes_on_grading_group_id"
   end
 
+  create_table "unit_items", force: :cascade do |t|
+    t.bigint "unit_id"
+    t.string "item_type"
+    t.string "item_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["unit_id"], name: "index_unit_items_on_unit_id"
+  end
+
+  create_table "units", force: :cascade do |t|
+    t.string "name"
+    t.integer "position"
+    t.bigint "course_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["course_id"], name: "index_units_on_course_id"
+  end
+
   create_table "users", force: :cascade do |t|
     t.string "provider", default: "email", null: false
     t.string "uid", default: "", null: false
@@ -166,6 +184,7 @@ ActiveRecord::Schema.define(version: 2018_06_26_204702) do
     t.string "last_name"
     t.string "phone"
     t.boolean "is_admin", default: false
+    t.string "homepage", default: "/courses"
     t.text "bio"
     t.index ["confirmation_token"], name: "index_users_on_confirmation_token", unique: true
     t.index ["email"], name: "index_users_on_email", unique: true
@@ -200,5 +219,7 @@ ActiveRecord::Schema.define(version: 2018_06_26_204702) do
   add_foreign_key "questions", "quizzes"
   add_foreign_key "quizzes", "courses"
   add_foreign_key "quizzes", "grading_groups"
+  add_foreign_key "unit_items", "units"
+  add_foreign_key "units", "courses"
   add_foreign_key "wikis", "courses"
 end
