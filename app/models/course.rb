@@ -7,4 +7,5 @@ class Course < ApplicationRecord
   has_many :groups
   has_many :enrollments, dependent: :destroy
   has_many :users, through: :enrollments
+  has_many :units
 end
