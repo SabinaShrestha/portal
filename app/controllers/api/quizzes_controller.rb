@@ -1,9 +1,10 @@
 class Api::QuizzesController < ApplicationController
+  before_action :set_course
   before_action :set_quiz, only: [:show, :update, :destroy]
 
   # GET /quiz
   def index
-    render json: Quiz.all
+    render json: @course.quizzes
   end
 
   # GET /quiz/1
@@ -13,7 +14,7 @@ class Api::QuizzesController < ApplicationController
 
   # POST /quiz
   def create
-    quiz = Quiz.new(quiz_params)
+    quiz = @course.quizzes.new(quiz_params)
 
     if quiz.save
       render json: quiz
@@ -37,6 +38,11 @@ class Api::QuizzesController < ApplicationController
   end
 
   private
+
+    def set_course
+      @course = Course.find(params[:course_id])
+    end
+
     def set_quiz
       @quiz = Quiz.find(params[:id])
     end
@@ -54,7 +60,7 @@ class Api::QuizzesController < ApplicationController
         :quiz_settings,
         :time_limit,
         :due_date, 
-         )
+      )
     end
 end
 
