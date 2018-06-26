@@ -15,7 +15,7 @@ const theme = {
 ReactDOM.render(
   <Provider store={store}>
     <BrowserRouter>
-      <ThemeProvider>
+      <ThemeProvider theme={theme}>
         <App />
       </ThemeProvider>
     </BrowserRouter>
