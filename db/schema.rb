@@ -10,10 +10,133 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2018_06_25_210821) do
+ActiveRecord::Schema.define(version: 2018_06_26_204702) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
+
+  create_table "assignments", force: :cascade do |t|
+    t.bigint "course_id"
+    t.bigint "grading_group_id"
+    t.string "title"
+    t.text "description"
+    t.datetime "due_date"
+    t.float "points"
+    t.boolean "published", default: false
+    t.string "submission_type"
+    t.string "grade_type"
+    t.datetime "unlocks_at"
+    t.datetime "locks_at"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["course_id"], name: "index_assignments_on_course_id"
+    t.index ["grading_group_id"], name: "index_assignments_on_grading_group_id"
+  end
+
+  create_table "course_files", force: :cascade do |t|
+    t.string "url"
+    t.boolean "published", default: false
+    t.bigint "course_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["course_id"], name: "index_course_files_on_course_id"
+  end
+
+  create_table "course_navs", force: :cascade do |t|
+    t.bigint "course_id"
+    t.string "name"
+    t.boolean "visible", default: true
+    t.integer "priority"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["course_id"], name: "index_course_navs_on_course_id"
+  end
+
+  create_table "courses", force: :cascade do |t|
+    t.string "name"
+    t.string "description"
+    t.string "time_zone"
+    t.string "department"
+    t.datetime "starts"
+    t.datetime "ends"
+    t.boolean "lock_after_end", default: false
+    t.boolean "lock_before_start", default: false
+    t.json "course_options"
+    t.json "feature_flags"
+    t.string "course_home"
+    t.boolean "published", default: false
+    t.boolean "concluded", default: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "enrollments", force: :cascade do |t|
+    t.bigint "user_id"
+    t.bigint "course_id"
+    t.string "role"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["course_id"], name: "index_enrollments_on_course_id"
+    t.index ["user_id"], name: "index_enrollments_on_user_id"
+  end
+
+  create_table "grading_groups", force: :cascade do |t|
+    t.string "name"
+    t.float "weight"
+    t.bigint "course_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["course_id"], name: "index_grading_groups_on_course_id"
+  end
+
+  create_table "group_memberships", force: :cascade do |t|
+    t.bigint "enrollment_id"
+    t.bigint "group_id"
+    t.boolean "group_leader"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["enrollment_id"], name: "index_group_memberships_on_enrollment_id"
+    t.index ["group_id"], name: "index_group_memberships_on_group_id"
+  end
+
+  create_table "groups", force: :cascade do |t|
+    t.string "name"
+    t.bigint "course_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["course_id"], name: "index_groups_on_course_id"
+  end
+
+  create_table "questions", force: :cascade do |t|
+    t.bigint "quiz_id"
+    t.string "answer_type"
+    t.float "points"
+    t.text "body"
+    t.json "question_data"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["quiz_id"], name: "index_questions_on_quiz_id"
+  end
+
+  create_table "quizzes", force: :cascade do |t|
+    t.bigint "course_id"
+    t.bigint "grading_group_id"
+    t.string "name"
+    t.string "quiz_type"
+    t.float "points"
+    t.boolean "multiple_attempts", default: false
+    t.boolean "shuffle", default: false
+    t.boolean "published", default: false
+    t.datetime "available_from"
+    t.datetime "available_until"
+    t.json "quiz_settings"
+    t.time "time_limit"
+    t.datetime "due_date"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["course_id"], name: "index_quizzes_on_course_id"
+    t.index ["grading_group_id"], name: "index_quizzes_on_grading_group_id"
+  end
 
   create_table "users", force: :cascade do |t|
     t.string "provider", default: "email", null: false
@@ -39,10 +162,43 @@ ActiveRecord::Schema.define(version: 2018_06_25_210821) do
     t.json "tokens"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.string "first_name"
+    t.string "last_name"
+    t.string "phone"
+    t.boolean "is_admin", default: false
+    t.text "bio"
     t.index ["confirmation_token"], name: "index_users_on_confirmation_token", unique: true
     t.index ["email"], name: "index_users_on_email", unique: true
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
     t.index ["uid", "provider"], name: "index_users_on_uid_and_provider", unique: true
   end
 
+  create_table "wikis", force: :cascade do |t|
+    t.bigint "course_id"
+    t.boolean "pinned", default: false
+    t.boolean "published", default: false
+    t.boolean "public", default: false
+    t.datetime "publish_at"
+    t.string "wiki_type"
+    t.string "title"
+    t.text "body"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["course_id"], name: "index_wikis_on_course_id"
+  end
+
+  add_foreign_key "assignments", "courses"
+  add_foreign_key "assignments", "grading_groups"
+  add_foreign_key "course_files", "courses"
+  add_foreign_key "course_navs", "courses"
+  add_foreign_key "enrollments", "courses"
+  add_foreign_key "enrollments", "users"
+  add_foreign_key "grading_groups", "courses"
+  add_foreign_key "group_memberships", "enrollments"
+  add_foreign_key "group_memberships", "groups"
+  add_foreign_key "groups", "courses"
+  add_foreign_key "questions", "quizzes"
+  add_foreign_key "quizzes", "courses"
+  add_foreign_key "quizzes", "grading_groups"
+  add_foreign_key "wikis", "courses"
 end
