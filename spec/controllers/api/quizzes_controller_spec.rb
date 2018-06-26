@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe QuizzesController, type: :controller do
+RSpec.describe Api::QuizzesController, type: :controller do
 
   describe "GET #index" do
     it "returns http success" do
