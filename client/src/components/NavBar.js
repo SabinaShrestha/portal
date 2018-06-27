@@ -1,8 +1,18 @@
-import React, { Component } from 'react';
-import { Menu } from 'semantic-ui-react';
-import { Link, withRouter } from 'react-router-dom';
-import { connect } from 'react-redux';
-import { handleLogout } from '../reducers/user';
+import React, { Component } from 'react'
+import { Menu, Image } from 'semantic-ui-react'
+import { Link, withRouter } from 'react-router-dom'
+import styled from 'styled-components'
+import { connect } from 'react-redux'
+import { handleLogout } from '../reducers/user'
+import PortalLogo from '../assets/images/portal-logo-med-02.png'
+
+const MenuBar = styled(Menu)`
+  background-color: ${ props => props.theme.primary } !important;
+`
+
+const PaddedImage = styled(Image)`
+  padding: 5px 15px 7px
+`
 
 class NavBar extends Component {
   rightNavs = () => {
@@ -32,17 +42,18 @@ class NavBar extends Component {
 
   render() {
     return (
-      <div>
-        <Menu pointing secondary>
-          <Link to='/'>
-            <Menu.Item name='home' />
-          </Link>
+        <MenuBar >
+          <Menu.Item>
+            <Link to='/'>
+              <PaddedImage src={PortalLogo} height='55px'/>
+            </Link>
+          </Menu.Item>
           { this.rightNavs() }
-        </Menu>
-      </div>
+        </MenuBar>
     );
   }
 }
+
 
 const mapStateToProps = state => {
   return { user: state.user };
