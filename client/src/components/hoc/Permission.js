@@ -28,4 +28,4 @@ const mapStateToProps = (state, props) => {
   return { admin: user.is_admin, enrollment }
 }
 
-export connect(mapStateToProps)(Permission)
+export default connect(mapStateToProps)(Permission)
