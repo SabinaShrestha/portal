@@ -8,6 +8,8 @@ class Course < ApplicationRecord
   has_many :enrollments, dependent: :destroy
   has_many :users, through: :enrollments
   has_many :units
+  #not sure about this association
+  has_many :attendances
 
   validates_presence_of :name, :description, :department
 
