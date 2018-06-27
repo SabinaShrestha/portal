@@ -21,4 +21,4 @@ const mapStateToProps = (state) => {
   return { courses: state.courses }
 }
 
-export default connect(mapStateToProps)(Courses)
+export default connect(mapStateToProps)(FetchCourses)

@@ -9,7 +9,7 @@ import Home from './Home';
 import ProtectedRoute from './ProtectedRoute';
 import AuthRoute from './AuthRoute';
 import FetchUser from './FetchUser';
-import FetchCourses from './Courses';
+import FetchCourses from './FetchCourses';
 
 class App extends Component {
   render() {
