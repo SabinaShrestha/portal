@@ -2,8 +2,6 @@ require 'rails_helper'
 
 RSpec.describe Group, type: :model do
   
-  it { should belong_to(:course) }
-  
   describe 'attributes' do 
     it 'has a name' do
       name = 'Test Group'
