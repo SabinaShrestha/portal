@@ -8,7 +8,7 @@ import {
 } from 'semantic-ui-react'
 import { connect } from 'react-redux'
 import { handleLogin } from '../reducers/user'
-import { CommonButton } from '../CommonStyles'
+import { CommonButton } from './styles/CommonStyles'
 
 
 class Login extends Component {

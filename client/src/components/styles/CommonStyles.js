@@ -5,3 +5,6 @@ export const CommonButton = styled(Button)`
   background-color: ${ props => props.theme.primary } !important;
   color: white !important;
 `
+export const Flex = styled.div`
+  display: flex;
+`

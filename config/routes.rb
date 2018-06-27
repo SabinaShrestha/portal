@@ -8,7 +8,7 @@ Rails.application.routes.draw do
       resources :units
       resources :wikis
       resources :groups
-
+      resources :course_navs, only: [:index]
     end
   end
 
