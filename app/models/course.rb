@@ -13,4 +13,23 @@ class Course < ApplicationRecord
 
   validates_presence_of :name, :description, :department
 
+  def self.active
+    where('concluded <> true')
+  end
+
+  def self.active_with_enrollments(id)
+    select('courses.*, e.role, e.id AS enrollment_id')
+    .joins("INNER JOIN enrollments e ON e.course_id = courses.id
+                   AND e.user_id = #{id}")
+    .where("concluded = FALSE
+           AND 
+             (CASE
+             WHEN e.role = 'teacher' OR e.role = 'ta'
+             THEN courses.published = TRUE OR courses.published = FALSE
+             ELSE
+               courses.published = TRUE
+             END)"
+         )
+  end
+
 end

@@ -1,10 +1,11 @@
 import React from 'react'
 import { connect } from 'react-redux'
 import { Switch, Route } from 'react-router-dom'
+import { getCourses } from '../reducers/courses'
 
 class FetchCourses extends React.Component {
   componentDidMount() {
-    //TODO wire up redux to get courses from the server
+    this.props.dispatch(getCourses())
   }
 
   render() {
