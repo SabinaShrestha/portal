@@ -1,4 +1,6 @@
 class Course < ApplicationRecord
+  after_create :generate_nav_links
+
   #associations
   has_many :course_navs
   has_many :course_files
@@ -12,6 +14,22 @@ class Course < ApplicationRecord
   has_many :attendances
 
   validates_presence_of :name, :description, :department
+
+  def generate_nav_links
+    [
+      { name: 'Home', url: "/courses/#{self.id}" },
+      { name: 'Announcements', url: "/courses/#{self.id}/announcments" },
+      { name: 'People', url: "/courses/#{self.id}/people" },
+      { name: 'Modules', url: "/courses/#{self.id}/modules" },
+      { name: 'Wiki', url: "/courses/#{self.id}/wiki" },
+      { name: 'Grades', url: "/courses/#{self.id}/grades" },
+      { name: 'Assignments', url: "/courses/#{self.id}/assignments" },
+      { name: 'Attendance', url: "/courses/#{self.id}/attendance" },
+      { name: 'Quizzes', url: "/courses/#{self.id}/quizzes" },
+    ].each_with_index do |nav, i|
+      self.course_navs.create(name: nav[:name], url: nav[:url], priority: i)
+    end
+  end
 
   def self.active
     where('concluded <> true')
