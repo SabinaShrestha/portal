@@ -2,6 +2,7 @@ import React from 'react'
 import { connect } from 'react-redux'
 import { Switch, Route } from 'react-router-dom'
 import { getCourses } from '../reducers/courses'
+import Courses from './Courses'
 
 class FetchCourses extends React.Component {
   componentDidMount() {
@@ -11,8 +12,7 @@ class FetchCourses extends React.Component {
   render() {
     return (
       <Switch>
-        {/* Add nested course routes here */}
-        {/* <Route exact path="/courses/<anything> */}
+        <Route exact path="/courses" component={Courses} />
       </Switch>
     )
   }
