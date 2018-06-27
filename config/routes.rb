@@ -3,10 +3,12 @@ Rails.application.routes.draw do
   mount_devise_token_auth_for 'User', at: 'api/auth'
   namespace :api do
     resources :courses do
-      resources :quizzes 
-      resources :assignments 
+      resources :quizzes
+      resources :assignments
       resources :units
       resources :wikis
+      resources :groups
+
     end
   end
 
