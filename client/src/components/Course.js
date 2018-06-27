@@ -2,6 +2,7 @@ import React, { Fragment } from 'react'
 import { connect } from 'react-redux'
 import { setCourse, clearCourse } from '../reducers/course'
 import CourseNavs from './CourseNavs'
+import { Flex } from './styles/CommonStyles'
 
 class Course extends React.Component {
   componentDidMount() {
@@ -22,9 +23,9 @@ class Course extends React.Component {
 
   render() {
     return (
-      <Fragment>
+      <Flex>
         <CourseNavs />
-      </Fragment>
+      </Flex>
     )
   }
 }
