@@ -6,15 +6,10 @@ import {
   Segment,
   Header,
 } from 'semantic-ui-react'
-import styled from 'styled-components'
 import { connect } from 'react-redux'
 import { handleLogin } from '../reducers/user'
-import background from '../assets/images/geoBg.jpg'
 import { CommonButton } from '../CommonStyles'
 
-const AppContainer = styled(Container)`
-  background: linear-gradient(to bottom right, #aliceblue, #black) !important;
-`
 
 class Login extends Component {
   state = { email: '', password: '' };
@@ -34,7 +29,7 @@ class Login extends Component {
   render() {
     const { email, password } = this.state;
     return (
-      <AppContainer fluid>
+      <Container fluid>
         <Segment>
           <Grid textAlign='center' >
             <Grid.Column mobile={16} tablet={8} computer={8} largeScreen={5} widescreen={5}>
@@ -68,7 +63,7 @@ class Login extends Component {
             </Grid.Column>
           </Grid>
         </Segment>
-      </AppContainer>
+      </Container>
     );
   }
 }
