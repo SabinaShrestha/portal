@@ -204,8 +204,8 @@ ActiveRecord::Schema.define(version: 2018_06_27_202618) do
     t.string "last_name"
     t.string "phone"
     t.boolean "is_admin", default: false
-    t.text "bio"
     t.string "homepage", default: "/courses"
+    t.text "bio"
     t.index ["confirmation_token"], name: "index_users_on_confirmation_token", unique: true
     t.index ["email"], name: "index_users_on_email", unique: true
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
