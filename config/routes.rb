@@ -6,6 +6,7 @@ Rails.application.routes.draw do
       resources :quizzes 
       resources :assignments 
       resources :units
+      resources :wikis
     end
   end
 
