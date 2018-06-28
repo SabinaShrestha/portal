@@ -2,6 +2,8 @@ import React from 'react'
 import { withRouter } from 'react-router-dom'
 import { connect } from 'react-redux'
 import { setCourse, clearCourse } from '../reducers/course'
+import { Flex } from './styles/CommonStyles'
+import CourseNavs from './CourseNavs'
 
 class FetchCourse extends React.Component {
   componentDidUpdate(prevProps) {
@@ -19,7 +21,12 @@ class FetchCourse extends React.Component {
   }
 
   render() {
-    return this.props.children
+    return (
+      <Flex>
+        <CourseNavs />
+        { this.props.children }
+      </Flex>
+    )
   }
 }
 

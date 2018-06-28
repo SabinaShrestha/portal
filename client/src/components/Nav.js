@@ -11,6 +11,10 @@ const NavLink = styled(List.Item)`
   height: 50px;
   width: 150px;
   color: white;
+  &:hover {
+    background-color: black !important;
+    box-shadow: 2px 2px 5px 1px ${ props => props.theme.primary };
+  }
 `
 
 const Nav = ({ id, name, url, external, visible }) => {
