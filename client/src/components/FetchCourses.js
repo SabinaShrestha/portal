@@ -5,6 +5,7 @@ import { getCourses } from '../reducers/courses'
 import Courses from './Courses'
 import Course from './Course'
 import Quiz from './Quiz'
+import Attendance from './Attendance'
 import FetchCourse from './FetchCourse'
 
 class FetchCourses extends React.Component {
@@ -19,6 +20,7 @@ class FetchCourses extends React.Component {
         <FetchCourse>
           <Route exact path="/courses/:id" component={Course} />
           <Route exact path='/courses/:course_id/quizzes/:id' component={Quiz} />
+          <Route exact path='/courses/:course_id/attendances/:id' component={Attendance} />
         </FetchCourse>
       </Switch>
     )
