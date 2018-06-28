@@ -1,7 +1,7 @@
 FactoryBot.define do
 
     factory :group do
-      name "Assignment 1"
+      name "Portal2"
       course
     end
 
