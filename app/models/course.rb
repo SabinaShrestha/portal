@@ -27,7 +27,7 @@ class Course < ApplicationRecord
       { name: 'Quizzes', url: "/courses/#{self.id}/quizzes" },
       { name: 'Settings', url: "/courses/#{self.id}/settings", visible: false },
     ].each_with_index do |nav, i|
-      visible = !nav[:visible] ? false : true
+      visible = nav[:visible] == false ? false : true
       self.course_navs.create(name: nav[:name], url: nav[:url], priority: i, visible: visible)
     end
   end

@@ -14,5 +14,5 @@ export const LinkEnabled = styled(Link)`
   color: white !important;
 `
 export const LinkDisabled = styled(Link)`
-  color: gray !important;
+  color: ${ props => props.theme.lockedText } !important;
 `

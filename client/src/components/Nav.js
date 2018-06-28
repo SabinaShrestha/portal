@@ -12,17 +12,24 @@ const NavLink = styled(List.Item)`
   width: 150px;
   color: white;
   &:hover {
-    background-color: black !important;
-    box-shadow: 2px 2px 5px 1px ${ props => props.theme.primary };
+      background-color: black !important;
+      box-shadow: 2px 2px 5px 1px ${ props => props.theme.primary };
+    }
   }
 `
 
-const Nav = ({ id, name, url, external, visible }) => {
+const ActiveLink = NavLink.extend`
+  background-color: ${ props => props.theme.primary } !important;
+`
+
+const Nav = ({ id, name, url, external, visible, pathname }) => {
   const Link = visible ? LinkEnabled : LinkDisabled
+  const activelink = url === pathname
+  const Component = activelink ? ActiveLink : NavLink
   return (
-    <NavLink as={Link} to={url}>
+    <Component as={Link} to={url} >
       {name}
-    </NavLink>
+    </Component>
   )
 }
 

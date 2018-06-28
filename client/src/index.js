@@ -10,6 +10,7 @@ import 'semantic-ui-css/semantic.min.css'
 const theme = {
   primary: '#9575CD',
   secondary: '#614D7B',
+  lockedText: '#C0C0C0',
 }
 
 ReactDOM.render(

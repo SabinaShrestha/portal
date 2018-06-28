@@ -4,8 +4,8 @@ import axios from 'axios'
 import { List } from 'semantic-ui-react'
 import { setHeaders } from '../reducers/headers'
 import { isStaff } from '../utils/permissions'
+import { withRouter } from 'react-router-dom'
 import Nav from './Nav'
-import { Flex } from './styles/CommonStyles'
 
 class CourseNavs extends React.Component {
   state = { navs: [] }
@@ -40,10 +40,10 @@ class CourseNavs extends React.Component {
   }
 
   render() {
-    const { navs } = this.state
+    const { location: { pathname } } = this.props
     return (
       <List divided>
-        { this.configNavs().map( nav => <Nav key={nav.id} {...nav} /> ) }
+        { this.configNavs().map( nav => <Nav key={nav.id} {...nav} pathname={pathname} /> ) }
       </List>
     )
   }
@@ -53,4 +53,4 @@ const mapStateToProps = (state) => {
   return { course: state.course, user: state.user }
 }
 
-export default connect(mapStateToProps)(CourseNavs)
+export default withRouter(connect(mapStateToProps)(CourseNavs))

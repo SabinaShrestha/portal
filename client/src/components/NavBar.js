@@ -8,6 +8,8 @@ import PortalLogo from '../assets/images/portal-logo-med-02.png'
 
 const MenuBar = styled(Menu)`
   background-color: ${ props => props.theme.primary } !important;
+  border-radius: 0px !important;
+  margin: 0 !important;
 `
 
 const PaddedImage = styled(Image)`
