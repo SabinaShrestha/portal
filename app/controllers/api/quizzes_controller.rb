@@ -15,7 +15,7 @@ class Api::QuizzesController < ApplicationController
   # POST /quiz
   def create
     quiz = @course.quizzes.new(quiz_params)
-
+  
     if quiz.save
       render json: quiz
     else
@@ -25,6 +25,7 @@ class Api::QuizzesController < ApplicationController
 
   # PATCH/PUT /quiz/1
   def update
+    binding.pry
     if @quiz.update(quiz_params)
       render json: @quiz
     else
@@ -48,6 +49,7 @@ class Api::QuizzesController < ApplicationController
     end
 
     def quiz_params
+      binding.pry
       params.require(:quiz).permit(
         :name, 
         :quiz_type, 
@@ -59,7 +61,7 @@ class Api::QuizzesController < ApplicationController
         :available_until,
         :quiz_settings,
         :time_limit,
-        :due_date, 
+        :due_date
       )
     end
 end

@@ -66,7 +66,6 @@ RSpec.describe Course, type: :model do
         FactoryBot.create(:teacher, course: @concluded, user: user)
         FactoryBot.create(:teacher, course: @unpublished, user: user)
         results = Course.active_with_enrollments(user.id)
-        binding.pry
         expect(results).to eq([@course, @unpublished])
       end
 
