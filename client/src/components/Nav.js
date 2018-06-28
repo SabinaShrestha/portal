@@ -20,8 +20,8 @@ const NavLink = styled(List.Item)`
 const Nav = ({ id, name, url, external, visible }) => {
   const Link = visible ? LinkEnabled : LinkDisabled
   return (
-    <NavLink>
-      <Link to={url}>{name}</Link>
+    <NavLink as={Link} to={url}>
+      {name}
     </NavLink>
   )
 }
