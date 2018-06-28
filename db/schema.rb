@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2018_06_28_015413) do
+ActiveRecord::Schema.define(version: 2018_06_28_210140) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -44,10 +44,8 @@ ActiveRecord::Schema.define(version: 2018_06_28_015413) do
     t.float "total_attendance"
     t.string "badge"
     t.bigint "enrollment_id"
-    t.bigint "course_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.index ["course_id"], name: "index_attendances_on_course_id"
     t.index ["enrollment_id"], name: "index_attendances_on_enrollment_id"
   end
 
@@ -228,7 +226,6 @@ ActiveRecord::Schema.define(version: 2018_06_28_015413) do
 
   add_foreign_key "assignments", "courses"
   add_foreign_key "assignments", "grading_groups"
-  add_foreign_key "attendances", "courses"
   add_foreign_key "attendances", "enrollments"
   add_foreign_key "course_files", "courses"
   add_foreign_key "course_navs", "courses"
