@@ -1,5 +1,28 @@
 require 'faker'
 
+def create_attendances
+  counter = 1
+  5.times do
+    my_date = ((2003 + rand(15)).to_s + "-" + (rand(12)+1).to_s + "-" + (rand(28) + 1).to_s).to_s
+    present = [true, false][rand(2)]
+    absent = !present
+    present==true ? tardy = [true, false][rand(2)] : tardy = nil
+    tardy==true ? tardy_time = 15.0 : tardy_time = nil
+    badge = ['Great!', 'Lousy!', 'Ninja!'][rand(3)]
+    Attendance.create(
+      date: my_date,
+      present: present,
+      absent: absent,
+      tardy: tardy,
+      tardy_time: tardy_time,
+      total_attendance: [1, 0.99, 0.98, 0.97, 0.5][rand(5)],
+      badge: badge,
+      enrollment_id: counter,
+    )
+    counter += 1
+  end
+end
+
 course_name = [
   'U of U Pro Ed Web Development',
   'Full Stack Web Development',
@@ -77,6 +100,7 @@ puts "Seeding database...\n "
       user_id: student.id,
       course_id: @course.id
     )
+    create_attendances
   end
 
   3.times do
@@ -90,16 +114,15 @@ puts "Seeding database...\n "
       #{Faker::Demographic.marital_status},
       #{Faker::Demographic.sex},
       #{Faker::Demographic.height}",
-
       nickname: Faker::Pokemon.name,
       image: "https://robohash.org/#{Faker::Number.number(1)}?set=set4"
-
     )
     Enrollment.create(
       role: 'ta',
       user_id: ta.id,
       course_id: @course.id
     )
+    create_attendances
   end
 
   15.times do |l|
@@ -147,26 +170,7 @@ end
       user_id: student.id,
       course_id: "#{i + 1}".to_i
     )
-    counter = 1
-    5.times do
-      my_date = ((2003 + rand(15)).to_s + "-" + (rand(12)+1).to_s + "-" + (rand(28) + 1).to_s).to_s
-      present = [true, false][rand(2)]
-      absent = !present
-      present==true ? tardy = [true, false][rand(2)] : tardy = nil
-      tardy==true ? tardy_time = 15.0 : tardy_time = nil
-      badge = ['Great!', 'Lousy!', 'Ninja!'][rand(3)]
-      Attendance.create(
-        date: my_date,
-        present: present,
-        absent: absent,
-        tardy: tardy,
-        tardy_time: tardy_time,
-        total_attendance: [1, 0.99, 0.98, 0.97, 0.5][rand(5)],
-        badge: badge,
-        enrollment_id: counter,
-      )
-      counter += 1
-    end
+    create_attendances
   end
 end
 
