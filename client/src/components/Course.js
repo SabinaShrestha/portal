@@ -1,40 +1,16 @@
 import React, { Fragment } from 'react'
 import { connect } from 'react-redux'
-import { setCourse, clearCourse } from '../reducers/course'
 import CourseNavs from './CourseNavs'
 import { Flex } from './styles/CommonStyles'
 
-class Course extends React.Component {
-  componentDidMount() {
-    const { course, dispatch } = this.props
-    if (course.id)
-      dispatch(setCourse(course))
-  }
+const Course = ({ course }) => (
+  <Flex>
+    <CourseNavs />
+  </Flex>
+)
 
-  componentDidUpdate(prevProps) {
-    const { course, dispatch } = this.props
-    if (prevProps.course.id !== course.id)
-      dispatch(setCourse(course))
-  }
-
-  componentWillUnmount() {
-    this.props.dispatch(clearCourse())
-  }
-
-  render() {
-    return (
-      <Flex>
-        <CourseNavs />
-      </Flex>
-    )
-  }
-}
-
-const mapStateToProps = (state, props) => {
-  const { match: { params: { id }} } = props
-  const { courses } = state
-  const course = courses.find( c => c.id === parseInt(id, 10) ) || {}
-  return { course }
+const mapStateToProps = (state) => {
+  return { course: state.course }
 }
 
 export default connect(mapStateToProps)(Course)
