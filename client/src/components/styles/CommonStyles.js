@@ -5,11 +5,15 @@ import { Link } from 'react-router-dom'
 export const CommonButton = styled(Button)`
   background-color: ${ props => props.theme.primary } !important;
   color: white !important;
+  &:hover {
+    background-color: black !important;
 `
 export const Flex = styled.div`
   display: flex;
 `
-
+export const CardPadding = styled.div`
+  padding: 5em 3em;
+`
 export const LinkEnabled = styled(Link)`
   color: white !important;
 `
