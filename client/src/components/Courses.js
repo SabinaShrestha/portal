@@ -12,10 +12,41 @@ class Courses extends React.Component {
     this.setState({ showForm: !this.state.showForm })
   }
 
+  // render() {
+  //   const { showForm } = this.state
+  //   return (
+  //     <Fragment>
+  //       <Container>
+  //       { showForm ? 
+  //         <Fragment>
+  //           <Header> Add a course </Header>
+  //           <CourseForm toggleForm={this.toggleForm}/>
+  //         </Fragment>
+  //         :
+  //         <CommonButton type='button' onClick={this.toggleForm}>
+  //           add a course
+  //         </CommonButton>
+  //       }
+  //       </Container>
+  //     </Fragment>
+  //   )
+  // }
+  renderCourses = () => {
+    const { courses } = this.props
+    return courses.map( course =>
+      <CourseCard key={ course.id } course={ course } />
+    )
+  }
+
   render() {
     const { showForm } = this.state
     return (
-      <Fragment>
+      <div class='ui three centered cards'>
+        <Card.Group stackable columns='3'>
+          { this.renderCourses() }
+        </Card.Group>
+
+        <Fragment>
         <Container>
         { showForm ? 
           <Fragment>
@@ -28,22 +59,7 @@ class Courses extends React.Component {
           </CommonButton>
         }
         </Container>
-      </Fragment>
-    )
-  }
-  renderCourses = () => {
-    const { courses } = this.props
-    return courses.map( course =>
-      <CourseCard key={ course.id } course={ course } />
-    )
-  }
-
-  render() {
-    return (
-      <div class='ui three centered cards'>
-      <Card.Group stackable columns='3'>
-        { this.renderCourses() }
-      </Card.Group>
+        </Fragment>
       </div>
     )
   }
