@@ -8,7 +8,8 @@ import Course from './Course'
 import Quiz from './Quiz'
 import Attendance from './Attendance'
 import FetchCourse from './FetchCourse'
-import CourseSettings from './CourseSettings'
+import CreateQuiz from './quizzes/CreateQuiz'
+import QuizForm from './quizzes/QuizForm'
 
 class FetchCourses extends React.Component {
   componentDidMount() {
@@ -21,19 +22,15 @@ class FetchCourses extends React.Component {
     if (location.pathname === '/courses')
       content.justifyContent = 'center'
     return (
-      <div>
-      <Flex {...content}>
-        <Switch>
-          <Route exact path="/courses" component={Courses} />
-          <FetchCourse>
-            <Route exact path="/courses/:id" component={Course} />
-            <Route exact path="/courses/:course_id/quizzes/:id" component={Quiz} />
-            <Route exact path="/courses/:course_id/attendances/:id" component={Attendance} />
-            <Route exact path="/courses/:course_id/settings" component={CourseSettings} />
-          </FetchCourse>
-        </Switch>
-      </Flex>
-    </div>
+      <Switch>
+        <Route exact path="/courses" component={Courses} />
+        <FetchCourse>
+          <Route exact path="/courses/:id" component={Course} />
+          <Route exact path='/courses/:course_id/quizzes/:id' component={Quiz} />
+          <Route exact path='/courses/:course_id/quiz_create/' component={CreateQuiz} />
+          <Route exact path='/courses/:course_id/quiz_form/' component={QuizForm} />
+        </FetchCourse>
+      </Switch>
     )
   }
 }
