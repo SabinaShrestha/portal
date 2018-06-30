@@ -26,7 +26,7 @@ class FetchCourse extends React.Component {
   }
 
   componentWillUnmount() {
-    this.props.dispatch(clearCourse)
+    this.props.dispatch(clearCourse())
   }
 
   render() {
