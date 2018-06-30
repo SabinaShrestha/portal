@@ -2,7 +2,7 @@ import React from 'react'
 import { withRouter } from 'react-router-dom'
 import { connect } from 'react-redux'
 import { setCourse, clearCourse } from '../reducers/course'
-import { Flex } from './styles/CommonStyles'
+import { Flex, CourseContainer } from './styles/CommonStyles'
 import CourseNavs from './CourseNavs'
 
 class FetchCourse extends React.Component {
@@ -15,11 +15,10 @@ class FetchCourse extends React.Component {
 
   componentDidUpdate(prevProps) {
     const { location: { pathname }, course, courses, dispatch } = this.props
-    const id = pathname.split('courses/')[1]
-    const prevId = prevProps.location.pathname.split('courses/')[1]
-    const courseId = parseInt(id, 10)
-    if (prevId !== id || course.id !== courseId) {
-      const activeCourse = courses.find( c => c.id === courseId )
+    const id = parseInt(pathname.split('courses/')[1], 10)
+    const prevId = parseInt(prevProps.location.pathname.split('courses/')[1], 10)
+    if (prevId !== id || course.id !== id) {
+      const activeCourse = courses.find( c => c.id === id )
       if (activeCourse)
         dispatch(setCourse(activeCourse)) 
     }
@@ -31,9 +30,11 @@ class FetchCourse extends React.Component {
 
   render() {
     return (
-      <Flex>
+      <Flex full>
         <CourseNavs />
-        { this.props.children }
+        <CourseContainer>
+          { this.props.children }
+        </CourseContainer>
       </Flex>
     )
   }

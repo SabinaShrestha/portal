@@ -1,11 +1,12 @@
-import React from 'react';
-import { connect } from 'react-redux';
-import { addCourse } from '../reducers/courses';
-import { Form, Button } from 'semantic-ui-react';
-import { CommonButton } from './styles/CommonStyles'
+import React from 'react'
+import { connect } from 'react-redux'
+import { addCourse } from '../reducers/courses'
+import { Form, Button } from 'semantic-ui-react'
+import { CommonButton, FullWidth } from './styles/CommonStyles'
 
 class CourseForm extends React.Component {
   initialState = {
+    id: null,
     name: '',
     description: '',
     department: 'Full-Time',
@@ -17,10 +18,20 @@ class CourseForm extends React.Component {
   }
 
   state = { ...this.initialState }
-  
+
   componentDidMount() {
-    if (this.props.id)
-      this.setState({ ...this.props })
+    this.loadCourse()
+  }
+  
+  componentDidUpdate() {
+    this.loadCourse()
+  }
+
+  loadCourse = () => {
+    if (!this.state.id) {
+      if (this.props.id)
+        this.setState({ ...this.props })
+    }
   }
   
   handleChange = (e) => {
@@ -36,6 +47,18 @@ class CourseForm extends React.Component {
     this.setState({ ...this.initialState })
     toggleForm()
   }
+
+  departmentOptions = () => {
+    return [
+      { key: 1, value: 'Full-Time', text: 'Full Time' },
+      { key: 2, value: 'Part-Time', text: 'Part Time' },
+      { key: 3, value: 'Code On', text: 'Code On' },
+    ]
+  }
+
+  handleOption = (e, { value }) => {
+    this.setState({ department: value })
+  }
   
   render() {
     const { 
@@ -43,57 +66,59 @@ class CourseForm extends React.Component {
       description, 
       starts, 
       ends,
+      department,
     } = this.state
     
     return (
-      <Form onSubmit={this.handleSubmit}>
-        <Form.Input
-          name="name"
-          placeholder="name"
-          value={name}
-          onChange={this.handleChange}
-          label="name"
-          required
-        />
-        <Form.Input
-          name="description"
-          placeholder="description"
-          value={description}
-          onChange={this.handleChange}
-          label="description"
-          required
-        />
-        <Form.Field
-          name="department"
-          control='select'
-          label="department"
-          onChange={this.handleChange}
-          required
-        >
-          <option> Select Department</option>
-          <option value={"Full-Time"}>Full Time</option>
-          <option value={"Part-Time"}>Part Time</option>
-          <option value={"Code on"}>Code On</option>
-        </Form.Field>
+      <FullWidth>
+        <Form onSubmit={this.handleSubmit}>
+          <Form.Input
+            name="name"
+            placeholder="name"
+            value={name}
+            onChange={this.handleChange}
+            label="name"
+            required
+          />
+          <Form.Input
+            name="description"
+            placeholder="description"
+            value={description}
+            onChange={this.handleChange}
+            label="description"
+            required
+          />
+          <Form.Select 
+            label="deparment"
+            options={this.departmentOptions()} 
+            value={department} 
+            name="department"
+            onChange={this.handleOption}
+          />
 
-        {/* Can we bring in a calendar thing to make it easy to select start/end dates? */}
-        <Form.Input
-          name="starts"
-          value={starts}
-          onChange={this.handleChange}
-          label="starts"
-        />
-        <Form.Input
-          name="ends"
-          value={ends}
-          onChange={this.handleChange}
-          label="ends"
-        />
-        <CommonButton type='submit'>Save</CommonButton>
-        <Button type='button' onClick={this.props.toggleForm}>cancel</Button>
-      </Form>
+          {/* Can we bring in a calendar thing to make it easy to select start/end dates? */}
+          <Form.Input
+            name="starts"
+            value={starts}
+            onChange={this.handleChange}
+            label="starts"
+          />
+          <Form.Input
+            name="ends"
+            value={ends}
+            onChange={this.handleChange}
+            label="ends"
+          />
+          <CommonButton type='submit'>Save</CommonButton>
+          <Button type='button' onClick={this.props.toggleForm}>cancel</Button>
+        </Form>
+      </FullWidth>
     )
   }
 }
 
-export default connect()(CourseForm)
+const mapStateToProps = (state) => {
+  return {...state.course}
+}
+
+export default connect(mapStateToProps)(CourseForm)

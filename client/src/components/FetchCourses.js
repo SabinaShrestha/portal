@@ -2,12 +2,13 @@ import React from 'react'
 import { connect } from 'react-redux'
 import { Switch, Route, withRouter } from 'react-router-dom'
 import { getCourses } from '../reducers/courses'
+import { Flex } from './styles/CommonStyles'
 import Courses from './Courses'
 import Course from './Course'
 import Quiz from './Quiz'
 import Attendance from './Attendance'
 import FetchCourse from './FetchCourse'
-import { Flex } from './styles/CommonStyles'
+import CourseSettings from './CourseSettings'
 
 class FetchCourses extends React.Component {
   componentDidMount() {
@@ -26,8 +27,9 @@ class FetchCourses extends React.Component {
           <Route exact path="/courses" component={Courses} />
           <FetchCourse>
             <Route exact path="/courses/:id" component={Course} />
-            <Route exact path='/courses/:course_id/quizzes/:id' component={Quiz} />
-            <Route exact path='/courses/:course_id/attendances/:id' component={Attendance} />
+            <Route exact path="/courses/:course_id/quizzes/:id" component={Quiz} />
+            <Route exact path="/courses/:course_id/attendances/:id" component={Attendance} />
+            <Route exact path="/courses/:course_id/settings" component={CourseSettings} />
           </FetchCourse>
         </Switch>
       </Flex>

@@ -2,7 +2,7 @@ import React from 'react'
 import { connect } from 'react-redux'
 import axios from 'axios'
 import { List } from 'semantic-ui-react'
-import { setHeaders } from '../reducers/headers'
+import { updateCourseNavs } from '../reducers/course'
 import { isStaff } from '../utils/permissions'
 import { withRouter } from 'react-router-dom'
 import Nav from './Nav'
@@ -24,8 +24,9 @@ class CourseNavs extends React.Component {
     const { dispatch, course: { id } } = this.props
     axios.get(`/api/courses/${id}/course_navs`)
       .then( res => {
-        dispatch(setHeaders(res.headers)) 
-        this.setState({ navs: res.data })
+        const { data: navs, headers } = res
+        dispatch(updateCourseNavs(navs, headers)) 
+        this.setState({ navs })
       })
   }
 

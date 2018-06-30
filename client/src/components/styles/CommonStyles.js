@@ -11,11 +11,26 @@ export const CommonButton = styled(Button)`
 export const Flex = styled.div`
   display: flex;
   justify-content: ${ props => props.justifyContent };
+  align-items: ${ props => props.alignItems };
   align-self: ${ props => props.alignSelf };
+  width: ${ props => props.full ? '100%' : '' }
 `
 export const LinkEnabled = styled(Link)`
   color: white !important;
 `
 export const LinkDisabled = styled(Link)`
   color: ${ props => props.theme.lockedText } !important;
+`
+
+export const CourseContainer = styled.div`
+  padding: 20px;
+  width: 100%;
+`
+
+export const FullWidth = styled.div`
+  width: 100%;
+`
+
+export const Pointer = styled.div`
+  cursor: pointer;
 `
