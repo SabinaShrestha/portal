@@ -14,6 +14,20 @@ const logout = () => {
   return { type: LOGOUT };
 }
 
+export const updateUser = (user) => {
+  return (dispatch) => {
+    axios.put(`/api/users/${user.id}`, { user })
+      .then( res => {
+        dispatch(setHeaders(res.headers))
+        dispatch(login(res.data))
+      })
+      .catch( err => {
+        dispatch(setHeaders(err.headers))
+        dispatch(setFlash(err.errors, 'red'))
+      })
+  }
+}
+
 export const registerUser = (user, history) => {
   return (dispatch) => {
     axios.post('/api/auth', user)

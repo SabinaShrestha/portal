@@ -1,8 +1,8 @@
 import React, { Fragment } from 'react'
 import { connect } from 'react-redux'
 import CourseCard from './CourseCard'
-import { Card, Container, Header } from 'semantic-ui-react'
-import { CommonButton } from './styles/CommonStyles'
+import { Card, Header } from 'semantic-ui-react'
+import { CommonButton, Flex } from './styles/CommonStyles'
 import CourseForm from './CourseForm'
 import Permission from './hoc/Permission'
 
@@ -23,13 +23,13 @@ class Courses extends React.Component {
   render() {
     const { showForm } = this.state
     return (
-      <div className='ui three centered cards'>
-        <Card.Group stackable columns='3'>
+      <Fragment>
+        <Card.Group stackable centered itemsPerRow={4}>
           { this.renderCourses() }
         </Card.Group>
 
-        <Permission type='admin'>
-          <Container>
+        <Permission type="admin">
+          <Flex alignSelf="flex-end">
             { showForm ? 
               <Fragment>
                 <Header> Add a course </Header>
@@ -40,9 +40,9 @@ class Courses extends React.Component {
                 add a course
               </CommonButton>
             }
-          </Container>
+          </Flex>
         </Permission>
-      </div>
+      </Fragment>
     )
   }
 }

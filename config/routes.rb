@@ -10,6 +10,7 @@ Rails.application.routes.draw do
       resources :groups
       resources :course_navs, only: [:index]
     end
+    resources :users, only: :update
   end
 
   #Do not place any routes below this one

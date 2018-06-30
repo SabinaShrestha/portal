@@ -5,6 +5,7 @@ import styled from 'styled-components'
 import { connect } from 'react-redux'
 import { handleLogout } from '../reducers/user'
 import PortalLogo from '../assets/images/portal-logo-med-02.png'
+import HomePageButton from './HomePageButton'
 
 const MenuBar = styled(Menu)`
   background-color: ${ props => props.theme.primary } !important;
@@ -46,6 +47,9 @@ class NavBar extends Component {
             <Link to='/'>
               <PaddedImage src={PortalLogo} height='55px'/>
             </Link>
+          </Menu.Item>
+          <Menu.Item>
+            <HomePageButton />
           </Menu.Item>
           { this.rightNavs() }
         </MenuBar>
