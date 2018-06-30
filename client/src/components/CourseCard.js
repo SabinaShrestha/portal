@@ -1,7 +1,6 @@
 import React from 'react'
 import { Button, Card } from 'semantic-ui-react';
 import { Link } from 'react-router-dom'
-import styled from 'styled-components'
 import { CommonButton, CardPadding } from './styles/CommonStyles'
 
 class CourseCard extends React.Component {
