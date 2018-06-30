@@ -13,9 +13,6 @@ export const Flex = styled.div`
   justify-content: ${ props => props.justifyContent };
   align-self: ${ props => props.alignSelf };
 `
-export const CardPadding = styled.div`
-  padding: 5em 3em;
-`
 export const LinkEnabled = styled(Link)`
   color: white !important;
 `

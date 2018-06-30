@@ -13,6 +13,12 @@ const MenuBar = styled(Menu)`
   margin: 0 !important;
 `
 
+const NoBar = styled(Menu.Item)`
+  ::before {
+    background: none !important;
+  }
+`
+
 const PaddedImage = styled(Image)`
   padding: 5px 15px 7px
 `
@@ -48,9 +54,9 @@ class NavBar extends Component {
               <PaddedImage src={PortalLogo} height='55px'/>
             </Link>
           </Menu.Item>
-          <Menu.Item>
+          <NoBar >
             <HomePageButton />
-          </Menu.Item>
+          </NoBar>
           { this.rightNavs() }
         </MenuBar>
     );

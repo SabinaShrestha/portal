@@ -1,13 +1,12 @@
 import React from 'react'
 import { Button, Card } from 'semantic-ui-react';
 import { Link } from 'react-router-dom'
-import { CommonButton, CardPadding } from './styles/CommonStyles'
+import { CommonButton } from './styles/CommonStyles'
 
 class CourseCard extends React.Component {
   render() {
     const { course } = this.props
     return (
-      <CardPadding>
         <Card>
           <Card.Content as={Link} to={`/courses/${course.id}`}>
             <Card.Header>
@@ -30,7 +29,6 @@ class CourseCard extends React.Component {
             </div>
           </Card.Content>
         </Card>
-      </CardPadding>
     )
   }
 }
