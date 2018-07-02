@@ -1,8 +1,12 @@
 import React from 'react'
 import { connect } from 'react-redux'
-import { addCourse, updateCourse } from '../reducers/courses'
-import { Form, Button } from 'semantic-ui-react'
+import { addCourse } from '../reducers/courses'
+import { Form, Button, Header, Grid, Divider } from 'semantic-ui-react'
 import { CommonButton } from './styles/CommonStyles'
+import DatePicker from 'react-datepicker'
+import 'react-datepicker/dist/react-datepicker.css'
+import moment from 'moment';
+
 
 class CourseForm extends React.Component {
   initialState = {
@@ -10,8 +14,8 @@ class CourseForm extends React.Component {
     name: '',
     description: '',
     department: 'Full-Time',
-    starts: '',
-    ends: '',
+    starts: moment(),
+    ends: moment(),
     lock_after_end: false,
     lock_before_start: false,
     published: false,
@@ -39,6 +43,14 @@ class CourseForm extends React.Component {
     this.setState({ [name]: value })
   }
 
+  handleStartDate = (date) => {
+    this.setState({starts: date})
+  }
+
+  handleEndDate = (date) => {
+    this.setState({ends: date})
+  }
+  
   handleSubmit = (e) => {
     e.preventDefault()
     const course = { ...this.state }
@@ -68,9 +80,6 @@ class CourseForm extends React.Component {
     const { 
       name,
       description, 
-      starts, 
-      ends,
-      department,
     } = this.state
 
     return (
@@ -91,31 +100,48 @@ class CourseForm extends React.Component {
           label="description"
           required
         />
-        <Form.Select 
-          label="deparment"
-          options={this.departmentOptions()} 
-          value={department} 
-          name="department"
-          onChange={this.handleOption}
-        />
+        <Divider hidden />
+        <Grid textAlign='center' verticalAlign='middle' >
+          <Grid.Row columns={2} centered>
+            <Grid.Column>
+              <Header as='h3' floated='left'>Starts On</Header>
+              <DatePicker 
+                name="starts"
+                selected={this.state.starts} 
+                onChange={this.handleStartDate}
+              />
+            </Grid.Column>
 
-      {/* Can we bring in a calendar thing to make it easy to select start/end dates? */}
-      <Form.Input
-        name="starts"
-        value={starts}
-        onChange={this.handleChange}
-        label="starts"
-      />
-      <Form.Input
-        name="ends"
-        value={ends}
-        onChange={this.handleChange}
-        label="ends"
-      />
-      <CommonButton type='submit'>Save</CommonButton>
-      <Button type='button' onClick={this.props.toggleForm}>cancel</Button>
-    </Form>
-  )
+            <Grid.Column>
+            <Header as='h3' floated='left'>Ends On</Header>
+            <DatePicker 
+              name="ends"
+              selected={this.state.ends} 
+              onChange={this.handleEndDate}
+            />
+            </Grid.Column>
+          </Grid.Row>
+        </Grid>
+        <Divider hidden />
+
+        <Form.Field
+          name="department"
+          control='select'
+          label="department"
+          onChange={this.handleChange}
+          required
+        >
+          <option> Select Department</option>
+          <option value={"Full-Time"}>Full Time</option>
+          <option value={"Part-Time"}>Part Time</option>
+          <option value={"Code on"}>Code On</option>
+        </Form.Field>
+        <Divider hidden />
+
+        <CommonButton type='submit'>Save</CommonButton>
+        <Button type='button' onClick={this.props.toggleForm}>cancel</Button>
+      </Form>
+    )
   }
 }
 
