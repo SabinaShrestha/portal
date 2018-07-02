@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2018_06_28_210140) do
+ActiveRecord::Schema.define(version: 2018_07_02_204701) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -156,6 +156,21 @@ ActiveRecord::Schema.define(version: 2018_06_28_210140) do
     t.index ["grading_group_id"], name: "index_quizzes_on_grading_group_id"
   end
 
+  create_table "submissions", force: :cascade do |t|
+    t.bigint "enrollment_id"
+    t.bigint "quiz_id"
+    t.bigint "assignment_id"
+    t.datetime "due_date"
+    t.datetime "date_submitted"
+    t.boolean "grade_type"
+    t.string "sub_type"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["assignment_id"], name: "index_submissions_on_assignment_id"
+    t.index ["enrollment_id"], name: "index_submissions_on_enrollment_id"
+    t.index ["quiz_id"], name: "index_submissions_on_quiz_id"
+  end
+
   create_table "unit_items", force: :cascade do |t|
     t.bigint "unit_id"
     t.string "item_type"
@@ -238,6 +253,9 @@ ActiveRecord::Schema.define(version: 2018_06_28_210140) do
   add_foreign_key "questions", "quizzes"
   add_foreign_key "quizzes", "courses"
   add_foreign_key "quizzes", "grading_groups"
+  add_foreign_key "submissions", "assignments"
+  add_foreign_key "submissions", "enrollments"
+  add_foreign_key "submissions", "quizzes"
   add_foreign_key "unit_items", "units"
   add_foreign_key "units", "courses"
   add_foreign_key "wikis", "courses"
