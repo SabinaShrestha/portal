@@ -8,6 +8,8 @@ import { Pointer } from './styles/CommonStyles'
 const MotionContainer = styled.div`
   width: 100%;
   padding-left: 10px;
+  display: flex;
+  justify-content: center;
 `
 
 const Item = styled.div`

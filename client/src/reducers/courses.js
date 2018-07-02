@@ -1,9 +1,38 @@
 import axios from 'axios'
 import { setFlash } from './flash'
-import { setHeaders } from './headers';
+import { setHeaders } from './headers'
+import { setCourse } from './course'
 
 const COURSES = 'COURSES'
 const ADD_COURSE = 'ADD_COURSE'
+const DELETE_COURSE = 'DELETE_COURSE'
+const UPDATE_COURSE = 'UPDATE_COURSE'
+
+export const updateCourse = (course) => {
+  return (dispatch, getState) => {
+    const courseState = getState().course
+    axios.put(`/api/courses/${course.id}`, { course })
+      .then( ({ data, headers }) => {
+        dispatch({ type: UPDATE_COURSE, course: data, headers })
+        dispatch(setCourse({...courseState, ...data}))
+        dispatch(setFlash('Course has been updated', 'green'))
+      })
+      .catch( e => {
+        dispatch(setHeaders(e.headers))
+        dispatch(setFlash(e.errors, 'red'))
+      })
+  }
+}
+
+export const deleteCourse = (id) => {
+  return (dispatch) => {
+    axios.delete(`/api/courses/${id}`)
+      .then( ({ headers }) => {
+        dispatch({ type: DELETE_COURSE, id, headers })
+        dispatch(setFlash('Course has been deleted', 'green'))
+      })
+  }
+}
 
 export const getCourses = () => {
   return (dispatch) => {
@@ -32,6 +61,14 @@ export default ( state = [], action ) => {
       return action.courses
     case ADD_COURSE:
       return [action.course, ...state]
+    case UPDATE_COURSE:
+      return state.map( c => {
+        if ( c.id === action.course.id )
+          return action.course
+        return c
+      })
+    case DELETE_COURSE:
+      return state.filter( c => c.id !== action.id )
     default:
       return state
   }

@@ -2,15 +2,15 @@ class Course < ApplicationRecord
   after_create :generate_nav_links
 
   #associations
-  has_many :course_navs
-  has_many :course_files
-  has_many :wikis
-  has_many :grading_groups
-  has_many :groups
+  has_many :course_navs, dependent: :destroy
+  has_many :course_files, dependent: :destroy
+  has_many :wikis, dependent: :destroy
+  has_many :grading_groups, dependent: :destroy
+  has_many :groups, dependent: :destroy
   has_many :enrollments, dependent: :destroy
   has_many :users, through: :enrollments
-  has_many :units
-  has_many :quizzes
+  has_many :units, dependent: :destroy
+  has_many :quizzes, dependent: :destroy
 
   validates_presence_of :name, :description, :department
 

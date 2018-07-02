@@ -1,6 +1,6 @@
 import React from 'react'
 import { connect } from 'react-redux'
-import { addCourse } from '../reducers/courses'
+import { addCourse, updateCourse } from '../reducers/courses'
 import { Form, Button } from 'semantic-ui-react'
 import { CommonButton, FullWidth } from './styles/CommonStyles'
 
@@ -43,9 +43,13 @@ class CourseForm extends React.Component {
     e.preventDefault()
     const course = { ...this.state }
     const { toggleForm, dispatch } = this.props
-    dispatch(addCourse(course))
-    this.setState({ ...this.initialState })
-    toggleForm()
+    if (course.id) {
+      dispatch(updateCourse(course))
+    } else {
+      dispatch(addCourse(course))
+      this.setState({ ...this.initialState })
+      toggleForm()
+    }
   }
 
   departmentOptions = () => {
