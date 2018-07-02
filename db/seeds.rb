@@ -213,8 +213,7 @@ puts "Seeding database...\n "
   image: "https://robohash.org/#{Faker::Number.number(1)}?set=set2"
 )
 
-@teacher = User.create(
-  email: 'teacher@teacher.com',
+@teacher = User.create( email: 'teacher@teacher.com',
   password: 'password',
   first_name: 'Dave',
   last_name: 'Jungst',
@@ -233,6 +232,14 @@ puts "Created Teacher, email: teacher@teacher.com and password: password"
     description: "This is a course about #{Faker::BackToTheFuture.character}.",
     starts: 'Mon, 12 November 2018 14:00:00 +0800',
     ends: 'Fri, 27 December 2018 14:00:00 +0800')
+
+  10.times do 
+    @unit = Unit.create(
+    name: "Unit Name",  
+    position: 1, 
+    course_id: @course.id 
+    )
+  end 
 
   Enrollment.create(
     role: 'teacher',
