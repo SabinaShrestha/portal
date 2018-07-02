@@ -11,7 +11,8 @@ import FetchCourse from './FetchCourse'
 import CreateQuiz from './quizzes/CreateQuiz'
 import QuizForm from './quizzes/QuizForm'
 import CourseSettings from './CourseSettings'
-import AllUnits from './AllUnits'; 
+import AllUnits from './AllUnits';
+import Assignments from './Assignments'
 
 class FetchCourses extends React.Component {
   componentDidMount() {
@@ -34,6 +35,7 @@ class FetchCourses extends React.Component {
           <Route exact path="/courses/:course_id/attendances/:id" component={Attendance} />
           <Route exact path="/courses/:course_id/settings" component={CourseSettings} />
           <Route exact path='/courses/:id/modules' component={AllUnits} />
+          <Route exact path="/courses/:course_id/assignments" component={Assignments} />
         </FetchCourse>
       </Switch>
     )

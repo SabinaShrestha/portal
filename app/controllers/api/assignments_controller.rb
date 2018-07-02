@@ -3,7 +3,7 @@ class Api::AssignmentsController < ApplicationController
   before_action :set_assignment, only: [:show, :update, :destroy]
 
   def index
-    render json: @course.assignments 
+    render json: @course.assignments
   end
 
   def show
@@ -57,4 +57,3 @@ class Api::AssignmentsController < ApplicationController
       :locks_at)
   end
 end
-

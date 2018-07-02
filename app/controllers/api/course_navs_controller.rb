@@ -5,6 +5,8 @@ class Api::CourseNavsController < ApplicationController
     render json: @course.course_navs.order(:priority)
   end
 
+  
+
   private
     def set_course
       @course = Course.find(params[:course_id])

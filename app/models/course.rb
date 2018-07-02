@@ -9,9 +9,10 @@ class Course < ApplicationRecord
   has_many :groups, dependent: :destroy
   has_many :enrollments, dependent: :destroy
   has_many :users, through: :enrollments
+
   has_many :units, dependent: :destroy
   has_many :quizzes, dependent: :destroy
-
+  has_many :assignments, dependent: :destroy
   validates_presence_of :name, :description, :department
 
   def generate_nav_links
@@ -41,7 +42,7 @@ class Course < ApplicationRecord
     .joins("INNER JOIN enrollments e ON e.course_id = courses.id
                    AND e.user_id = #{id}")
     .where("concluded = FALSE
-           AND 
+           AND
              (CASE
              WHEN e.role = 'teacher' OR e.role = 'ta'
              THEN courses.published = TRUE OR courses.published = FALSE

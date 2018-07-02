@@ -11,6 +11,7 @@ import AuthRoute from './AuthRoute';
 import FetchUser from './FetchUser';
 import FetchCourses from './FetchCourses';
 
+
 class App extends Component {
   render() {
     return (
