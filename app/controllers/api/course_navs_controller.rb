@@ -5,10 +5,13 @@ class Api::CourseNavsController < ApplicationController
     render json: @course.course_navs.order(:priority)
   end
 
-  
+  def update_course_navs
+    CourseNav.update_position(params[:navs])
+  end
 
   private
     def set_course
       @course = Course.find(params[:course_id])
     end
+
 end

@@ -11,4 +11,12 @@ RSpec.describe Api::CourseNavsController, type: :controller do
     end
   end
 
+  describe "PUT #update_course_navs" do
+    it "returns https success" do
+      nav = FactoryBot.create(:course_nav, course_id: course.id)      
+      put :update_course_navs, params: { course_id: course.id, navs: [nav.attributes] }
+      expect(response).to have_http_status(:success)
+    end
+  end
+
 end

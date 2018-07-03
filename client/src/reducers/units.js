@@ -1,5 +1,4 @@
 import axios from 'axios';
-import { setFlash } from './flash';
 
 const GET_UNITS = 'GET_UNITS'; 
 

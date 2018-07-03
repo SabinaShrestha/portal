@@ -11,6 +11,7 @@ const theme = {
   primary: '#9575CD',
   secondary: '#614D7B',
   lockedText: '#C0C0C0',
+  secondaryBtn: '#E0E1E2',
 }
 
 ReactDOM.render(

@@ -1,14 +1,18 @@
 import React from 'react'
-import { Flex } from './styles/CommonStyles'
+import { Flex, FlexNum } from './styles/CommonStyles'
 import CourseForm from './CourseForm'
 import CourseNavSettings from './CourseNavSettings'
 import CourseControl from './CourseControl'
 
 const CourseSettings = () => (
-  <Flex justifyContent="center"> 
-    <CourseForm />
+  <Flex justifyContent="center" alignItems="flex-end"> 
+    <FlexNum num={2}>
+      <CourseForm />
+    </FlexNum>
     <CourseNavSettings />
-    <CourseControl />
+    <FlexNum num={2} alignSelf="center">
+      <CourseControl />
+    </FlexNum>
   </Flex>
 )
 

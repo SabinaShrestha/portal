@@ -1,8 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { Link } from 'react-router-dom';
 import { getUnits } from '../reducers/units';
-import { Menu, Container, Grid, Header, Card, Image } from 'semantic-ui-react';
+import { Menu, Container, Grid, Header } from 'semantic-ui-react';
 
 class AllUnits extends React.Component {
 

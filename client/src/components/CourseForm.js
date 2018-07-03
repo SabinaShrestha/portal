@@ -2,7 +2,7 @@ import React from 'react'
 import { connect } from 'react-redux'
 import { addCourse, updateCourse } from '../reducers/courses'
 import { Form, Button } from 'semantic-ui-react'
-import { CommonButton, FullWidth } from './styles/CommonStyles'
+import { CommonButton } from './styles/CommonStyles'
 
 class CourseForm extends React.Component {
   initialState = {
@@ -22,7 +22,7 @@ class CourseForm extends React.Component {
   componentDidMount() {
     this.loadCourse()
   }
-  
+
   componentDidUpdate() {
     this.loadCourse()
   }
@@ -33,12 +33,12 @@ class CourseForm extends React.Component {
         this.setState({ ...this.props })
     }
   }
-  
+
   handleChange = (e) => {
     const { name, value } = e.target
     this.setState({ [name]: value })
   }
-  
+
   handleSubmit = (e) => {
     e.preventDefault()
     const course = { ...this.state }
@@ -63,7 +63,7 @@ class CourseForm extends React.Component {
   handleOption = (e, { value }) => {
     this.setState({ department: value })
   }
-  
+
   render() {
     const { 
       name,
@@ -72,52 +72,50 @@ class CourseForm extends React.Component {
       ends,
       department,
     } = this.state
-    
-    return (
-      <FullWidth>
-        <Form onSubmit={this.handleSubmit}>
-          <Form.Input
-            name="name"
-            placeholder="name"
-            value={name}
-            onChange={this.handleChange}
-            label="name"
-            required
-          />
-          <Form.Input
-            name="description"
-            placeholder="description"
-            value={description}
-            onChange={this.handleChange}
-            label="description"
-            required
-          />
-          <Form.Select 
-            label="deparment"
-            options={this.departmentOptions()} 
-            value={department} 
-            name="department"
-            onChange={this.handleOption}
-          />
 
-          {/* Can we bring in a calendar thing to make it easy to select start/end dates? */}
-          <Form.Input
-            name="starts"
-            value={starts}
-            onChange={this.handleChange}
-            label="starts"
-          />
-          <Form.Input
-            name="ends"
-            value={ends}
-            onChange={this.handleChange}
-            label="ends"
-          />
-          <CommonButton type='submit'>Save</CommonButton>
-          <Button type='button' onClick={this.props.toggleForm}>cancel</Button>
-        </Form>
-      </FullWidth>
-    )
+    return (
+      <Form onSubmit={this.handleSubmit}>
+        <Form.Input
+          name="name"
+          placeholder="name"
+          value={name}
+          onChange={this.handleChange}
+          label="name"
+          required
+        />
+        <Form.Input
+          name="description"
+          placeholder="description"
+          value={description}
+          onChange={this.handleChange}
+          label="description"
+          required
+        />
+        <Form.Select 
+          label="deparment"
+          options={this.departmentOptions()} 
+          value={department} 
+          name="department"
+          onChange={this.handleOption}
+        />
+
+      {/* Can we bring in a calendar thing to make it easy to select start/end dates? */}
+      <Form.Input
+        name="starts"
+        value={starts}
+        onChange={this.handleChange}
+        label="starts"
+      />
+      <Form.Input
+        name="ends"
+        value={ends}
+        onChange={this.handleChange}
+        label="ends"
+      />
+      <CommonButton type='submit'>Save</CommonButton>
+      <Button type='button' onClick={this.props.toggleForm}>cancel</Button>
+    </Form>
+  )
   }
 }
 

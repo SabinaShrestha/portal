@@ -1,8 +1,8 @@
 import React, { Fragment } from 'react'
 import { connect } from 'react-redux'
-import { Segment, Header } from 'semantic-ui-react'
+import { Segment, Header, Button } from 'semantic-ui-react'
 import { withRouter } from 'react-router-dom'
-import { CommonButton, FullWidth, Flex } from './styles/CommonStyles'
+import { CommonButton, Flex } from './styles/CommonStyles'
 import { deleteCourse, updateCourse } from '../reducers/courses'
 
 class CourseControl extends React.Component {
@@ -25,12 +25,11 @@ class CourseControl extends React.Component {
     return (
       <Flex direction="column">
         <Header as="h1">{msg}</Header>
-        <CommonButton 
+        <Button 
           onClick={this.toggleConfirm}
-          color="gray"
         >
           Cancel
-        </CommonButton> 
+        </Button> 
         <CommonButton 
           onClick={this[action]}
           color="red"
@@ -65,49 +64,47 @@ class CourseControl extends React.Component {
     const { course } = this.props
     const { showConfirm } = this.state
     return (
-      <FullWidth>
-          <Segment color="red">
-            <Flex 
-              direction="column" 
-              justifyContent='space-around' 
-              height="40vh"
-            >
-              { showConfirm ? 
-                  <Fragment>
-                    <Header as="h1" color="red">
-                      Please Confirm
-                    </Header>
-                    { this.confirmElement() } 
-                  </Fragment>
-                  :
-                  <Fragment>
-                    <Header as="h1">
-                      Course Controls
-                    </Header>
-                    <CommonButton 
-                      size="massive"
-                      onClick={this.publishCourse}
-                    >
-                      { course.published ? 'Unpublish' : 'Publish' } Course
-                    </CommonButton>
-                    <CommonButton size="massive">Copy Course</CommonButton>
-                    <CommonButton 
-                      size="massive"
-                      onClick={ () => this.launchConfirm(`Do you really want to conclude/resume this course?`, 'concludeCourse') }
-                    >
-                      { course.concluded ? 'Resume' : 'Conclude' } Course
-                    </CommonButton>
-                    <CommonButton 
-                      size="massive"
-                      onClick={() => this.launchConfirm('Do you really want to delete this course?', 'deleteCourse') }
-                    >
-                      Delete Course
-                    </CommonButton>
-                  </Fragment>
-              }
-            </Flex>
-          </Segment>
-      </FullWidth>
+      <Segment color="red">
+        <Flex 
+          direction="column" 
+          justifyContent='space-around' 
+          height="40vh"
+        >
+          { showConfirm ? 
+          <Fragment>
+            <Header as="h1" color="red">
+              Please Confirm
+            </Header>
+            { this.confirmElement() } 
+          </Fragment>
+            :
+            <Fragment>
+              <Header as="h1">
+                Course Controls
+              </Header>
+              <CommonButton 
+                size="massive"
+                onClick={this.publishCourse}
+              >
+                { course.published ? 'Unpublish' : 'Publish' } Course
+              </CommonButton>
+              <CommonButton size="massive">Copy Course</CommonButton>
+              <CommonButton 
+                size="massive"
+                onClick={ () => this.launchConfirm(`Do you really want to conclude/resume this course?`, 'concludeCourse') }
+              >
+                { course.concluded ? 'Resume' : 'Conclude' } Course
+              </CommonButton>
+              <CommonButton 
+                size="massive"
+                onClick={() => this.launchConfirm('Do you really want to delete this course?', 'deleteCourse') }
+              >
+                Delete Course
+              </CommonButton>
+            </Fragment>
+          }
+        </Flex>
+      </Segment>
     )
   }
 }

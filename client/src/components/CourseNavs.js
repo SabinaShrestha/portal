@@ -8,8 +8,6 @@ import { withRouter } from 'react-router-dom'
 import Nav from './Nav'
 
 class CourseNavs extends React.Component {
-  state = { navs: [] }
-
   componentDidMount() {
     if ( this.props.course.id )
       this.fetchNavs()
@@ -25,8 +23,7 @@ class CourseNavs extends React.Component {
     axios.get(`/api/courses/${id}/course_navs`)
       .then( res => {
         const { data: navs, headers } = res
-        dispatch(updateCourseNavs(navs, headers))
-        this.setState({ navs })
+        dispatch(updateCourseNavs(navs, headers)) 
       })
   }
 
@@ -36,7 +33,7 @@ class CourseNavs extends React.Component {
 
   configNavs = () => {
     const { user: { is_admin }, course: { role } } = this.props
-    const { navs } = this.state
+    const { navs } = this.props
     if ( isStaff({ role, is_admin }) ) {
       return navs
     } else {
@@ -55,7 +52,9 @@ class CourseNavs extends React.Component {
 }
 
 const mapStateToProps = (state) => {
-  return { course: state.course, user: state.user }
+  const { course, user } = state
+  const { navs } = course
+  return { course, user, navs }
 }
 
 export default withRouter(connect(mapStateToProps)(CourseNavs))

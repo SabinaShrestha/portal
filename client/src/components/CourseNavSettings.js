@@ -2,19 +2,25 @@ import React from 'react'
 import { connect } from 'react-redux'
 import { Motion, spring } from 'react-motion'
 import styled from 'styled-components'
-import { Icon } from 'semantic-ui-react'
-import { Pointer } from './styles/CommonStyles'
+import axios from 'axios'
+import { Icon, Button } from 'semantic-ui-react'
+import { Pointer, CommonButton, Flex } from './styles/CommonStyles'
+import { updateCourseNavs } from '../reducers/course'
 
 const MotionContainer = styled.div`
-  width: 100%;
   padding-left: 10px;
   display: flex;
   justify-content: center;
 `
 
+const SettingsContainer = styled.div`
+  min-width: 320px;
+  margin: 0 50px;
+`
+
 const Item = styled.div`
   position: absolute;
-  background-color: ${ props => props.theme.primary };
+  background-color: ${ props => props.visible ? props.theme.primary : 'gray' };
   width: 320px;
   height: 38px;
   overflow: visible;
@@ -28,6 +34,9 @@ const Item = styled.div`
   color: white;
   padding-left: 10px;
   padding-right: 10px;
+  box-shadow: ${ props => `rgba(0, 0, 0, 0.2) 0px ${props.shadow}px ${2 * props.shadow}px 0px` };
+  transform: ${ props => `translate3d(0, ${props.y}px, 0) scale(${props.scale})` };
+  zIndex: ${ props => props.i === props.originalPosOfLastPressed ? 99 : props.i };
 `
 
 class CourseNavSettings extends React.Component {
@@ -37,6 +46,7 @@ class CourseNavSettings extends React.Component {
     isPressed: false,
     originalPosOfLastPressed: 0,
     order: [],
+    navs: [],
   }
 
   componentDidMount() {
@@ -109,7 +119,22 @@ class CourseNavSettings extends React.Component {
 
   setInitialOrder = () => {
     const { navs } = this.props
-    this.setState({ order: this.range(navs) })
+    this.setState({ order: this.range(navs), navs })
+  }
+
+  swapVisible = (id) => {
+    const { navs } = this.state
+    this.setState({
+      navs: navs.map( n => {
+        if (n.id === id) {
+          return {
+            ...n,
+            visible: !n.visible
+          }
+        }
+        return n
+      })
+    })
   }
 
   icon = ({ visible, id }) => { 
@@ -117,63 +142,98 @@ class CourseNavSettings extends React.Component {
     let color = 'black'
     if (!visible) {
       name = 'eye'
-      color = 'white'
+      color = null
     }
 
-    return <Icon name={name} color={color} />
+    color = { color }
+
+    return <Icon name={name} {...color} onClick={() => this.swapVisible(id)} />
+  }
+
+  calcTop = () => {
+    const { navs } = this.state
+    return ( navs.length + 1 ) * 38
+  }
+
+  updateNavs = () => {
+    const { order, navs: navState } = this.state
+    const { dispatch, course } = this.props
+    const navs = order.map( (navI, i) => {
+      const nav = navState[navI]
+      return { ...nav, priority: i }
+    })
+
+    axios.put(`/api/courses/${course.id}/update_course_navs`, { navs })
+      .then( res => dispatch(updateCourseNavs(navs, res.headers)) )
   }
 
   render() {
-    const { navs } = this.props
+    const { navs } = this.state
     const {mouseY, isPressed, originalPosOfLastPressed, order} = this.state
     const springConfig = { stiffness: 300, damping: 50 } 
 
     return (
-      <MotionContainer>
-        { this.range(navs).map( i => {
-            const style = originalPosOfLastPressed === i && isPressed
-            ? {
-                scale: spring(1.1, springConfig),
-                shadow: spring(16, springConfig),
-                y: mouseY,
-              }
-            : {
-                scale: spring(1, springConfig),
-                shadow: spring(1, springConfig),
-                y: spring(order.indexOf(i) * 40, springConfig)
-              }
-              return (
-                <Motion style={style} key={i}>
-                  { ({ scale, shadow, y }) => 
-                    <Item
-                      onMouseDown={this.handleMouseDown.bind(null,i,y) }
-                      onTouchStart={this.handleTouchStart.bind(null,i,y) }
-                      style={{
-                        boxShadow: `rgba(0, 0, 0, 0.2) 0px ${shadow}px ${2 * shadow}px 0px`,
-                        transform: `translate3d(0, ${y}px, 0) scale(${scale})`,
-                        zIndex: i === originalPosOfLastPressed ? 99 : i,
-                      }}
-                    >
-                      <div>
-                        { navs[i].name }
-                      </div>
-                      <Pointer>
-                        { this.icon(navs[i]) }
-                      </Pointer>
-                    </Item>
-                  }
-                </Motion>
-              )
-          })
-        }
-      </MotionContainer>
+      <SettingsContainer>
+        <MotionContainer>
+          { this.range(navs).map( i => {
+              const style = originalPosOfLastPressed === i && isPressed
+              ? {
+                  scale: spring(1.1, springConfig),
+                  shadow: spring(16, springConfig),
+                  y: mouseY,
+                }
+              : {
+                  scale: spring(1, springConfig),
+                  shadow: spring(1, springConfig),
+                  y: spring(order.indexOf(i) * 40, springConfig)
+                }
+                return (
+                  <Motion style={style} key={i}>
+                    { ({ scale, shadow, y }) => 
+                      <Item
+                        onMouseDown={this.handleMouseDown.bind(null,i,y) }
+                        onTouchStart={this.handleTouchStart.bind(null,i,y) }
+                        shadow={shadow}
+                        y={y}
+                        i={i}
+                        scale={scale}
+                        originalPosOfLastPressed={originalPosOfLastPressed}
+                        visible={navs[i].visible}
+                      >
+                        <div>
+                          { navs[i].name }
+                        </div>
+                        <Pointer>
+                          { this.icon(navs[i]) }
+                        </Pointer>
+                      </Item>
+                    }
+                  </Motion>
+                )
+            })
+          }
+        </MotionContainer>
+        <Flex alignSelf="flex-end" paddingTop={this.calcTop()}>
+          <Button 
+            onClick={this.setInitialOrder}
+          >
+            Reset
+          </Button>
+          <CommonButton
+            onClick={this.updateNavs}
+          >
+            Save
+          </CommonButton>
+        </Flex>
+      </SettingsContainer>
     )
   }
 }
 
 const mapStateToProps = (state) => {
+  const { course } = state
   const navs = state.course.navs || []
-  return { navs }
+  return { navs, course }
 }
 
 export default connect(mapStateToProps)(CourseNavSettings)

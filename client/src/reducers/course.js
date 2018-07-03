@@ -3,7 +3,7 @@ const CLEAR_COURSE = 'CLEAR_COURSE'
 const UPDATE_COURSE_NAVS = 'UPDATE_COURSE_NAVS'
 
 export const setCourse = (course) => {
-  return { type: SET_COURSE, course }
+  return { type: SET_COURSE, course: { ...course, navs: [] } }
 }
 
 export const clearCourse = () => {
@@ -14,7 +14,7 @@ export const updateCourseNavs = (navs = [], headers) => {
   return { type: UPDATE_COURSE_NAVS, navs, headers }
 }
 
-export default ( state = {}, action ) => {
+export default ( state = { navs: [] }, action ) => {
   switch (action.type) {
     case SET_COURSE:
       return action.course
@@ -24,7 +24,7 @@ export default ( state = {}, action ) => {
         navs: action.navs
       }
     case CLEAR_COURSE:
-      return {}
+      return { navs: []}
     default:
       return state
   }
