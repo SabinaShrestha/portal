@@ -34,7 +34,7 @@ class QuizForm extends Component {
               name='quizTitle'
               value={quizTitle}
               placceholder='Quiz Title'
-              autofocus={true}
+              autoFocus={true}
               required
               onChange={this.handleChange}
             />
