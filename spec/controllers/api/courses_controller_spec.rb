@@ -1,6 +1,10 @@
 require 'rails_helper'
 
 RSpec.describe Api::CoursesController, type: :controller do
+  let(:course) { FactoryBot.create(:course) }
+  let(:attr) { FactoryBot.attributes_for(:course) }
+
+  login_user
 
   describe "GET #index" do
     it "returns http success" do
@@ -11,28 +15,28 @@ RSpec.describe Api::CoursesController, type: :controller do
 
   describe "GET #show" do
     it "returns http success" do
-      get :show
+      get :show, params: { id: course.id }
       expect(response).to have_http_status(:success)
     end
   end
 
-  describe "GET #create" do
+  describe "POST #create" do
     it "returns http success" do
-      get :create
+      post :create, params: { course: attr }
       expect(response).to have_http_status(:success)
     end
   end
 
-  describe "GET #update" do
+  describe "PUT #update" do
     it "returns http success" do
-      get :update
+      put :update, params: { id: course.id, course: attr }
       expect(response).to have_http_status(:success)
     end
   end
 
-  describe "GET #destroy" do
+  describe "DELETE #destroy" do
     it "returns http success" do
-      get :destroy
+      delete :destroy, params: { id: course.id }
       expect(response).to have_http_status(:success)
     end
   end

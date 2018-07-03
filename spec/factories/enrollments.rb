@@ -1,5 +1,9 @@
 FactoryBot.define do
   factory :enrollment do
+    user
+    course
+    role "student"
+
     factory :student do
       role "student"
     end

@@ -1,5 +1,5 @@
 class Api::AttendancesController < ApplicationController
-  before_action :set_enrollment
+  before_action :set_enrollment, except: [:destroy]
   before_action :set_attendance, only: [:show, :update, :destroy]
   
   def index

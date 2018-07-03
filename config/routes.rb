@@ -9,7 +9,7 @@ Rails.application.routes.draw do
       resources :wikis
       resources :groups
       resources :course_navs, only: [:index]
-      resources :attendances, only: [:index, :create, :edit]
+      resources :attendances
       put 'update_course_navs', to: 'course_navs#update_course_navs'
     end
     resources :users, only: :update

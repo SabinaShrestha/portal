@@ -7,38 +7,17 @@ RSpec.describe Api::AttendancesController, type: :controller do
   let(:attendance) { FactoryBot.create(:attendance) }
   
   describe "GET #index" do
-  it "returns http success" do
-    get :index, params: { course_id: course.id, enrollment_id: enrollment.id }
-    expect(response).to be_successful
-  end
-
-  # describe "GET #show" do
-  #   it "returns http success" do
-  #     get :show
-  #     expect(response).to have_http_status(:success)
-  #   end
-  # end
-
-  # describe "GET #create" do
-  #   it "returns http success" do
-  #     get :create
-  #     expect(response).to have_http_status(:success)
-  #   end
-  # end
-
-  # describe "GET #update" do
-  #   it "returns http success" do
-  #     get :update
-  #     expect(response).to have_http_status(:success)
-  #   end
-  # end
-
-  describe "GET #destroy" do
     it "returns http success" do
-      get :destroy, params: { course_id: course.id, enrollment_id: enrollment.id }
+      get :index, params: { course_id: course.id, enrollment_id: enrollment.id }
       expect(response).to be_successful
     end
   end
 
+  describe "DELETE #destroy" do
+    it "returns http success" do
+      delete :destroy, params: { course_id: course.id, id: attendance.id }
+      expect(response).to be_successful
+    end
   end
+
 end

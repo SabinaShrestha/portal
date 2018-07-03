@@ -9,6 +9,6 @@ FactoryBot.define do
     date "MyString"
     total_attendance 1.5
     badge "MyString"
-    enrollment_id 1
+    enrollment
   end
 end

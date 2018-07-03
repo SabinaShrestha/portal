@@ -23,7 +23,6 @@ RSpec.describe Attendance, type: :model do
   end
 
   describe 'associations' do
-    it { should belong_to(:course) }
     it { should belong_to(:enrollment) }
   end
 
