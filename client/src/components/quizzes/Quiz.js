@@ -7,11 +7,11 @@ import {
   Table,
   Icon, 
 } from 'semantic-ui-react'
-import { CommonButton, Pointer } from '../styles/CommonStyles'
 import axios from 'axios'
 import { connect } from 'react-redux'
 import { setHeaders } from '../../reducers/headers'
 import Permission from '../hoc/Permission'
+import { CommonButton, Pointer } from '../styles/CommonStyles'
 
 class Quiz extends React.Component {
   state = { column: null, direction: null, quizzes: [] }
@@ -21,13 +21,13 @@ class Quiz extends React.Component {
     const { dispatch } = this.props
     const courseId = this.props.match.params.course_id
     axios.get(`api/courses/${courseId}/quizzes`)
-    .then( ({ data, headers }) => {
-      dispatch(setHeaders(headers))
-      this.setState({ quizzes: data })
-    })
-    .catch( error => {
-      console.log(error.response)
-    })
+      .then( ({ data, headers }) => {
+        dispatch(setHeaders(headers))
+        this.setState({ quizzes: data })
+      })
+      .catch( error => {
+        console.log(error.response);
+      })
   }
   
   handleClick = (e) => {
@@ -122,3 +122,4 @@ const mapStateToProps = (state) => {
 }
 
 export default connect(mapStateToProps)(Quiz)
+
