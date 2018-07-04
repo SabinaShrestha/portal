@@ -1,6 +1,7 @@
 import React from 'react'
 import { Header, Container, Divider, List, Card } from 'semantic-ui-react'
-import { setHeaders } from './reducers/headers'
+import { setHeaders } from '../reducers/headers'
+import axios from 'axios'
 
 class Attendance extends React.Component {
   state = { column: null }
