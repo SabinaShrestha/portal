@@ -1,6 +1,6 @@
 import React from 'react'
 import { connect } from 'react-redux'
-import { addCourse } from '../reducers/courses'
+import { addCourse, updateCourse } from '../reducers/courses'
 import { Form, Button, Header, Grid, Divider } from 'semantic-ui-react'
 import { CommonButton } from './styles/CommonStyles'
 import DatePicker from 'react-datepicker'

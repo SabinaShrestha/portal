@@ -7,7 +7,6 @@ const COURSES = 'COURSES'
 const ADD_COURSE = 'ADD_COURSE'
 const COPY_COURSE = 'COPY_COURSE'
 const DELETE_COURSE = 'DELETE_COURSE'
-<<<<<<< HEAD
 const UPDATE_COURSE = 'UPDATE_COURSE'
 
 export const updateCourse = (course) => {
@@ -44,8 +43,6 @@ export const deleteCourse = (id) => {
       })
   }
 }
-=======
->>>>>>> going back to master to create another branch
 
 export const getCourses = () => {
   return (dispatch) => {
@@ -68,34 +65,18 @@ export const addCourse = (course) => {
   }
 }
 
-export const deleteCourse = (id) => {
-  return (dispatch) => {
-    axios.delete(`/api/courses/${id}`)
-      .then ( res => {
-        dispatch({ type: DELETE_COURSE, id })
-        const { headers } = res
-        dispatch(setHeaders(headers))
-        dispatch(setFlash('Course deleted successfully!', 'green'))
-      })
-      .catch( (err) =>  dispatch(setFlash('Failed to delete course.', 'red')) )
-  }
-}
-
 export default ( state = [], action ) => {
   switch (action.type) {
     case COURSES:
       return action.courses
     case ADD_COURSE:
       return [action.course, ...state]
-<<<<<<< HEAD
     case UPDATE_COURSE:
       return state.map( c => {
         if ( c.id === action.course.id )
           return action.course
         return c
       })
-=======
->>>>>>> going back to master to create another branch
     case DELETE_COURSE:
       return state.filter( c => c.id !== action.id )
     default:
