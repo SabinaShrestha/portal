@@ -5,6 +5,7 @@ import { setCourse } from './course'
 
 const COURSES = 'COURSES'
 const ADD_COURSE = 'ADD_COURSE'
+const COPY_COURSE = 'COPY_COURSE'
 const DELETE_COURSE = 'DELETE_COURSE'
 <<<<<<< HEAD
 const UPDATE_COURSE = 'UPDATE_COURSE'
@@ -24,6 +25,15 @@ export const updateCourse = (course) => {
       })
   }
 }
+
+export const copyCourse = (id) => {
+  return (dispatch) => {
+    //call to create new course, having set starting fields to the form
+    //will have to SQL out pulling in all the course children as well
+    console.log('copyCourse dispatch')
+  }
+}
+
 
 export const deleteCourse = (id) => {
   return (dispatch) => {

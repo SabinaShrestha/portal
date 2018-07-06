@@ -1,12 +1,13 @@
 import React, { Fragment } from 'react'
 import { connect } from 'react-redux'
-import { Segment, Header, Button } from 'semantic-ui-react'
+import { Segment, Header, Button, Divider } from 'semantic-ui-react'
 import { withRouter } from 'react-router-dom'
 import { CommonButton, Flex } from './styles/CommonStyles'
 import { deleteCourse, updateCourse } from '../reducers/courses'
+import CourseCopyForm from './CourseCopyForm'
 
 class CourseControl extends React.Component {
-  state = { showConfirm: false, msg: null, action: null }
+  state = { showConfirm: false, msg: null, action: null, showCopyForm: false }
 
   launchConfirm = (msg, action) => {
     this.setState({ msg, action })
@@ -18,6 +19,10 @@ class CourseControl extends React.Component {
       const msg = state.showConfirm ? { msg: null, action: null } : {}
       return { showConfirm: !state.showConfirm, ...msg }
     })
+  }
+
+  toggleCopyForm = () => {
+    this.setState({ showCopyForm: !this.state.showCopyForm })
   }
 
   confirmElement = () => {
@@ -62,45 +67,59 @@ class CourseControl extends React.Component {
 
   render() {
     const { course } = this.props
-    const { showConfirm } = this.state
+    const { showConfirm, showCopyForm } = this.state
+
     return (
       <Segment color="red">
         <Flex 
           direction="column" 
           justifyContent='space-around' 
-          height="40vh"
+          height="50vh"
         >
-          { showConfirm ? 
+          { showConfirm ?
           <Fragment>
             <Header as="h1" color="red">
               Please Confirm
             </Header>
-            { this.confirmElement() } 
+            { this.confirmElement() }
           </Fragment>
             :
             <Fragment>
-              <Header as="h1">
-                Course Controls
-              </Header>
-              <CommonButton 
-                size="massive"
-                onClick={this.publishCourse}
-              >
-                { course.published ? 'Unpublish' : 'Publish' } Course
-              </CommonButton>
-              <CommonButton size="massive">Copy Course</CommonButton>
-              <CommonButton 
-                size="massive"
-                onClick={ () => this.launchConfirm(`Do you really want to conclude/resume this course?`, 'concludeCourse') }
-              >
-                { course.concluded ? 'Resume' : 'Conclude' } Course
-              </CommonButton>
-              <CommonButton 
-                size="massive"
-                onClick={() => this.launchConfirm('Do you really want to delete this course?', 'deleteCourse') }
-              >
-                Delete Course
-              </CommonButton>
+              {!showCopyForm ? 
+              <Fragment>
+                <Header as="h1">
+                  Course Controls
+                </Header>
+                  <CommonButton
+                    size="massive"
+                    onClick={this.toggleCopyForm}
+                  >
+                    Copy Course
+                  </CommonButton>
+                  <CommonButton 
+                    size="massive"
+                    onClick={this.publishCourse}
+                  >
+                    { course.published ? 'Unpublish' : 'Publish' } Course
+                  </CommonButton>
+                  <CommonButton 
+                    size="massive"
+                    onClick={ () => this.launchConfirm(`Do you really want to conclude/resume this course?`, 'concludeCourse') }
+                  >
+                    { course.concluded ? 'Resume' : 'Conclude' } Course
+                  </CommonButton>
+                  <CommonButton 
+                    size="massive"
+                    onClick={() => this.launchConfirm('Do you really want to delete this course?', 'deleteCourse') }
+                  >
+                    Delete Course
+                  </CommonButton>
+                </Fragment> : null }
+                {showCopyForm ? 
+                  <Fragment>
+                    <CommonButton size="small" onClick={this.toggleCopyForm}>Cancel</CommonButton>
+                    <CourseCopyForm />
+                  </Fragment> : null }
             </Fragment>
           }
         </Flex>

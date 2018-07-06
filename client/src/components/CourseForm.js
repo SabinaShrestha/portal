@@ -126,22 +126,26 @@ class CourseForm extends React.Component {
 
         <Form.Field
           name="department"
-          control='select'
-          label="department"
-          onChange={this.handleChange}
-          required
-        >
-          <option> Select Department</option>
-          <option value={"Full-Time"}>Full Time</option>
-          <option value={"Part-Time"}>Part Time</option>
-          <option value={"Code on"}>Code On</option>
-        </Form.Field>
-        <Divider hidden />
-
-        <CommonButton type='submit'>Save</CommonButton>
-        <Button type='button' onClick={this.props.toggleForm}>cancel</Button>
-      </Form>
-    )
+          onChange={this.handleOption}
+        />
+      <Form.Input
+        name="starts"
+        value={starts}
+        type="date"
+        onChange={this.handleChange}
+        label="starts"
+      />
+      <Form.Input
+        name="ends"
+        value={ends}
+        type="date"
+        onChange={this.handleChange}
+        label="ends"
+      />
+      <CommonButton type='submit'>Save</CommonButton>
+      <Button type='button' onClick={this.props.toggleForm}>cancel</Button>
+    </Form>
+  )
   }
 }
 
