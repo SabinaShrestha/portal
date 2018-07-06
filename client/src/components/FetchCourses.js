@@ -7,7 +7,7 @@ import Course from './Course'
 import Attendance from './Attendance'
 import Quiz from './quizzes/Quiz'
 import FetchCourse from './FetchCourse'
-import CreateQuiz from './quizzes/CreateQuiz'
+import BuildQuiz from './quizzes/BuildQuiz'
 import QuizForm from './quizzes/QuizForm'
 import CourseSettings from './CourseSettings'
 import AllUnits from './AllUnits';
@@ -28,8 +28,8 @@ class FetchCourses extends React.Component {
         <Route exact path="/courses" component={Courses} />
         <FetchCourse>
           <Route exact path="/courses/:id" component={Course} />
-          <Route exact path='/courses/:course_id/quizzes/:id' component={Quiz} />
-          <Route exact path='/courses/:course_id/quiz_create/' component={CreateQuiz} />
+          <Route exact path='/courses/:course_id/quizzes' component={Quiz} />
+          <Route exact path='/courses/:course_id/quiz_create/' component={BuildQuiz} />
           <Route exact path='/courses/:course_id/quiz_form/' component={QuizForm} />
           <Route exact path="/courses/:course_id/attendances/:id" component={Attendance} />
           <Route exact path="/courses/:course_id/settings" component={CourseSettings} />

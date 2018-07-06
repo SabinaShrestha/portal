@@ -49,6 +49,7 @@ class Api::QuizzesController < ApplicationController
 
     def quiz_params
       params.require(:quiz).permit(
+        :course_id,
         :name, 
         :quiz_type, 
         :points, 

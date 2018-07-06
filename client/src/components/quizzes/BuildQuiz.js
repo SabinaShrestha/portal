@@ -4,7 +4,7 @@ import {
   Header,
 } from 'semantic-ui-react'
 
-class CreateQuiz extends Component {
+class BuildQuiz extends Component {
   
   render() {
     return(
@@ -18,5 +18,5 @@ class CreateQuiz extends Component {
 
 }
 
-export default CreateQuiz
+export default BuildQuiz
 

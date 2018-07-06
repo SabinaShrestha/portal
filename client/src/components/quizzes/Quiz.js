@@ -3,15 +3,15 @@ import {
   Header, 
   Container, 
   Divider,
-  List,
   Table,
   Icon, 
 } from 'semantic-ui-react'
+import { CommonButton, Pointer } from '../styles/CommonStyles'
 import axios from 'axios'
 import { connect } from 'react-redux'
 import { setHeaders } from '../../reducers/headers'
 import Permission from '../hoc/Permission'
-import { CommonButton, Pointer } from '../styles/CommonStyles'
+import { getQuizzes } from '../../reducers/quiz'
 
 class Quiz extends React.Component {
   state = { column: null, direction: null, quizzes: [] }
@@ -20,23 +20,25 @@ class Quiz extends React.Component {
     const { quizzes } = this.state
     const { dispatch } = this.props
     const courseId = this.props.match.params.course_id
-    axios.get(`api/courses/${courseId}/quizzes`)
-      .then( ({ data, headers }) => {
-        dispatch(setHeaders(headers))
-        this.setState({ quizzes: data })
-      })
-      .catch( error => {
-        console.log(error.response);
-      })
+    // dispatch(getQuizzes( courseId ))
+
+    axios.get(`/api/courses/${courseId}/quizzes`)
+    .then( ({ data, headers }) => {
+      dispatch(setHeaders(headers))
+      this.setState({ quizzes: data })
+    })
+    .catch( error => {
+      console.log(error.response)
+    })
   }
   
   handleClick = (e) => {
     e.preventDefault()
-    this.props.history.push(`/courses/${this.state.courseId}/quiz_form`)
+    this.props.history.push(`/courses/${this.props.course.id}/quiz_form`)
   }
 
   handleEdit = (e) => {
-    // TODO populate form with the information you want to edit
+    // TODO populate form with the information you want to edit if there is an id - add delete button
   }
   
   render() {
@@ -44,31 +46,12 @@ class Quiz extends React.Component {
     return (
       <Container>
         <Header as='h1'>Quizzes
-          <CommonButton floated='right'>
+          <CommonButton floated='right' onClick={this.handleClick}>
             Add Quiz
           </CommonButton>
         </Header>
           <Divider /> 
-        { this.state.quizzes.map( quiz =>
-            <List horizontal>
-              <List.Item>
-                {quiz.name}
-              </List.Item>
-              <List.Item>
-                {quiz.points}
-              </List.Item>
-              <List.Item>
-                Number of questions
-              </List.Item>
-              <List.Item>
-                {quiz.published}
-              </List.Item>
-            <CommonButton floated='right'>
-              Edit
-            </CommonButton>
-            </List>
-          ) 
-        }
+     
             <Table cell padded>
               <Table.Header>
                 <Table.Row>
@@ -94,7 +77,7 @@ class Quiz extends React.Component {
                     Questions {/* TODO = figure out how to count the questions */}
                   </Table.Cell>
                   <Table.Cell textAlign='center'>
-                    {quiz.published == true && 
+                    {quiz.published === true && 
                      <p>Published</p>
                     }
                   </Table.Cell>
@@ -122,4 +105,3 @@ const mapStateToProps = (state) => {
 }
 
 export default connect(mapStateToProps)(Quiz)
-
