@@ -1,5 +1,5 @@
 class Api::CoursesController < ApplicationController
-  before_action :set_course, only: [:show, :update, :destroy]
+  before_action :set_course, only: [:show, :update, :destroy, :copy_course]
 
   def index
     if current_user.is_admin
@@ -7,6 +7,10 @@ class Api::CoursesController < ApplicationController
     else
       render json: Course.active_with_enrollments(current_user.id)
     end
+  end
+
+  def copy_course
+    render json: Course.copy_course(@course, params[:course])
   end
 
   def show

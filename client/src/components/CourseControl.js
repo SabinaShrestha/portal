@@ -1,13 +1,13 @@
 import React, { Fragment } from 'react'
 import { connect } from 'react-redux'
-import { Segment, Header, Button, Divider } from 'semantic-ui-react'
+import { Segment, Header, Button } from 'semantic-ui-react'
 import { withRouter } from 'react-router-dom'
 import { CommonButton, Flex } from './styles/CommonStyles'
 import { deleteCourse, updateCourse } from '../reducers/courses'
 import CourseCopyForm from './CourseCopyForm'
 
 class CourseControl extends React.Component {
-  state = { showConfirm: false, msg: null, action: null, showCopyForm: false }
+  state = { showConfirm: false, showCopyForm: false, msg: null, action: null }
 
   launchConfirm = (msg, action) => {
     this.setState({ msg, action })
@@ -118,7 +118,7 @@ class CourseControl extends React.Component {
                 {showCopyForm ? 
                   <Fragment>
                     <CommonButton size="small" onClick={this.toggleCopyForm}>Cancel</CommonButton>
-                    <CourseCopyForm />
+                    <CourseCopyForm toggleCopyForm={this.toggleCopyForm}/>
                   </Fragment> : null }
             </Fragment>
           }

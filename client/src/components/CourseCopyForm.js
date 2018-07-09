@@ -1,7 +1,7 @@
 import React from 'react'
 import { connect } from 'react-redux'
 import { copyCourse } from '../reducers/courses'
-import { Form, Button } from 'semantic-ui-react'
+import { Form } from 'semantic-ui-react'
 import { CommonButton } from './styles/CommonStyles'
 
 class CourseCopyForm extends React.Component {
@@ -44,6 +44,8 @@ class CourseCopyForm extends React.Component {
     const course = { ...this.state }
     const { toggleCopyForm, dispatch } = this.props
     dispatch(copyCourse(course))
+    debugger
+    toggleCopyForm()
   }
 
   departmentOptions = () => {
@@ -92,8 +94,6 @@ class CourseCopyForm extends React.Component {
           name="department"
           onChange={this.handleOption}
         />
-
-        {/* Can we bring in a calendar thing to make it easy to select start/end dates? */}
         <Form.Input
           name="starts"
           value={starts}

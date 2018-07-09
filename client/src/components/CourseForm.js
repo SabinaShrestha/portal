@@ -3,10 +3,6 @@ import { connect } from 'react-redux'
 import { addCourse, updateCourse } from '../reducers/courses'
 import { Form, Button, Header, Grid, Divider } from 'semantic-ui-react'
 import { CommonButton } from './styles/CommonStyles'
-import DatePicker from 'react-datepicker'
-import 'react-datepicker/dist/react-datepicker.css'
-import moment from 'moment';
-
 
 
 class CourseForm extends React.Component {
@@ -15,8 +11,8 @@ class CourseForm extends React.Component {
     name: '',
     description: '',
     department: 'Full-Time',
-    starts: moment(),
-    ends: moment(),
+    starts: '',
+    ends: '',
     lock_after_end: false,
     lock_before_start: false,
     published: false,
@@ -106,20 +102,10 @@ class CourseForm extends React.Component {
           <Grid.Row columns={2} centered>
             <Grid.Column>
               <Header as='h3' floated='left'>Starts On</Header>
-              <DatePicker 
-                name="starts"
-                selected={this.state.starts} 
-                onChange={this.handleStartDate}
-              />
             </Grid.Column>
 
             <Grid.Column>
             <Header as='h3' floated='left'>Ends On</Header>
-            <DatePicker 
-              name="ends"
-              selected={this.state.ends} 
-              onChange={this.handleEndDate}
-            />
             </Grid.Column>
           </Grid.Row>
         </Grid>
@@ -129,7 +115,18 @@ class CourseForm extends React.Component {
           name="department"
           onChange={this.handleOption}
         />
-     
+      <Form.Input
+        name="starts"
+        type="date"
+        onChange={this.handleChange}
+        label="starts"
+      />
+      <Form.Input
+        name="ends"
+        type="date"
+        onChange={this.handleChange}
+        label="ends"
+      />
       <CommonButton type='submit'>Save</CommonButton>
       <Button type='button' onClick={this.props.toggleForm}>cancel</Button>
     </Form>

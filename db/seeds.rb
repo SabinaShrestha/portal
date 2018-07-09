@@ -164,7 +164,7 @@ def create_wikis
       title = Faker::Dune.title + ' ' + Faker::Dune.character
       body = ""
       3.times do
-        body += Faker::Dune.saying + ' ' + Faker::Dune.quote
+        body += Faker::Dune.saying + ' ' + Faker::Dune.quote + ' '
       end
       course_id = counter
       Wiki.create(
@@ -233,14 +233,6 @@ puts "Created Teacher, email: teacher@teacher.com and password: password"
     starts: 'Mon, 12 November 2018 14:00:00 +0800',
     ends: 'Fri, 27 December 2018 14:00:00 +0800')
 
-  10.times do 
-    @unit = Unit.create(
-    name: "Unit Name",  
-    position: 1, 
-    course_id: @course.id 
-    )
-  end 
-
   Enrollment.create(
     role: 'teacher',
     user_id: @teacher.id,
@@ -296,7 +288,7 @@ puts "Created Teacher, email: teacher@teacher.com and password: password"
       name: name,
       due_date: 'Fri, 16 November 2018 14:00:00 +0800',
       points: rand(50...100),
-      quiz_type: quiz_type[l],
+      quiz_type: quiz_type.sample,
       available_from: 'Mon, 12 November 2018 14:00:00 +0800',
       available_until: 'Fri, 16 November 2018 14:00:00 +0800',
       published: true)

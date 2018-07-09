@@ -25,21 +25,19 @@ export const updateCourse = (course) => {
   }
 }
 
-export const copyCourse = (id) => {
-  return (dispatch) => {
-    //call to create new course, having set starting fields to the form
-    //will have to SQL out pulling in all the course children as well
-    console.log('copyCourse dispatch')
-  }
-}
-
-
-export const deleteCourse = (id) => {
-  return (dispatch) => {
-    axios.delete(`/api/courses/${id}`)
-      .then( ({ headers }) => {
-        dispatch({ type: DELETE_COURSE, id, headers })
-        dispatch(setFlash('Course has been deleted', 'green'))
+export const copyCourse = (course) => {
+  return (dispatch, getState) => {
+    const courseState = getState().course
+    dispatch(setFlash('Starting course copy...', 'blue'))
+    axios.post(`/api/courses/${course.id}/copy_course/${course.id}`, { course })
+      .then( ({ data, headers }) => {
+        dispatch({ type: COPY_COURSE, course: data, headers })
+        dispatch(setCourse({...courseState, ...data}))
+        dispatch(setFlash('Course copy created successfully.', 'green'))
+      })
+      .catch( e => {
+        dispatch(setHeaders(e.headers))
+        dispatch(setFlash(e.errors, 'red'))
       })
   }
 }
@@ -63,6 +61,10 @@ export const addCourse = (course) => {
       })
       .catch( (err) =>  dispatch(setFlash('Failed to add course.', 'red')) )
   }
+}
+
+export const deleteCourse = () => {
+  console.log('Got it!')
 }
 
 export default ( state = [], action ) => {
