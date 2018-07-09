@@ -47,7 +47,7 @@ class CourseForm extends React.Component {
   handleEndDate = (date) => {
     this.setState({ends: date})
   }
-  
+
   handleSubmit = (e) => {
     e.preventDefault()
     const course = { ...this.state }
@@ -74,9 +74,9 @@ class CourseForm extends React.Component {
   }
 
   render() {
-    const { 
+    const {
       name,
-      description, 
+      description,
     } = this.state
 
     return (

@@ -1,10 +1,10 @@
 import React from 'react'
-import { 
-  Header, 
-  Container, 
+import {
+  Header,
+  Container,
   Divider,
   Table,
-  Icon, 
+  Icon,
 } from 'semantic-ui-react'
 import { CommonButton, Pointer } from '../styles/CommonStyles'
 import axios from 'axios'
@@ -29,7 +29,7 @@ class Quiz extends React.Component {
       console.log(error.response)
     })
   }
-  
+
   handleClick = (e) => {
     e.preventDefault()
     this.props.history.push(`/courses/${this.props.course.id}/quiz_form`)
@@ -38,7 +38,7 @@ class Quiz extends React.Component {
   handleEdit = (id) => {
     this.props.history.push(`/courses/${this.props.course.id}/edit_quiz/${id}`)
   }
-  
+
   render() {
     return (
       <Container>
@@ -47,8 +47,8 @@ class Quiz extends React.Component {
             Add Quiz
           </CommonButton>
         </Header>
-          <Divider /> 
-     
+          <Divider />
+
             <Table cell padded>
               <Table.Header>
                 <Table.Row>
@@ -74,7 +74,7 @@ class Quiz extends React.Component {
                     Questions {/* TODO = figure out how to count the questions */}
                   </Table.Cell>
                   <Table.Cell textAlign='center'>
-                    {quiz.published === true && 
+                    {quiz.published === true &&
                      <p>Published</p>
                     }
                   </Table.Cell>
@@ -87,12 +87,12 @@ class Quiz extends React.Component {
                     </Permission>
                 </Table.Row>
               </Table.Body>
-              ) 
+              )
             }
             </Table>
       </Container>
     )
-  } 
+  }
 }
 
 const mapStateToProps = (state) => {

@@ -4,14 +4,15 @@ import flash from './flash'
 import courses from './courses'
 import course from './course'
 import units from './units'
+import assignments from './assignments'
 
 const rootReducer = combineReducers({
   user,
   flash,
   courses,
   course,
-  units, 
+  units,
+  assignments,
 })
 
 export default rootReducer
-

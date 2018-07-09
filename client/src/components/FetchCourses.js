@@ -12,8 +12,7 @@ import QuizForm from './quizzes/QuizForm'
 import EditQuizForm from './quizzes/EditQuizForm'
 import CourseSettings from './CourseSettings'
 import AllUnits from './AllUnits';
-import Assignments from './Assignments'
-
+import Assignments from './assignments/Assignments'
 
 class FetchCourses extends React.Component {
   componentDidMount() {
