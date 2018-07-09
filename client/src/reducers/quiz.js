@@ -4,6 +4,8 @@ import { setFlash } from './flash'
 
 const QUIZZES = 'QUIZZES'
 const ADD_QUIZ = 'ADD_QUIZ'
+const GET_QUIZ = 'GET_QUIZ'
+const UPDATE_QUIZ = 'UPDATE_QUIZ'
 
 export const addQuiz = (courseId, quiz, history) => {
   return(dispatch) => {
@@ -18,12 +20,25 @@ export const addQuiz = (courseId, quiz, history) => {
   }
 }
 
+export const getQuiz = (courseId, quizId) => {
+  return (dispatch) => {
+    axios.get(`/api/courses${courseId}/quizzes/${quizId}`)
+  }
+}
+
+export const updateQuiz = () => {
+}
+
 export default ( state = { navs: [] }, action ) => {
   switch (action.type) {
     case QUIZZES:
       return action.quizzes
     case ADD_QUIZ: 
       return [action.quiz, ...state]
+    case GET_QUIZ:
+      return action.quiz
+    case UPDATE_QUIZ:
+      return action.quiz
     default: 
       return state
   }

@@ -8,6 +8,7 @@ import 'react-datepicker/dist/react-datepicker.css'
 import moment from 'moment';
 
 
+
 class CourseForm extends React.Component {
   initialState = {
     id: null,
@@ -128,20 +129,7 @@ class CourseForm extends React.Component {
           name="department"
           onChange={this.handleOption}
         />
-      <Form.Input
-        name="starts"
-        value={starts}
-        type="date"
-        onChange={this.handleChange}
-        label="starts"
-      />
-      <Form.Input
-        name="ends"
-        value={ends}
-        type="date"
-        onChange={this.handleChange}
-        label="ends"
-      />
+     
       <CommonButton type='submit'>Save</CommonButton>
       <Button type='button' onClick={this.props.toggleForm}>cancel</Button>
     </Form>

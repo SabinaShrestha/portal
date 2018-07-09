@@ -11,17 +11,15 @@ import axios from 'axios'
 import { connect } from 'react-redux'
 import { setHeaders } from '../../reducers/headers'
 import Permission from '../hoc/Permission'
-import { getQuizzes } from '../../reducers/quiz'
+import { updateQuiz } from '../../reducers/quiz'
 
 class Quiz extends React.Component {
-  state = { column: null, direction: null, quizzes: [] }
+  state = { quizzes: [] }
 
   componentDidMount() {
     const { quizzes } = this.state
     const { dispatch } = this.props
     const courseId = this.props.match.params.course_id
-    // dispatch(getQuizzes( courseId ))
-
     axios.get(`/api/courses/${courseId}/quizzes`)
     .then( ({ data, headers }) => {
       dispatch(setHeaders(headers))
@@ -37,12 +35,11 @@ class Quiz extends React.Component {
     this.props.history.push(`/courses/${this.props.course.id}/quiz_form`)
   }
 
-  handleEdit = (e) => {
-    // TODO populate form with the information you want to edit if there is an id - add delete button
+  handleEdit = (id) => {
+    this.props.history.push(`/courses/${this.props.course.id}/edit_quiz/${id}`)
   }
   
   render() {
-    let { column, direction } = this.state
     return (
       <Container>
         <Header as='h1'>Quizzes
@@ -66,7 +63,7 @@ class Quiz extends React.Component {
               </Table.Header>
           { this.state.quizzes.map( quiz =>
               <Table.Body>
-                <Table.Row>
+                <Table.Row key={quiz.id}>
                   <Table.Cell>
                     {quiz.name}
                   </Table.Cell>
@@ -84,7 +81,7 @@ class Quiz extends React.Component {
                     <Permission type="staff">
                       <Table.Cell textAlign='center'>
                         <Pointer>
-                            <Icon fitted name='edit' onClick={this.handleEdit} />
+                            <Icon fitted name='edit' onClick={() => this.handleEdit(quiz.id)} />
                         </Pointer>
                       </Table.Cell>
                     </Permission>
@@ -100,7 +97,8 @@ class Quiz extends React.Component {
 
 const mapStateToProps = (state) => {
   return {
-    course: state.course
+    course: state.course,
+    quiz: state.quiz
   }
 }
 
