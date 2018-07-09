@@ -14,6 +14,7 @@ import CourseSettings from './CourseSettings'
 import AllUnits from './AllUnits';
 import Assignments from './Assignments'
 
+
 class FetchCourses extends React.Component {
   componentDidMount() {
     this.props.dispatch(getCourses())

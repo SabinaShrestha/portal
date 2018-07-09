@@ -5,6 +5,9 @@ Rails.application.routes.draw do
     resources :courses do
       resources :quizzes
       resources :assignments
+      resources :attendances
+      resources :enrollments
+      get '/get_students', to: 'enrollments#get_students'
       resources :units
       resources :wikis
       resources :groups

@@ -1,53 +1,68 @@
-// import React from 'react'
-// import { Header, Container, Divider, List, Card } from 'semantic-ui-react'
-// import { setHeaders } from './reducers/headers'
+import React from 'react'
+import axios from 'axios'
+import { Header, 
+         Container, 
+         Divider, 
+         List, 
+         Card,
+         Button, 
+         Item,
+} from 'semantic-ui-react'
+import { setHeaders } from '../reducers/headers'
+import { connect } from 'react-redux'
 
-// class Attendance extends React.Component {
-//   state = { column: null }
+class Attendance extends React.Component {
+  state = { students: [] }
 
-//   componentDidMount() {
-//     axios.get('api/courses/:id/quiz')
-//     .then( ({ data, headers }) => {
-//       setHeaders(headers)
-//       this.setState({ quizzes: data })
-//     })
-//     .catch( error => {
-//       console.log(error.response);
-//     });
-//   }
+    componentDidUpdate(prevProps) {
+      const { dispatch, course } = this.props
+      if (prevProps.course.id !== this.props.course.id) {
+        axios.get(`/api/courses/${course.id}/get_students`)
+          .then( ({ data, headers }) => {
+            dispatch(setHeaders(headers))
+            this.setState({ students: data })
+          })
+          .catch( error => {
+            console.log(error.response)
+          })
+      }
+    }
 
-//   //above this there is something wrong. this needs to be in redux - dispatch this and it'll work. 
 
-//   render() {
-//     const { column } = this.state
-//     return (
-//       <Container>
-//         <Header as='h1'>
-//           Attendance View
-//         </Header>
-//         <Divider/>
-//         <List horizontal>
-//           <List.Item>
-//             Present
-//           </List.Item>
-//           <List.Item>
-//             Absent 
-//           </List.Item>
-//           <List.Item>
-//             Tardy
-//           </List.Item>
-//         </List>
-//         <Divider/>
-//         <Card>
-//           <Card.Header>
-//             Student Name
-//           </Card.Header>  
-//         </Card>
-//       </Container>
-//     )
-//   }
-  
-// }
+  render() {
+    const { students } = this.state
+    return (
+      <Container>
+        <Header as='h1' textAlign='center'>
+          Attendance View
+        </Header>
+        <Divider/>
+        <List horizontal>
+          <List.Item>
+            Mark all Present
+          </List.Item>
+          <List.Item>
+            Mark all Absent 
+          </List.Item>
+        </List>
+        <Divider/>
+        <Item.Group divided>
+          {this.state.students.map( s =>
+          <Item key={s.id}>
+            <Item.Image size='tiny' src={s.image} />
+            <Item.Content verticalAlign='middle'>{s.first_name} {s.last_name}</Item.Content>
+          </Item>
+          )
+        }
+        </Item.Group>
+      </Container>
+    )
+  }
+}
 
-// export default Attendance
+const mapStateToProps = (state) => {
+  return { course: state.course }
+}
+
+export default connect(mapStateToProps)(Attendance)
 
