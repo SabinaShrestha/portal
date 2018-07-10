@@ -53,7 +53,7 @@ class CourseForm extends React.Component {
     const course = { ...this.state }
     const { toggleForm, dispatch } = this.props
     if (course.id) {
-      dispatch(updateCourse(course))
+  //    dispatch(updateCourse(course))
     } else {
       dispatch(addCourse(course))
       this.setState({ ...this.initialState })
