@@ -1,7 +1,10 @@
 FactoryBot.define do
-  factory :enrollment do
-    user
-    course
+  
+  roles = %w(student ta admin teacher)
+
+  factory :enrollment do 
+    user 
+    course 
     role "student"
 
     factory :student do

@@ -12,9 +12,8 @@ Rails.application.routes.draw do
       resources :wikis
       resources :groups
       resources :course_navs, only: [:index]
-      resources :attendances
-      put 'update_course_navs', to: 'course_navs#update_course_navs'
-      post 'copy_course/:id', to: 'courses#copy_course'
+      resources :enrollments
+      resources :submissions
     end
     resources :users, only: :update
   end
