@@ -139,23 +139,6 @@ render(){
             width={6}
           />
           <Form.Input
-            label='Grade type'
-            placeholder='Grade_type'
-            name='grade_type'
-            value={grade_type}
-            onChange={this.handleChange}
-            width={6}
-          />
-          <Form.Input
-            label='Submission type'
-            placeholder='Submission_type'
-            name='submission_type'
-            value={submission_type}
-            required
-            onChange={this.handleChange}
-            width={6}
-          />
-          <Form.Input
             label='Unlocks_at'
             placeholder='Unlocks_at'
             name='unlocks_at'
