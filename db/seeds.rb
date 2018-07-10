@@ -216,6 +216,16 @@ quiz_type = [ 'Multiple Choice', 'Essay', 'Short Answer']
 
 puts "Seeding database...\n "
 
+@student = User.create(
+  first_name: 'student',
+  last_name: 'student',
+  email: 'student@student.com',
+  password: 'password',
+  bio: Faker::RickAndMorty.quote,
+  nickname: Faker::Seinfeld.character,
+  is_admin: false,
+  image: Faker::Fillmurray.image(true)
+)
 @admin = User.create(
   first_name: 'admin',
   last_name: 'admin',
@@ -237,6 +247,7 @@ puts "Seeding database...\n "
 )
 puts "Created Test Admin, email: admin@admin.com and password: password"
 puts "Created Teacher, email: teacher@teacher.com and password: password"
+puts "Created Student, email: student@student.com and password: password"
 
 10.times do |i|
   @course = Course.create(
