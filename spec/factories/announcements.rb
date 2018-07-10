@@ -1,6 +1,8 @@
 FactoryBot.define do
   factory :announcement do
     body "MyString"
-    course nil
+    published true
+    publish_at { DateTime.now }
+    course
   end
 end

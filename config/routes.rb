@@ -8,6 +8,7 @@ Rails.application.routes.draw do
       resources :attendances
       resources :enrollments
       get '/get_students', to: 'enrollments#get_students'
+      resources :announcements
       resources :units
       resources :wikis
       resources :groups

@@ -13,6 +13,7 @@ class Course < ApplicationRecord
   has_many :units, dependent: :destroy
   has_many :quizzes, dependent: :destroy
   has_many :assignments, dependent: :destroy
+  has_many :announcements, dependent: :destroy
   validates_presence_of :name, :description, :department
 
   def generate_nav_links
