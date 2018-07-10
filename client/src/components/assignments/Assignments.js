@@ -4,7 +4,6 @@ import {
   Table,
   Icon,
   Divider,
-  Button,
   Container,
 } from 'semantic-ui-react'
 import axios from 'axios'
@@ -64,7 +63,7 @@ class Assignments extends React.Component {
             </Table.Row>
           </Table.Header>
         {assignments.map(assignment =>
-          <Table.Body>
+          <Table.Body key={assignment.id}>
             <Table.Row>
               <Table.Cell width='4'>
                 <Icon name='file alternate'/>

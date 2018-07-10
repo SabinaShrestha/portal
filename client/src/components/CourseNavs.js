@@ -23,7 +23,7 @@ class CourseNavs extends React.Component {
     axios.get(`/api/courses/${id}/course_navs`)
       .then( res => {
         const { data: navs, headers } = res
-        dispatch(updateCourseNavs(navs, headers)) 
+        dispatch(updateCourseNavs(navs, headers))
       })
   }
 

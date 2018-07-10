@@ -7,11 +7,13 @@ import {
   Form,
   Divider,
   Container,
+  Button,
+  Grid,
 } from 'semantic-ui-react'
 
 
 class AssignmentForm extends React.Component {
-  state = { title: '', description: '', due_date: '', points: '', published: "false", submission_type: '', grade_type: '', unlocks_at: '', locks_at: '' }
+  state = { title: '', description: '', due_date: '', points: '', published: false, submission_type: '', grade_type: '', unlocks_at: '', locks_at: '' }
 
 handleSubmit = (e) => {
   const { dispatch, course_id, toggleForm } = this.props
@@ -32,9 +34,66 @@ handleCheckChange = (e) => {
   this.setState({published: !published})
 }
 
+handleDropdownGrade = (e, data) => {
+  this.setState({grade_type: data.value})
+}
+
+handleDropdownSubmission = (e, data) => {
+  this.setState({submission_type: data.value})
+}
+
 
 render(){
-  const{ title, description, due_date, points, published, submission_type, grade_type, unlocks_at, locks_at } = this.state
+  const{ title, description, due_date, points, published, unlocks_at, locks_at } = this.state
+  const gradeTypeOption = [
+    {
+      text: 'Graded',
+      value: 'graded',
+      name: 'graded'
+    },
+    {
+      text: 'Not Graded',
+      value: 'not_graded',
+      name: 'not_graded'
+    },
+    {
+      text: 'complete',
+      value: 'complete',
+      name: 'complete'
+    },
+    {
+      text: 'Incomplete',
+      value: 'incomplete',
+      name: 'incomplete'
+    },
+    {
+      text: 'Points',
+      value: 'points',
+      name: 'points'
+    }
+  ]
+  const submissionTypeOption = [
+    {
+      text: 'No Submission',
+      value: 'no_submission',
+      name: 'no_submission'
+    },
+    {
+      text: 'Online',
+      value: 'online',
+      name: 'online'
+    },
+    {
+      text: 'On Paper',
+      value: 'on_paper',
+      name: 'on_paper'
+    },
+    {
+      text: 'External Tool',
+      value: 'external_tool',
+      name: 'external_tool'
+    }
+  ]
   return(
     <Container>
       <Header as="h2">Create Assignment</Header>
@@ -50,16 +109,17 @@ render(){
             onChange={this.handleChange}
             width={8}
           />
-          <Form.Input
+          </Form.Group>
+          <Form.TextArea
+            required
             label='Description'
             name='description'
             value={description}
             placeholder='Description'
-            required
             onChange={this.handleChange}
-            width={8}
+            width={16}
           />
-        </Form.Group>
+          <Divider hidden />
         <Form.Group>
           <Form.Input
             label='Due Date'
@@ -67,10 +127,8 @@ render(){
             name='due_date'
             type='date'
             onChange={this.handleChange}
-            width={12}
+            width={4}
           />
-        </Form.Group>
-        <Form.Group>
           <Form.Input
             label='Points'
             placeholder='Points'
@@ -78,24 +136,7 @@ render(){
             value={points}
             type='float'
             onChange={this.handleChange}
-            width={6}
-          />
-          <Form.Input
-            label='Grade_type'
-            placeholder='Grade_type'
-            name='grade_type'
-            value={grade_type}
-            onChange={this.handleChange}
-            width={6}
-          />
-          <Form.Input
-            label='Submission_type'
-            placeholder='Submission_type'
-            name='submission_type'
-            value={submission_type}
-            required
-            onChange={this.handleChange}
-            width={6}
+            width={4}
           />
           <Form.Input
             label='Unlocks_at'
@@ -104,7 +145,7 @@ render(){
             value={unlocks_at}
             type='date'
             onChange={this.handleChange}
-            width={6}
+            width={4}
           />
           <Form.Input
             label='Locks_at'
@@ -113,10 +154,32 @@ render(){
             value={locks_at}
             type='date'
             onChange={this.handleChange}
-            width={6}
+            width={4}
           />
         </Form.Group>
-
+        <Divider hidden />
+          <Grid columns={2}>
+            <Grid.Column width={8}>
+              <Form.Dropdown
+                selection
+                label="Grade Type"
+                required
+                placeholder='Grade Type'
+                options={gradeTypeOption}
+                onChange={this.handleDropdownGrade}
+              />
+            </Grid.Column>
+            <Grid.Column width={8}>
+              <Form.Dropdown
+                selection
+                label="Submission Type"
+                required
+                placeholder='Submission Type'
+                options={submissionTypeOption}
+                onChange={this.handleDropdownSubmission}
+              />
+            </Grid.Column>
+          </Grid>
           <Divider />
           <Form.Checkbox label='Published' name='published' onChange={this.handleCheckChange} published={published} />
         <Form.Group>
@@ -125,9 +188,9 @@ render(){
             <CommonButton type='submit'>
               Create
             </CommonButton>
-              <CommonButton type='submit' onClick={this.props.toggleForm}>
+              <Button type='submit' onClick={this.props.toggleForm}>
                 Cancel
-              </CommonButton>
+              </Button>
             </Pointer>
         </Form.Group>
       </Form>
