@@ -114,10 +114,4 @@ class QuizForm extends Component {
   }
 }
 
-const mapStateToProps = (state) => {
-  return {
-    quiz: state.course
-  }
-}
-
-export default connect(mapStateToProps)(QuizForm)
+export default connect()(QuizForm)

@@ -4,6 +4,7 @@ import flash from './flash'
 import courses from './courses'
 import course from './course'
 import units from './units'
+import quiz from './quiz'
 import assignments from './assignments'
 
 const rootReducer = combineReducers({
@@ -11,8 +12,9 @@ const rootReducer = combineReducers({
   flash,
   courses,
   course,
-  units,
   assignments,
+  units, 
+  quiz,
 })
 
 export default rootReducer

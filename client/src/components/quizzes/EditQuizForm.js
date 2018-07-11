@@ -10,39 +10,39 @@ import { connect } from 'react-redux'
 import { getQuiz, updateQuiz } from '../../reducers/quiz'
 
 class EditQuizForm extends Component {
-  state = { quizTitle: '', quizType: '', due_date: '', points: '', available_from: '', unpublish_date: '', published: "false" }
-
+  state = { quiz: {} }
+    
   componentDidMount() {
-    debugger
-    const { quizTitle, quizType, due_date, points, available_from, unpublished_date, published } = this.props.quiz
     const courseId = this.props.match.params.course_id
-    const quizId = this.props.quiz_id
+    const quizId = this.props.match.params.quiz_id
+    let editQuiz = this.props.quiz.filter(q => q.id === this.props.match.params.quiz_id)
+    this.setState({quiz: editQuiz})
+    debugger
     this.props.dispatch(getQuiz(courseId, quizId))
-    this.setState({ quizTitle, quizType, due_date, points, available_from, unpublished_date, published })
   }
   
   handleSubmit = (e) => {
-    const { quizTitle, quizType, due_date, points, available_from, unpublished_date, published } = this.state
+    const { name, quiz_type, points, due_date, multiple_attempts, available_from, available_until, published } = this.state
     const { courseId } = this.props.quiz
     const { quizId } = this.props.quiz_id
     const { course, dispatch, toggleEdit } = this.props
     e.preventDefault()
-    dispatch(updateQuiz(courseId, quizId, { quizTitle, quizType, due_date, points, available_from, unpublished_date, published }))
+    dispatch(updateQuiz(courseId, quizId, { name, quiz_type, points, due_date, multiple_attempts, available_from, available_until, published }))
     dispatch(getQuiz( courseId, quizId ))
     toggleEdit()
   }
-
+  
   handleChange = (e, { name, value }) => {
     this.setState({ [name]: value })
   }
-
+  
   handleCheckChange = (e) => {
     const { published } = this.state;
     this.setState({published: !published});
   }
-
+  
   render() {
-    const { quizTitle, quizType, due_date, points, available_from, unpublish_date, published } = this.state
+    const { quiz } = this.state
     return(
       <Container>
         <Header as="h2">Update Quiz</Header>
@@ -50,18 +50,17 @@ class EditQuizForm extends Component {
           <Form.Group widths='equal'>
             <Form.Input
               label='Quiz Title'
-              name='quizTitle'
-              value={quizTitle}
-              placceholder='Quiz Title'
-              autoFocus={"true"}
+              name='name'
+              value={quiz.name}
+              placceholder='${quiz.name}'
               required
               onChange={this.handleChange}
               width={8}
             />
             <Form.Input
               label='Quiz Type'
-              name='quizType'
-              value={quizType}
+              name='quiz_type'
+              value={quiz.quiz_type}
               placeholder='Quiz Type'
               required
               onChange={this.handleChange}
@@ -71,7 +70,7 @@ class EditQuizForm extends Component {
           <Form.Group>
             <Form.Input
               label='Due Date'
-              value={due_date}
+              value={quiz.due_date}
               name='due_date'
               type='date'
               onChange={this.handleChange}
@@ -83,7 +82,7 @@ class EditQuizForm extends Component {
               label='Available Starting Date'
               placeholder='available starting'
               name='available_from'
-              value={available_from}
+              value={quiz.available_from}
               type='date'
               onChange={this.handleChange}
               width={6}
@@ -91,8 +90,8 @@ class EditQuizForm extends Component {
             <Form.Input
               label='Unpublish Date'
               placeholder='Available until'
-              name='unpublish_date'
-              value={unpublish_date}
+              name='available_until'
+              value={quiz.available_until}
               type='date'
               onChange={this.handleChange}
               width={6}
@@ -101,7 +100,7 @@ class EditQuizForm extends Component {
               label='Total Points'
               placeholder='Points'
               name='points'
-              value={points}
+              value={quiz.points}
               type='number'
               required
               onChange={this.handleChange}
@@ -110,7 +109,7 @@ class EditQuizForm extends Component {
           </Form.Group>
           
             <Divider />
-            <Form.Checkbox label='Published' onChange={this.handleCheckChange} published={published} />
+            <Form.Checkbox label='Published' onChange={this.handleCheckChange} published={quiz.published} />
           <Form.Group>
               <Divider />
               <Pointer>

@@ -3,17 +3,31 @@ import { setHeaders } from './headers'
 import { setFlash } from './flash'
 
 const QUIZZES = 'QUIZZES'
+const GET_QUIZZES = 'GET_QUIZZES'
 const ADD_QUIZ = 'ADD_QUIZ'
 const GET_QUIZ = 'GET_QUIZ'
 const UPDATE_QUIZ = 'UPDATE_QUIZ'
 
+export const getQuizzes = (courseId) => {
+  return(dispatch) => {
+    axios.get(`/api/courses/${courseId}/quizzes`)
+      .then( res => {
+        dispatch(setHeaders(res.headers))
+        dispatch({ type: GET_QUIZZES, quizzes: res.data, header: res.headers })
+      })
+      .catch( (err) => dispatch(setFlash('Failed to retrieve quizzes.', 'red')) )
+  }
+}
+
 export const addQuiz = (courseId, quiz, history) => {
   return(dispatch) => {
     axios.post(`/api/courses/${courseId}/quizzes`, { quiz })
-      .then( res => {
-        dispatch({ type: 'ADD_QUIZ', quizzes: res.data, header: res.headers })
+      .then( ({ data, headers }) => {
+        dispatch(setHeaders(headers))
+        dispatch({ type: ADD_QUIZ, quizzes: data, headers })
         history.push(`/courses/${courseId}/quizzes`)
-      }).catch( err => {
+      })
+      .catch( err => {
         dispatch(setHeaders(err.headers))
         dispatch(setFlash('Failed To Add Quiz', 'red'));
       })
@@ -22,19 +36,27 @@ export const addQuiz = (courseId, quiz, history) => {
 
 export const getQuiz = (courseId, quizId) => {
   return (dispatch) => {
-    axios.get(`/api/courses${courseId}/quizzes/${quizId}`)
+    axios.get(`/api/courses/${courseId}/quizzes/${quizId}`)
+      .then( ({ data, headers }) => dispatch({ type: GET_QUIZ, quizz: data, headers }) )
+      .catch( err => {
+        dispatch(setHeaders(err.headers))
+        dispatch(setFlash('Failed to Find Quiz', 'red'))
+      })
   }
 }
 
 export const updateQuiz = () => {
+  debugger
 }
 
-export default ( state = { navs: [] }, action ) => {
+export default ( state = [], action ) => {
   switch (action.type) {
     case QUIZZES:
       return action.quizzes
-    case ADD_QUIZ: 
-      return [action.quiz, ...state]
+    case GET_QUIZZES:
+      return action.quizzes
+    case ADD_QUIZ:
+      return [action.quizzes, ...state]
     case GET_QUIZ:
       return action.quiz
     case UPDATE_QUIZ:

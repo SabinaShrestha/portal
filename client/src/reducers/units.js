@@ -9,7 +9,7 @@ export const getUnits = (course) => {
         dispatch({ type: GET_UNITS, units: res.data, headers: res.headers })
       })
   }
-}
+} 
 
 export default (state = [], action) => {
   switch (action.type) {
