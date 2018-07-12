@@ -4,7 +4,7 @@ import axios from 'axios'
 
 const ASSIGNMENTS = 'ASSIGNMENTS'
 const ADD_ASSIGNMENT = 'ADD_ASSIGNMENT'
-const UPDATE_ASSIGNMENT = 'EDIT_ASSIGNMENT'
+const EDIT_ASSIGNMENT = 'EDIT_ASSIGNMENT'
 
 export const addAssignment = (courseId, assignment) => {
   return ( dispatch ) => {
@@ -14,17 +14,20 @@ export const addAssignment = (courseId, assignment) => {
         dispatch(setFlash('Assignment created successfully', 'green'))
         dispatch(setHeaders(res.headers))
       })
-      .catch( (err) =>  {
-        dispatch(setFlash('Failed to create assignment.', 'red'))
+      .catch( e => {
+        dispatch(setHeaders(e.headers))
+        dispatch(setFlash(e.errors, 'red'))
       })
   }
 }
 
-export const updateAssignment = (courseId, assignment) => {
+export const editAssignment = (courseId, assignment) => {
   return ( dispatch ) => {
     axios.put(`/api/courses/${courseId}/assignments`, {assignment})
     .then(res => {
-      dispatch({ type: UPDATE_ASSIGNMENT, assignment: res.data })
+      dispatch(setHeaders(res.headers))
+      dispatch(setFlash('Assignment updated', 'green'))
+      dispatch({ type: EDIT_ASSIGNMENT, assignment: res.data })
       const { header } = res
       dispatch(setHeaders(header))
       dispatch(setFlash('Assignment updated', 'green'))
@@ -39,8 +42,8 @@ export default ( state = [], action ) => {
       return action.assignments
     case ADD_ASSIGNMENT:
       return [action.assignment, ...state]
-    case UPDATE_ASSIGNMENT:
-      return [action.assignment, ...state]
+    case EDIT_ASSIGNMENT:
+      return action.assignment
     default:
       return state
   }

@@ -8,6 +8,7 @@ import {
 } from 'semantic-ui-react'
 import axios from 'axios'
 import { connect } from 'react-redux'
+import { Link } from 'react-router-dom'
 import { setHeaders } from '../../reducers/headers'
 import AssignmentForm from './AssignmentForm'
 import Permission from '../hoc/Permission'
@@ -66,8 +67,10 @@ class Assignments extends React.Component {
           <Table.Body key={assignment.id}>
             <Table.Row>
               <Table.Cell width='4'>
-                <Icon name='file alternate'/>
-                {assignment.title}
+                <Link to={`/courses/${assignment.course_id}/assignments/${assignment.id}`}>
+                  <Icon name='file alternate'/>
+                  {assignment.title}
+                </Link>
               </Table.Cell>
               <Table.Cell textAlign='center'>
                 {assignment.points}
