@@ -24,12 +24,13 @@ class EditQuizForm extends Component {
   
   handleSubmit = (e) => {
     const { name, quizType, dueDate, availableFrom, availableUntil, points, published } = this.state
-    const { courseId } = this.props.quiz
-    const { quizId } = this.props.quiz_id
-    const { dispatch } = this.props
+    const { dispatch, history } = this.props
+    const courseId = this.props.quiz.course_id
+    const quizId = this.props.quiz.id
+    let quiz = {name: name, quiz_type: quizType, due_date: dueDate, available_from: availableFrom, available_until: availableUntil, points: points, published: published }
     e.preventDefault()
-    dispatch(updateQuiz(courseId, quizId, { name, quizType, dueDate, availableFrom, availableUntil, points, published }))
-    dispatch(getQuiz( courseId, quizId ))
+    dispatch(updateQuiz( courseId, quizId, quiz, history ))
+    // dispatch(getQuiz( courseId, quizId ))
   }
   
   handleChange = (e, { name, value }) => {
@@ -73,7 +74,7 @@ class EditQuizForm extends Component {
               value={dueDate}
               type='date'
               onChange={this.handleChange}
-              width={12}
+              width={16}
             />
           </Form.Group>
           <Form.Group>
@@ -107,7 +108,11 @@ class EditQuizForm extends Component {
           </Form.Group>
           
             <Divider />
-            <Form.Checkbox label='Published' onChange={this.handleCheckChange} published={published} />
+            <Form.Checkbox 
+              label='Published'   
+              onChange={this.handleCheckChange} 
+              published={published} 
+            />
           <Form.Group>
               <Divider />
               <Pointer>

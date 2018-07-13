@@ -45,9 +45,22 @@ export const getQuiz = (courseId, quizId) => {
   }
 }
 
-export const updateQuiz = () => {
-  debugger
+export const updateQuiz = (courseId, quizId, quiz, history) => {
+  return (dispatch) => {
+    axios.put(`/api/courses/${courseId}/quizzes/${quizId}`, { quiz })
+      .then( res => {
+        dispatch(setHeaders(res.headers))
+        dispatch(setFlash('Quiz updated', 'green'))
+        dispatch({ type: UPDATE_QUIZ, quiz: res.data })
+        history.push(`/courses/${courseId}/quizzes`)
+      })
+      .catch( (err) => {
+        dispatch(setFlash('Failed to update quiz', 'red'))
+        dispatch(setHeaders(err.headers))
+      })
+  }
 }
+
 
 export default ( state = [], action ) => {
   switch (action.type) {

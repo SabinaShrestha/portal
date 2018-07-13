@@ -44,7 +44,6 @@ class CourseCopyForm extends React.Component {
     const course = { ...this.state }
     const { toggleCopyForm, dispatch } = this.props
     dispatch(copyCourse(course))
-    debugger
     toggleCopyForm()
   }
 
