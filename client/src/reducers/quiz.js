@@ -37,7 +37,7 @@ export const addQuiz = (courseId, quiz, history) => {
 export const getQuiz = (courseId, quizId) => {
   return (dispatch) => {
     axios.get(`/api/courses/${courseId}/quizzes/${quizId}`)
-      .then( ({ data, headers }) => dispatch({ type: GET_QUIZ, quizz: data, headers }) )
+      .then( ({ data, headers }) => dispatch({ type: GET_QUIZ, quiz: data, headers }) )
       .catch( err => {
         dispatch(setHeaders(err.headers))
         dispatch(setFlash('Failed to Find Quiz', 'red'))
