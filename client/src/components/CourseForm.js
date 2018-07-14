@@ -107,7 +107,7 @@ class CourseForm extends React.Component {
               <Header as='h3' floated='left'>Starts On</Header>
               <DatePicker
                 name="starts"
-                selected={this.state.starts}
+                selected={moment(this.state.starts)}
                 onChange={this.handleStartDate}
               />
             </Grid.Column>
@@ -115,7 +115,7 @@ class CourseForm extends React.Component {
               <Header as='h3' floated='left'>Ends On</Header>
               <DatePicker
                 name="ends"
-                selected={this.state.ends}
+                selected={moment(this.state.ends)}
                 onChange={this.handleEndDate}
               />
             </Grid.Column>

@@ -14,6 +14,8 @@ import CourseSettings from './CourseSettings'
 import AllUnits from './AllUnits';
 import Assignments from './assignments/Assignments'
 import Assignment from './assignments/Assignment'
+import Wikis from './Wikis'
+
 
 class FetchCourses extends React.Component {
   componentDidMount() {
@@ -39,6 +41,7 @@ class FetchCourses extends React.Component {
           <Route exact path='/courses/:id/modules' component={AllUnits} />
           <Route exact path="/courses/:course_id/assignments" component={Assignments} />
           <Route exact path="/courses/:course_id/assignments/:id" component={Assignment} />
+          <Route exact path="/courses/:course_id/wiki" component={Wikis} />
         </FetchCourse>
       </Switch>
     )
