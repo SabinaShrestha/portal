@@ -1,5 +1,19 @@
 require 'faker'
 
+def create_announcements
+  counter = 1
+  Course.all.each do
+    5.times do
+      body = Faker::HarryPotter.quote + ' ' + Faker::GameOfThrones.quote + ' ' + Faker::BackToTheFuture.quote
+      publish_at = DateTime.now + rand(60) - 30
+      published = [true, false].sample
+      course_id = counter
+      Announcement.create(body: body, publish_at: publish_at, published: published, course_id: course_id)
+    end
+    counter += 1
+  end
+end
+
 def create_assignments
   counter = 1
   Course.all.each do
@@ -296,6 +310,8 @@ puts "Created Teacher, email: teacher@teacher.com and password: password"
 end
 
 print "Created TAs, students, courses, quizzes, enrollments..."
+create_announcements
+print "announcements..."
 create_attendances
 print "attendances..."
 create_grading_groups
@@ -321,6 +337,7 @@ puts "  enrollments: #{Enrollment.count}"
 puts "  courses: #{Course.count}"
 puts "  units: #{Unit.count}"
 puts "  unit_items: #{UnitItem.count}"
+puts "  announcements: #{Announcement.count}"
 puts "  assignments: #{Assignment.count}"
 puts "  quizzes: #{Quiz.count}"
 puts "  questions: #{Question.count}"

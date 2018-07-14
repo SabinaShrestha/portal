@@ -15,6 +15,7 @@ Rails.application.routes.draw do
       resources :course_navs, only: [:index]
       resources :enrollments
       resources :submissions
+      post '/copy_course/:id', to: 'courses#copy_course'
     end
     resources :users, only: :update
   end

@@ -2,7 +2,7 @@ import React from 'react'
 import axios from 'axios'
 import { setHeaders } from '../reducers/headers'
 import { connect } from 'react-redux'
-import { Container, Button, Divider, Header, Segment } from 'semantic-ui-react'
+import { Container, Divider, Header, Segment } from 'semantic-ui-react'
 import { Flex, FlexNum, CommonButton } from './styles/CommonStyles'
 
 

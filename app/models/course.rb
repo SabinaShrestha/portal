@@ -54,19 +54,19 @@ class Course < ApplicationRecord
   end
 
   def self.copy_course(course, new_course)
-    Course.create(name: new_course[:name],
-                  description: new_course[:description],
-                  time_zone: new_course[:time_zone],
-                  department: new_course[:department],
-                  starts: new_course[:starts],
-                  ends: new_course[:ends],
-                  lock_after_end: new_course[:lock_after_end],
-                  lock_before_start: new_course[:lock_before_start],
-                  course_options: new_course[:course_options],
-                  feature_flags: new_course[:feature_flags],
-                  course_home: new_course[:course_home],
-                  published: new_course[:published],
-                  concluded: new_course[:concluded])
+    Course.create(name: new_course['name'],
+                  description: new_course['description'],
+                  time_zone: new_course['time_zone'],
+                  department: new_course['department'],
+                  starts: new_course['starts'],
+                  ends: new_course['ends'],
+                  lock_after_end: new_course['lock_after_end'],
+                  lock_before_start: new_course['lock_before_start'],
+                  course_options: new_course['course_options'],
+                  feature_flags: new_course['feature_flags'],
+                  course_home: new_course['course_home'],
+                  published: new_course['published'],
+                  concluded: new_course['concluded'])
     new_course_id = Course.last.id
     Wiki.where(course_id: course.id).each do |wiki|
       Wiki.create(course_id: new_course_id, 

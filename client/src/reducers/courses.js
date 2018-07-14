@@ -33,11 +33,11 @@ export const copyCourse = (course) => {
       .then( ({ data, headers }) => {
         dispatch({ type: COPY_COURSE, course: data, headers })
         dispatch(setCourse({...courseState, ...data}))
-        dispatch(setFlash('Course copy created successfully.', 'green'))
+        dispatch(setFlash('Course copied successfully.', 'green'))
       })
       .catch( e => {
         dispatch(setHeaders(e.headers))
-        dispatch(setFlash(e.errors, 'red'))
+        dispatch(setFlash('Failed to copy course.', 'red'))
       })
   }
 }
