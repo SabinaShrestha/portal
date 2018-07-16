@@ -52,6 +52,7 @@ export const updateQuiz = (courseId, quizId, quiz, history) => {
         dispatch(setHeaders(res.headers))
         dispatch(setFlash('Quiz updated', 'green'))
         dispatch({ type: UPDATE_QUIZ, quiz: res.data })
+        dispatch(getQuizzes(courseId))
         history.push(`/courses/${courseId}/quizzes`)
       })
       .catch( (err) => {
@@ -60,7 +61,6 @@ export const updateQuiz = (courseId, quizId, quiz, history) => {
       })
   }
 }
-
 
 export default ( state = [], action ) => {
   switch (action.type) {
@@ -73,7 +73,7 @@ export default ( state = [], action ) => {
     case GET_QUIZ:
       return action.quiz
     case UPDATE_QUIZ:
-      return action.quiz
+      return [...state]
     default: 
       return state
   }

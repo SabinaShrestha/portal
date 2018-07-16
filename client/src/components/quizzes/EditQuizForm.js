@@ -7,7 +7,7 @@ import {
 } from 'semantic-ui-react'
 import { CommonButton, Pointer } from '../styles/CommonStyles'
 import { connect } from 'react-redux'
-import { getQuiz, updateQuiz } from '../../reducers/quiz'
+import { getQuizzes, getQuiz, updateQuiz } from '../../reducers/quiz'
 
 class EditQuizForm extends Component {
   state = { name: '', quizType: '', dueDate: '', availableFrom: '', availableUntil: '', points: '', published: '' }
@@ -21,7 +21,7 @@ class EditQuizForm extends Component {
     const editQuiz = editingQuiz[0]
     this.setState({ name: editQuiz.name, quizType: editQuiz.quiz_type, dueDate: editQuiz.due_date, availableFrom: editQuiz.available_from, availableUntil: editQuiz.available_until, points: editQuiz.points, published: editQuiz.published })
   }
-  
+
   handleSubmit = (e) => {
     const { name, quizType, dueDate, availableFrom, availableUntil, points, published } = this.state
     const { dispatch, history } = this.props
@@ -30,7 +30,7 @@ class EditQuizForm extends Component {
     let quiz = {name: name, quiz_type: quizType, due_date: dueDate, available_from: availableFrom, available_until: availableUntil, points: points, published: published }
     e.preventDefault()
     dispatch(updateQuiz( courseId, quizId, quiz, history ))
-    // dispatch(getQuiz( courseId, quizId ))
+    dispatch(getQuizzes( courseId ))
   }
   
   handleChange = (e, { name, value }) => {
@@ -109,9 +109,10 @@ class EditQuizForm extends Component {
           
             <Divider />
             <Form.Checkbox 
-              label='Published'   
+              label='Published'
+              name='published'   
               onChange={this.handleCheckChange} 
-              published={published} 
+              checked={!!published} 
             />
           <Form.Group>
               <Divider />

@@ -19,10 +19,11 @@ class Quiz extends React.Component {
     const courseId = this.props.match.params.course_id
     dispatch(getQuizzes(courseId))
   }
-
+  
   handleEdit = (id) => {
     this.props.history.push(`/courses/${this.props.course.id}/edit_quiz/${id}`)
   }
+
   quizzes = () => {
     return this.props.quizzes.map( quiz =>
       <Table.Row key={quiz.id}>
