@@ -10,6 +10,7 @@ import {
   Button,
   Grid,
 } from 'semantic-ui-react'
+import moment from 'moment';
 
 
 class AssignmentForm extends React.Component {
@@ -17,7 +18,7 @@ class AssignmentForm extends React.Component {
 
   componentDidMount(){
     if (this.props.assignment)
-      this.setState({...this.props})
+      this.setState({...this.props.assignment})
   }
 
   handleSubmit = (e) => {
@@ -36,8 +37,7 @@ class AssignmentForm extends React.Component {
   }
 
   handleCheckChange = (e) => {
-    const { published } = this.state
-    this.setState({published: !published})
+    this.setState({published: !this.state.published})
   }
 
   handleDropdownGrade = (e, data) => {
@@ -48,11 +48,15 @@ class AssignmentForm extends React.Component {
     this.setState({submission_type: data.value})
   }
 
+  formatDate = (date) => {
+    return moment(date).format('mm/dd/YY')
+  }
+
 
   render() {
     let stateOrProps
     { this.props.assignment ? (stateOrProps = this.props.assignment) : (stateOrProps = this.state) }
-    const { title, description, due_date, points, published, unlocks_at, locks_at, submission_type, grade_type } = stateOrProps
+    const { title, description, due_date, points, unlocks_at, locks_at, submission_type, grade_type } = stateOrProps
     const gradeTypeOption = [
       {
         text: 'Graded',
@@ -114,7 +118,7 @@ class AssignmentForm extends React.Component {
             <Form.Input
               label='Assignment Title'
               name='title'
-              value={title}
+              defaultValue={title}
               placceholder='Assignment Title'
               autoFocus={"true"}
               required
@@ -126,7 +130,7 @@ class AssignmentForm extends React.Component {
               required
               label='Description'
               name='description'
-              value={description}
+              defaultValue={description}
               placeholder='Description'
               onChange={this.handleChange}
               width={16}
@@ -135,7 +139,7 @@ class AssignmentForm extends React.Component {
           <Form.Group>
             <Form.Input
               label='Due Date'
-              value={due_date}
+              defaultValue={due_date}
               name='due_date'
               type='date'
               onChange={this.handleChange}
@@ -145,25 +149,25 @@ class AssignmentForm extends React.Component {
               label='Points'
               placeholder='Points'
               name='points'
-              value={points}
+              defaultValue={points}
               type='float'
               onChange={this.handleChange}
               width={4}
             />
             <Form.Input
+              defaultValue={unlocks_at}
               label='Unlocks_at'
               placeholder='Unlocks_at'
               name='unlocks_at'
-              value={unlocks_at}
               type='date'
               onChange={this.handleChange}
               width={4}
             />
             <Form.Input
+              defaultValue={locks_at}
               label='Locks_at'
               placeholder='Locks_at'
               name='locks_at'
-              value={locks_at}
               type='date'
               onChange={this.handleChange}
               width={4}
@@ -193,27 +197,28 @@ class AssignmentForm extends React.Component {
               </Grid.Column>
             </Grid>
             <Divider />
-            <Form.Checkbox label='Published' name='published' onChange={this.handleCheckChange} published={published} />
+            <Form.Checkbox 
+              checked={!!this.state.published} //ask
+              label='Published' 
+              name='published' 
+              onChange={this.handleCheckChange} 
+            />
           <Form.Group>
-              <Divider />
-              <Pointer>
-              <CommonButton type='submit'>
-                Save
-              </CommonButton>
-                <Button type='submit' onClick={this.props.toggleForm}>
-                  Cancel
-                </Button>
-              </Pointer>
+            <Divider />
+            <Pointer>
+            <CommonButton type='submit'>
+              Save
+            </CommonButton>
+            <Button type='submit' onClick={this.props.toggleForm}>
+              Cancel
+            </Button>
+            </Pointer>
           </Form.Group>
         </Form>
       </Container>
     )
   }
-
 }
-
-
-
 
 
 

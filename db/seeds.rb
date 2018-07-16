@@ -28,10 +28,10 @@ def create_assignments
         grading_group_id: grading_group_id,
         title: title,
         description: Faker::Hipster.paragraph,
-        due_date: DateTime.now + 2.weeks,
+        due_date: Time.at(rand * Time.now.to_i),
         points: rand(50...100),
         published: true,
-        submission_type: 'Online',
+        submission_type: 'online',
         grade_type: ['graded', 'not_graded', 'complete', 'incomplete', 'points'].sample,
         unlocks_at: unlocks_at,
         locks_at: locks_at)

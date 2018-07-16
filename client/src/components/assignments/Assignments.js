@@ -6,27 +6,21 @@ import {
   Divider,
   Container,
 } from 'semantic-ui-react'
-import axios from 'axios'
 import { connect } from 'react-redux'
 import { Link } from 'react-router-dom'
-import { setHeaders } from '../../reducers/headers'
+import { getAssignments } from '../../reducers/assignments'
 import AssignmentForm from './AssignmentForm'
 import Permission from '../hoc/Permission'
 import { CommonButton, Pointer } from '../styles/CommonStyles'
+import moment from 'moment'
 
 
 class Assignments extends React.Component {
   state = { showForm: false, assignments: [] }
 
   componentDidMount() {
-    axios.get(`/api/courses/${this.props.match.params.course_id}/assignments`)
-      .then( res => {
-        this.props.dispatch(setHeaders(res.headers))
-        this.setState({ assignments: res.data } )
-      })
-  }
-
-  toggleEdit = () => {
+    const { dispatch } = this.props
+    dispatch(getAssignments(this.props.match.params.course_id))
   }
 
   toggleForm = () => {
@@ -34,7 +28,8 @@ class Assignments extends React.Component {
   }
 
   render() {
-    const {showForm, assignments} = this.state
+    const { showForm } = this.state
+    const { assignments } = this.props
     return(
       <Container>
           <Header as="h1" textAlign='center'>Assignments</Header>
@@ -79,7 +74,7 @@ class Assignments extends React.Component {
                 {assignment.description}
               </Table.Cell>
               <Table.Cell textAlign='center'>
-                {assignment.due_date}
+                {moment(assignment.due_date).format('MM/DD/YYYY')}
               </Table.Cell>
               <Table.Cell textAlign='center'>
                 {assignment.published === true && <p>Published</p>}
@@ -101,5 +96,8 @@ class Assignments extends React.Component {
   }
 }
 
+const mapStateToProps = (state) => {
+  return { assignments: state.assignments }
+}
 
-export default connect()(Assignments)
+export default connect(mapStateToProps)(Assignments)

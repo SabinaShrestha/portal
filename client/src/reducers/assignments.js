@@ -6,6 +6,16 @@ const ASSIGNMENTS = 'ASSIGNMENTS'
 const ADD_ASSIGNMENT = 'ADD_ASSIGNMENT'
 const EDIT_ASSIGNMENT = 'EDIT_ASSIGNMENT'
 
+export const getAssignments = (course_id) => {
+  return (dispatch) => {
+    axios.get(`/api/courses/${course_id}/assignments`)
+      .then( res => {
+        dispatch(setHeaders(res.headers))
+        dispatch({ type: ASSIGNMENTS, assignments: res.data })
+      })
+  }
+}
+
 export const addAssignment = (courseId, assignment) => {
   return ( dispatch ) => {
     axios.post(`/api/courses/${courseId}/assignments`, {assignment})
@@ -23,16 +33,16 @@ export const addAssignment = (courseId, assignment) => {
 
 export const editAssignment = (courseId, assignment) => {
   return ( dispatch ) => {
-    axios.put(`/api/courses/${courseId}/assignments`, {assignment})
+    axios.put(`/api/courses/${courseId}/assignments/${assignment.id}`, {assignment})
     .then(res => {
       dispatch(setHeaders(res.headers))
       dispatch(setFlash('Assignment updated', 'green'))
       dispatch({ type: EDIT_ASSIGNMENT, assignment: res.data })
-      const { header } = res
-      dispatch(setHeaders(header))
-      dispatch(setFlash('Assignment updated', 'green'))
     })
-    .catch( (err) => dispatch(setFlash('Failed to update assignment', 'red')))
+    .catch( e => {
+      dispatch(setHeaders(e.headers))
+      dispatch(setFlash(e.errors, 'red'))
+    })
   }
 }
 
@@ -43,7 +53,11 @@ export default ( state = [], action ) => {
     case ADD_ASSIGNMENT:
       return [action.assignment, ...state]
     case EDIT_ASSIGNMENT:
-      return action.assignment
+      return state.map( a => {
+        if (a.id === action.assignment.id)
+          return action.assignment
+        return a
+      })
     default:
       return state
   }

@@ -19,7 +19,7 @@ class Course < ApplicationRecord
   def generate_nav_links
     [
       { name: 'Home', url: "/courses/#{self.id}" },
-      { name: 'Announcements', url: "/courses/#{self.id}/announcments" },
+      { name: 'Announcements', url: "/courses/#{self.id}/announcements" },
       { name: 'People', url: "/courses/#{self.id}/people" },
       { name: 'Modules', url: "/courses/#{self.id}/modules" },
       { name: 'Wiki', url: "/courses/#{self.id}/wiki" },
