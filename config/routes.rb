@@ -16,6 +16,8 @@ Rails.application.routes.draw do
       resources :enrollments
       resources :submissions
       post '/copy_course/:id', to: 'courses#copy_course'
+      get '/assignment_submissions', to: 'submissions#assignment_submissions'
+      get '/quiz_submissions', to: 'submissions#quiz_submissions'
     end
     resources :users, only: :update
   end

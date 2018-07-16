@@ -6,9 +6,9 @@ import { Menu, Container, Grid, Header } from 'semantic-ui-react';
 class AllUnits extends React.Component {
 
   
-  componentDidMount(prevProps) {
+  componentDidMount() {
     const { dispatch, course } = this.props
-    if (prevProps.course.id !== course.id) 
+    if (course.id !== course.id) 
       dispatch(getUnits(course.id))
   }
 

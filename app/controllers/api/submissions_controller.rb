@@ -6,6 +6,14 @@ class Api::SubmissionsController < ApplicationController
     render json: @enrollment.submissions
   end
 
+  def assignment_submissions
+    render json: @enrollment.submissions.where(content_type == assignment)
+  end
+  
+  def quiz_submissions
+    render json: @enrollment.submissions.where(content_type == quiz)
+  end
+
   def show
     render json: @submission
   end
