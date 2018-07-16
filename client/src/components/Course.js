@@ -3,7 +3,6 @@ import { connect } from 'react-redux'
 import { Flex } from './styles/CommonStyles'
 import {
   Header,
-  Grid,
   Container,
   Divider,
   Icon,
@@ -26,8 +25,8 @@ const Course = ({ course }) => (
           {course.description}
         </Header>
         <Container>
-          starts: {moment(course.starts).format('MM/DD/YYYY')} - ends: {moment(course.ends).format('MM/DD/YYYY')}
-          published: {course.published && <Icon disabled name='check' />}
+          <p>starts: {moment(course.starts).format('MM/DD/YYYY')} - ends: {moment(course.ends).format('MM/DD/YYYY')}</p>
+          <p>published: {course.published && <Icon disabled name='check' />}</p>
         </Container>
       </Segment>
     </Container>

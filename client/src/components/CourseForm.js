@@ -1,6 +1,6 @@
 import React from 'react'
 import { connect } from 'react-redux'
-import { addCourse, updateCourse } from '../reducers/courses'
+import { addCourse } from '../reducers/courses'
 import { Form, Button, Header, Grid, Divider } from 'semantic-ui-react'
 import { CommonButton } from './styles/CommonStyles'
 import DatePicker from 'react-datepicker'
@@ -55,33 +55,27 @@ class CourseForm extends React.Component {
     e.preventDefault()
     const course = { ...this.state }
     const { toggleForm, dispatch } = this.props
-    if (course.id) {
-  //    dispatch(updateCourse(course))
-    } else {
-      dispatch(addCourse(course))
-      this.setState({ ...this.initialState })
-      toggleForm()
-    }
+    dispatch(addCourse(course))
+    this.setState({ ...this.initialState })
+    toggleForm()
   }
 
-  departmentOptions = () => {
-    return [
-      { key: 1, value: 'Full-Time', text: 'Full Time' },
-      { key: 2, value: 'Part-Time', text: 'Part Time' },
-      { key: 3, value: 'Code On', text: 'Code On' },
-    ]
+  
+  handleOption = (e, data) => {
+    this.setState({ department: data.value })
   }
-
-  handleOption = (e, { value }) => {
-    this.setState({ department: value })
-  }
-
+  
   render() {
     const {
       name,
       description,
     } = this.state
-
+    
+    const departmentOptions = [
+      { value: 'Full-Time', text: 'Full Time', name: 'Full-Time' },
+      { value: 'Part-Time', text: 'Part Time', name: 'Part-Time' },
+      { value: 'Code On', text: 'Code On', name: 'Code On' },
+    ]
     return (
       <Form onSubmit={this.handleSubmit}>
         <Form.Input
@@ -127,6 +121,9 @@ class CourseForm extends React.Component {
           label='department'
           name="department"
           onChange={this.handleOption}
+          value={this.department}
+          placeholder='department'
+          options={departmentOptions}
         />
         <CommonButton type='submit'>Save</CommonButton>
         <Button type='button' onClick={this.props.toggleForm}>cancel</Button>

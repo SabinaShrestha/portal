@@ -7,9 +7,8 @@ import CourseCard from './CourseCard'
 import Permission from './hoc/Permission'
 import AddCourseCard from './AddCourseCard'
 
-const TopPad = styled.div`
-  margin-top: 50px;
-  width: 90%;
+const Margin = styled.div`
+  margin: 30px;
 `
 
 class Courses extends React.Component {
@@ -29,7 +28,7 @@ class Courses extends React.Component {
   render() {
     const { showForm } = this.state
     return (
-      <TopPad>
+      <Margin>
         { showForm ?
             <Permission type="admin">
               { showForm &&
@@ -47,7 +46,7 @@ class Courses extends React.Component {
               </Permission>
             </Card.Group>
         }
-      </TopPad>
+      </Margin>
     )
   }
 }
