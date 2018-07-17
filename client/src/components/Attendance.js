@@ -3,9 +3,7 @@ import axios from 'axios'
 import { Header, 
          Container, 
          Divider, 
-         List, 
-         Card,
-         Button, 
+         List,  
          Item,
 } from 'semantic-ui-react'
 import { setHeaders } from '../reducers/headers'
@@ -30,7 +28,6 @@ class Attendance extends React.Component {
 
 
   render() {
-    const { students } = this.state
     return (
       <Container>
         <Header as='h1' textAlign='center'>

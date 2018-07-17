@@ -10,15 +10,32 @@ import {
   Button,
   Grid,
 } from 'semantic-ui-react'
-import moment from 'moment';
-
+import moment from 'moment'
 
 class AssignmentForm extends React.Component {
-  state = { title: '', description: '', due_date: '', points: '', published: false, submission_type: '', grade_type: '', unlocks_at: '', locks_at: '' }
+  state = { 
+    title: '', 
+    description: '', 
+    due_date: moment(), 
+    points: '', 
+    published: false, 
+    submission_type: '', 
+    grade_type: '', 
+    unlocks_at: moment(), 
+    locks_at: moment() 
+  }
 
   componentDidMount(){
-    if (this.props.assignment)
+    if (this.props.assignment.id)
       this.setState({...this.props.assignment})
+  }
+
+  componentDidUpdate() {
+    if (!this.state.id) {
+      if (this.props.assignment.id) {
+        this.setState({...this.props.assignment})
+      }
+    }
   }
 
   handleSubmit = (e) => {
@@ -37,7 +54,8 @@ class AssignmentForm extends React.Component {
   }
 
   handleCheckChange = (e) => {
-    this.setState({published: !this.state.published})
+    const { published } = this.state
+    this.setState({published: published})
   }
 
   handleDropdownGrade = (e, data) => {
@@ -49,14 +67,12 @@ class AssignmentForm extends React.Component {
   }
 
   formatDate = (date) => {
-    return moment(date).format('mm/dd/YY')
+    const offset = (new Date()).getTimezoneOffset()/60
+    return moment(date).utc().subtract(offset, 'hours').format('YYYY-MM-DD')
   }
 
-
   render() {
-    let stateOrProps
-    { this.props.assignment ? (stateOrProps = this.props.assignment) : (stateOrProps = this.state) }
-    const { title, description, due_date, points, unlocks_at, locks_at, submission_type, grade_type } = stateOrProps
+    const { title, description, due_date, points, unlocks_at, locks_at, submission_type, grade_type } = this.state
     const gradeTypeOption = [
       {
         text: 'Graded',
@@ -118,7 +134,7 @@ class AssignmentForm extends React.Component {
             <Form.Input
               label='Assignment Title'
               name='title'
-              defaultValue={title}
+              value={title}
               placceholder='Assignment Title'
               autoFocus={"true"}
               required
@@ -130,7 +146,7 @@ class AssignmentForm extends React.Component {
               required
               label='Description'
               name='description'
-              defaultValue={description}
+              value={description}
               placeholder='Description'
               onChange={this.handleChange}
               width={16}
@@ -139,7 +155,7 @@ class AssignmentForm extends React.Component {
           <Form.Group>
             <Form.Input
               label='Due Date'
-              defaultValue={due_date}
+              value={this.formatDate(due_date)}
               name='due_date'
               type='date'
               onChange={this.handleChange}
@@ -149,13 +165,13 @@ class AssignmentForm extends React.Component {
               label='Points'
               placeholder='Points'
               name='points'
-              defaultValue={points}
+              value={points}
               type='float'
               onChange={this.handleChange}
               width={4}
             />
             <Form.Input
-              defaultValue={unlocks_at}
+              value={this.formatDate(unlocks_at)}
               label='Unlocks_at'
               placeholder='Unlocks_at'
               name='unlocks_at'
@@ -164,7 +180,7 @@ class AssignmentForm extends React.Component {
               width={4}
             />
             <Form.Input
-              defaultValue={locks_at}
+              value={this.formatDate(locks_at)}
               label='Locks_at'
               placeholder='Locks_at'
               name='locks_at'
@@ -179,7 +195,7 @@ class AssignmentForm extends React.Component {
                 <Form.Dropdown
                   selection
                   label="Grade Type"
-                  defaultValue={grade_type}
+                  value={grade_type}
                   placeholder='Grade Type'
                   options={gradeTypeOption}
                   onChange={this.handleDropdownGrade}
@@ -189,7 +205,7 @@ class AssignmentForm extends React.Component {
                 <Form.Dropdown
                   selection
                   label="Submission Type"
-                  defaultValue={submission_type}
+                  value={submission_type}
                   placeholder='Submission Type'
                   options={submissionTypeOption}
                   onChange={this.handleDropdownSubmission}
@@ -198,7 +214,7 @@ class AssignmentForm extends React.Component {
             </Grid>
             <Divider />
             <Form.Checkbox 
-              checked={!!this.state.published} //ask
+              checked={!!this.state.published}
               label='Published' 
               name='published' 
               onChange={this.handleCheckChange} 
@@ -220,7 +236,5 @@ class AssignmentForm extends React.Component {
   }
 }
 
-
-
-
 export default connect()(AssignmentForm)
+

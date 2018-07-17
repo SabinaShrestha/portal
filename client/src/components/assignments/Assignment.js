@@ -13,7 +13,6 @@ import AssignmentForm from './AssignmentForm'
 import { getAssignments } from '../../reducers/assignments'
 import Permission from '../hoc/Permission'
 
-
 class Assignment extends React.Component {
   state = { editForm: false }
 
@@ -63,8 +62,8 @@ class Assignment extends React.Component {
 }
 
 const mapStateToProps = (state, props) => {
-  return { assignment: state.assignments.find( a => a.id === parseInt(props.match.params.id )) }
+  return { assignment: state.assignments.find( a => a.id === parseInt(props.match.params.id, 10 )) }
 }
 
-
 export default connect(mapStateToProps)(Assignment)
+
