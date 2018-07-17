@@ -45,7 +45,7 @@ class Assignments extends React.Component {
             }
           </Container>
           <Divider />
-        <Table cell padded>
+        <Table padded>
           <Table.Header>
             <Table.Row>
               <Table.HeaderCell>Title</Table.HeaderCell>

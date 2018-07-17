@@ -5,6 +5,7 @@ import axios from 'axios'
 const ASSIGNMENTS = 'ASSIGNMENTS'
 const ADD_ASSIGNMENT = 'ADD_ASSIGNMENT'
 const EDIT_ASSIGNMENT = 'EDIT_ASSIGNMENT'
+const DELETE_ASSIGNMENT = 'DELETE_ASSIGNMENT'
 
 export const getAssignments = (course_id) => {
   return (dispatch) => {
@@ -46,6 +47,22 @@ export const editAssignment = (courseId, assignment) => {
   }
 }
 
+export const deleteAssignment = (courseId, assignment, history) => {
+  return (dispatch) => {
+    axios.delete(`/api/courses/${courseId}/assignments/${assignment.id}`)
+      .then( res => {
+        dispatch(setHeaders(res.headers))
+        dispatch(setFlash('Assignment deleted', 'green'))
+        dispatch({ type: DELETE_ASSIGNMENT, assignment })
+        history.push(`/courses/${courseId}/assignments`)
+      })
+      .catch( e => {
+        dispatch(setHeaders(e.headers))
+        dispatch(setFlash(e.errors, 'red'))
+      })
+  }
+}
+
 export default ( state = [], action ) => {
   switch ( action.type ){
     case ASSIGNMENTS:
@@ -58,6 +75,8 @@ export default ( state = [], action ) => {
           return action.assignment
         return a
       })
+    case DELETE_ASSIGNMENT:
+      return state.filter( a => a.id !== action.id )
     default:
       return state
   }

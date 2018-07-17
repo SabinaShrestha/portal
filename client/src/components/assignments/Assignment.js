@@ -10,7 +10,7 @@ import {
 import moment from 'moment'
 import { Flex, CommonButton } from '../styles/CommonStyles'
 import AssignmentForm from './AssignmentForm'
-import { getAssignments } from '../../reducers/assignments'
+import { getAssignments, deleteAssignment } from '../../reducers/assignments'
 import Permission from '../hoc/Permission'
 
 class Assignment extends React.Component {
@@ -26,7 +26,7 @@ class Assignment extends React.Component {
   }
 
   render() {
-    const { assignment = {} } = this.props
+    const { assignment = {}, dispatch } = this.props
     const { editForm } = this.state
     return (
       <Flex>
@@ -39,6 +39,7 @@ class Assignment extends React.Component {
                 {assignment.title}
                 <Permission type='admin'>
                   <CommonButton floated='right' onClick={this.toggleForm}> Edit Assignment </CommonButton>
+                  <CommonButton floated='right' onClick={() => dispatch(deleteAssignment(this.props.match.params.course_id, assignment, this.props.history))}> Delete Assignment </CommonButton>
                 </Permission>
               </Header>
               <Divider />

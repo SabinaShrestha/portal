@@ -45,8 +45,6 @@ class AssignmentForm extends React.Component {
     const func = this.props.assignment ? editAssignment : addAssignment
     dispatch(func( course_id, assignment))
     toggleForm()
-    if (func === addAssignment)
-      this.props.assignments.push(assignment)
   }
 
   handleChange = ( e, { name, value }) => {
