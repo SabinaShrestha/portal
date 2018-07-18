@@ -7,6 +7,7 @@ gem 'puma', '~> 3.11'
 gem 'bootsnap', '>= 1.1.0', require: false
 gem 'omniauth'
 gem 'devise_token_auth'
+gem 'aws-sdk'
 
 group :development, :test do
   gem 'pry'
@@ -16,6 +17,7 @@ group :development, :test do
   gem 'shoulda-matchers', git: 'https://github.com/thoughtbot/shoulda-matchers.git', branch: 'rails-5'
   gem 'simplecov'
   gem 'factory_bot_rails'
+  gem 'dotenv-rails'
 end
 
 group :development do

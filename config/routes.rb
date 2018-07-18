@@ -18,6 +18,7 @@ Rails.application.routes.draw do
       post '/copy_course/:id', to: 'courses#copy_course'
       get '/assignment_submissions', to: 'submissions#assignment_submissions'
       get '/quiz_submissions', to: 'submissions#quiz_submissions'
+      put '/update_course_navs', to: 'course_navs#update_course_navs'
     end
     resources :users, only: :update
   end
