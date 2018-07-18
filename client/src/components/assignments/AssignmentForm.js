@@ -26,7 +26,7 @@ class AssignmentForm extends React.Component {
   }
 
   componentDidMount(){
-    if (this.props.assignment.id)
+    if (this.props.assignment)
       this.setState({...this.props.assignment})
   }
 
