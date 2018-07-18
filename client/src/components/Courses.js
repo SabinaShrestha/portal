@@ -34,7 +34,7 @@ class Courses extends React.Component {
               { showForm &&
                 <Fragment>
                   <Header> Add a course </Header>
-                  <CourseForm toggleForm={this.toggleForm}/>
+                  <CourseForm toggleForm={this.toggleForm} />
                 </Fragment>
               }
             </Permission>

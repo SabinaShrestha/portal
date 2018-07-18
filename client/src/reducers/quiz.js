@@ -7,6 +7,8 @@ const GET_QUIZZES = 'GET_QUIZZES'
 const ADD_QUIZ = 'ADD_QUIZ'
 const GET_QUIZ = 'GET_QUIZ'
 const UPDATE_QUIZ = 'UPDATE_QUIZ'
+const CANCEL_QUIZ = 'CANCEL_QUIZ'
+const DELETE_QUIZ = 'DELETE_QUIZ' 
 
 export const getQuizzes = (courseId) => {
   return(dispatch) => {
@@ -52,12 +54,37 @@ export const updateQuiz = (courseId, quizId, quiz, history) => {
         dispatch(setHeaders(res.headers))
         dispatch(setFlash('Quiz updated', 'green'))
         dispatch({ type: UPDATE_QUIZ, quiz: res.data })
-        dispatch(getQuizzes(courseId))
         history.push(`/courses/${courseId}/quizzes`)
       })
       .catch( (err) => {
         dispatch(setFlash('Failed to update quiz', 'red'))
         dispatch(setHeaders(err.headers))
+      })
+  }
+}
+
+export const cancelQuiz = (courseId, history) => {
+  return (dispatch) => {
+    axios.get(`/api/courses/${courseId}/quizzes`)
+      .then( res => {
+        dispatch(setHeaders(res.headers))
+        dispatch({ type: CANCEL_QUIZ, quizzes: res.data, header: res.headers })
+        history.push(`/courses/${courseId}/quizzes`)
+      })
+      .catch( (err) => dispatch(setFlash('Failed to retrieve quizzes.', 'red')) )
+  }
+}
+
+export const deleteQuiz = (quiz, courseId, history) => {
+  return (dispatch) => {
+    axios.delete(`/api/courses/${courseId}/quizzes/${quiz.id}`)
+      .then( res => {
+        dispatch(setHeaders(res.headers))
+        dispatch({ type: DELETE_QUIZ, headers: res.headers })
+        history.push(`/courses/${courseId}/quizzes`)
+      })
+      .catch( err => {
+        dispatch(setFlash('Failed to delete quiz.', 'red'))
       })
   }
 }
@@ -73,6 +100,10 @@ export default ( state = [], action ) => {
     case GET_QUIZ:
       return action.quiz
     case UPDATE_QUIZ:
+      return [...state]
+    case CANCEL_QUIZ:
+      return action.quizzes
+    case DELETE_QUIZ:
       return [...state]
     default: 
       return state

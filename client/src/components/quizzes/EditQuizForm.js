@@ -4,13 +4,21 @@ import {
   Container, 
   Divider,
   Header,
+  Button,
 } from 'semantic-ui-react'
 import { CommonButton, Pointer } from '../styles/CommonStyles'
 import { connect } from 'react-redux'
-import { getQuizzes, getQuiz, updateQuiz } from '../../reducers/quiz'
+import { 
+  getQuizzes, 
+  getQuiz, 
+  updateQuiz, 
+  cancelQuiz, 
+  deleteQuiz
+} from '../../reducers/quiz'
+import moment from 'moment'
 
 class EditQuizForm extends Component {
-  state = { name: '', quizType: '', dueDate: '', availableFrom: '', availableUntil: '', points: '', published: '' }
+  state = { name: '', quizType: '', dueDate: moment(), availableFrom: moment(), availableUntil: moment(), points: '', published: '' }
     
   componentDidMount() {
     const courseId = this.props.match.params.course_id
@@ -40,6 +48,23 @@ class EditQuizForm extends Component {
   handleCheckChange = (e) => {
     const { published } = this.state;
     this.setState({published: !published});
+  }
+
+  handleCancel = () => {
+    const{ dispatch, history } = this.props
+    const courseId = this.props.match.params.course_id
+    dispatch(cancelQuiz( courseId, history ))
+  }
+
+  handleDelete = () => {
+    const{ dispatch, history, quiz } = this.props
+    const courseId = parseInt(this.props.match.params.course_id)
+    dispatch(deleteQuiz( quiz, courseId, history ))
+  }
+
+  formatDate = (date) => {
+    const offset = (new Date()).getTimezoneOffset()/60
+    return moment(date).utc().subtract(offset, 'hours').format('YYYY-MM-DD')
   }
   
   render() {
@@ -71,7 +96,7 @@ class EditQuizForm extends Component {
             <Form.Input
               label='Due Date'
               name='dueDate'
-              value={dueDate}
+              value={this.formatDate(dueDate)}
               type='date'
               onChange={this.handleChange}
               width={16}
@@ -80,18 +105,16 @@ class EditQuizForm extends Component {
           <Form.Group>
             <Form.Input
               label='Available Starting Date'
-              placeholder='available starting'
               name='availableFrom'
-              value={availableFrom}
+              value={this.formatDate(availableFrom)}
               type='date'
               onChange={this.handleChange}
               width={6}
             />
             <Form.Input
               label='Unpublish Date'
-              placeholder='Available until'
               name='availableUntil'
-              value={availableUntil}
+              value={this.formatDate(availableUntil)}
               type='date'
               onChange={this.handleChange}
               width={6}
@@ -120,6 +143,8 @@ class EditQuizForm extends Component {
                 <CommonButton type='submit' onSubmit={this.handleSubmit}>
                   Edit
                 </CommonButton>
+                <Button type='button' onClick={this.handleCancel}>Cancel</Button>
+                <Button type='button' onClick={this.handleDelete}>Delete Quiz</Button>
               </Pointer>
           </Form.Group>
         </Form>

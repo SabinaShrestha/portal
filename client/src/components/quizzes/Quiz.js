@@ -13,13 +13,13 @@ import { getQuizzes } from '../../reducers/quiz'
 import { Link } from 'react-router-dom'
 
 class Quiz extends React.Component {
-  
+
   componentDidMount() {
     const { dispatch } = this.props
     const courseId = this.props.match.params.course_id
     dispatch(getQuizzes(courseId))
   }
-  
+
   handleEdit = (id) => {
     this.props.history.push(`/courses/${this.props.course.id}/edit_quiz/${id}`)
   }
