@@ -32,7 +32,7 @@ class AssignmentForm extends React.Component {
 
   componentDidUpdate() {
     if (!this.state.id) {
-      if (this.props.assignment.id) {
+      if (this.props.assignment) {
         this.setState({...this.props.assignment})
       }
     }
