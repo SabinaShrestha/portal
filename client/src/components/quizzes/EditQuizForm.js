@@ -1,4 +1,4 @@
-import React, { Component } from 'react'
+import React, { Component, Fragment } from 'react'
 import {
   Form, 
   Container, 
@@ -6,7 +6,7 @@ import {
   Header,
   Button,
 } from 'semantic-ui-react'
-import { CommonButton, Pointer } from '../styles/CommonStyles'
+import { CommonButton, Pointer, Flex } from '../styles/CommonStyles'
 import { connect } from 'react-redux'
 import { 
   getQuizzes, 
@@ -16,9 +16,10 @@ import {
   deleteQuiz
 } from '../../reducers/quiz'
 import moment from 'moment'
+import BooleanForm from './BooleanForm'
 
 class EditQuizForm extends Component {
-  state = { name: '', quizType: '', dueDate: moment(), availableFrom: moment(), availableUntil: moment(), points: '', published: '' }
+  state = { booleanForm: false, multipleForm: false, essayForm: false, quiz: { name: '', quizType: '', dueDate: moment(), availableFrom: moment(), availableUntil: moment(), points: '', published: '' } }
     
   componentDidMount() {
     const courseId = this.props.match.params.course_id
@@ -31,7 +32,7 @@ class EditQuizForm extends Component {
   }
 
   handleSubmit = (e) => {
-    const { name, quizType, dueDate, availableFrom, availableUntil, points, published } = this.state
+    const { name, quizType, dueDate, availableFrom, availableUntil, points, published } = this.state.quiz
     const { dispatch, history } = this.props
     const courseId = this.props.quiz.course_id
     const quizId = this.props.quiz.id
@@ -44,9 +45,13 @@ class EditQuizForm extends Component {
   handleChange = (e, { name, value }) => {
     this.setState({ [name]: value })
   }
+
+  handleDropdownChange = (e, data) => {
+    this.setState({quizType: data.value})
+  }
   
   handleCheckChange = (e) => {
-    const { published } = this.state;
+    const { published } = this.state.quiz;
     this.setState({published: !published});
   }
 
@@ -66,9 +71,41 @@ class EditQuizForm extends Component {
     const offset = (new Date()).getTimezoneOffset()/60
     return moment(date).utc().subtract(offset, 'hours').format('YYYY-MM-DD')
   }
+
+  toggleBooleanForm = () => {
+      console.log('Boolean Form')
+      this.setState({booleanForm: !this.state.booleanForm})
+    }
+
+  toggleEssayForm = () => {
+    console.log('Essay Form')
+    this.setState({essayForm: !this.state.essayForm})
+    //TODO build the essay form component and render here
+  }
+
+  toggleMultipleForm = () => {
+    console.log('MultipleChoiceForm')
+    this.setState({multipleForm: !this.state.multipleForm})
+    // TODO build the multiple choice form componeent and rnder here. 
+  }
   
   render() {
-    const { name, quizType, dueDate, availableFrom, availableUntil, points, published } = this.state
+    const { showBoolean } = this.state.booleanForm
+    const { showEssay } = this.state.essayForm 
+    const { showMultiple } = this.state.multipleForm 
+    const { name, quizType, dueDate, availableFrom, availableUntil, points, published } = this.state.quiz
+    const quizTypeOption = [
+      {
+        text: 'Graded',
+        value: 'Graded',
+        name: 'Graded'
+      },
+      {
+        text: 'Not Graded',
+        value: 'Not Graded',
+        name: 'Not Graded'
+      }
+    ]
     return(
       <Container>
         <Header as="h2">Update Quiz</Header>
@@ -82,13 +119,14 @@ class EditQuizForm extends Component {
               onChange={this.handleChange}
               width={8}
             />
-            <Form.Input
+            <Form.Dropdown
+              selection 
               label='Quiz Type'
-              name='quizType'
-              defaultValue={quizType}
+              value={quizType}
               placeholder='Quiz Type'
               required
-              onChange={this.handleChange}
+              options={quizTypeOption}
+              onChange={this.handleDropdownChange}
               width={8}
             />
           </Form.Group>
@@ -131,22 +169,51 @@ class EditQuizForm extends Component {
           </Form.Group>
           
             <Divider />
-            <Form.Checkbox 
-              label='Published'
-              name='published'   
-              onChange={this.handleCheckChange} 
-              checked={!!published} 
-            />
-          <Form.Group>
+            <Flex justifyContent='flex-end'>
+              <Form.Checkbox 
+                label='Published'
+                name='published'   
+                onChange={this.handleCheckChange} 
+                checked={!!published} 
+              />
+            </Flex>
               <Divider />
-              <Pointer>
-                <CommonButton type='submit' onSubmit={this.handleSubmit}>
-                  Edit
-                </CommonButton>
-                <Button type='button' onClick={this.handleCancel}>Cancel</Button>
-                <Button type='button' onClick={this.handleDelete}>Delete Quiz</Button>
-              </Pointer>
+          <Form.Group>
+            <Divider />
+            <Pointer>
+              <CommonButton type='submit' onSubmit={this.handleSubmit}>
+                Edit
+              </CommonButton>
+              <Button type='button' onClick={this.handleCancel}>Cancel</Button>
+              <Button type='button' onClick={this.handleDelete}>Delete Quiz</Button>
+            </Pointer>
           </Form.Group>
+
+            <Divider />
+
+          <Form.Group>
+            <Pointer>
+              <Flex justifyContent="space-between">
+              { showBoolean ? 
+                <Fragment>
+                  <BooleanForm quiz_id={this.props.quiz.id} toggleForm={this.toggleBooleanForm} />
+                </Fragment>
+                :
+                <CommonButton type='button' onClick={this.toggleBooleanForm}>
+                  Add Boolean Question
+                </CommonButton>      
+              }
+                <CommonButton type='button' onClick={this.toggleEssayForm}>
+                  Add Essay Question
+                </CommonButton>
+
+                <CommonButton type='button' onClick={this.toggleMultipleForm}>
+                  Add Mulitiple Choice 
+                </CommonButton>
+              </Flex>
+            </Pointer>
+          </Form.Group>
+
         </Form>
       </Container>
     )
