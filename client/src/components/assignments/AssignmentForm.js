@@ -52,8 +52,7 @@ class AssignmentForm extends React.Component {
   }
 
   handleCheckChange = (e) => {
-    const { published } = this.state
-    this.setState({published: published})
+    this.setState({published: !this.state.published})
   }
 
   handleDropdownGrade = (e, data) => {
