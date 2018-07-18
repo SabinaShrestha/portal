@@ -34,13 +34,15 @@ class Assignment extends React.Component {
           <AssignmentForm assignment={assignment} course_id={this.props.match.params.course_id} toggleForm={this.toggleForm} />
           :
           <Container textAlign='center'>
+            <Permission type='admin'>
+              <Flex justifyContent='flex-end'>
+                <CommonButton onClick={this.toggleForm}>Edit</CommonButton>
+                <CommonButton onClick={() => dispatch(deleteAssignment(this.props.match.params.course_id, assignment, this.props.history))}>Delete</CommonButton>
+              </Flex>
+            </Permission>
             <Segment padded='very'>
-              <Header as='h1' textAlign='center'>
+              <Header as='h1'>
                 {assignment.title}
-                <Permission type='admin'>
-                  <CommonButton floated='right' onClick={this.toggleForm}> Edit Assignment </CommonButton>
-                  <CommonButton floated='right' onClick={() => dispatch(deleteAssignment(this.props.match.params.course_id, assignment, this.props.history))}> Delete Assignment </CommonButton>
-                </Permission>
               </Header>
               <Divider />
               <Segment as='h3'>
