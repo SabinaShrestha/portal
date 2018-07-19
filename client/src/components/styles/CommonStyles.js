@@ -27,7 +27,7 @@ export const Flex = styled.div`
 `
 
 export const FlexNum = styled.div`
-  flex: ${ props => props.num };
+  flex: ${ props => props.num || 1 };
   align-self: ${ props => props.alignSelf };
 `
 

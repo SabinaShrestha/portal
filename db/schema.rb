@@ -219,7 +219,7 @@ ActiveRecord::Schema.define(version: 2018_07_19_222726) do
     t.string "unconfirmed_email"
     t.string "name"
     t.string "nickname"
-    t.string "image"
+    t.string "image", default: "https://d30y9cdsu7xlg0.cloudfront.net/png/15724-200.png"
     t.string "email"
     t.json "tokens"
     t.datetime "created_at", null: false

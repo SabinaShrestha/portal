@@ -3,13 +3,20 @@ class Enrollment < ApplicationRecord
   belongs_to :course
   has_many :group_memberships, dependent: :destroy
   has_many :groups, through: :group_memberships
-  has_many :submissions
-  has_many :attendances
+  has_many :submissions, dependent: :destroy
+  has_many :attendances, dependent: :destroy
 
   validates_inclusion_of :role, in: %w(ta student teacher observer)
 
   validates_uniqueness_of :user_id, scope: :course_id
 
+  def self.course_enrollments(course_id)
+    select('enrollments.id, first_name, last_name, role, email, image')
+    .joins('INNER JOIN users u ON u.id = enrollments.user_id')
+    .where(course_id: course_id)
+    .order(:created_at, :role)
+  end
+  
   def self.students(course_id)
     # select ("u.id, u.first_name, u.last_name")
     # .joins("INNER JOIN users u ON enrollments.user_id = u.id")

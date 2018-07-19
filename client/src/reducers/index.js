@@ -6,6 +6,7 @@ import course from './course'
 import units from './units'
 import quiz from './quiz'
 import assignments from './assignments'
+import enrollments from './enrollments'
 
 const rootReducer = combineReducers({
   user,
@@ -15,6 +16,7 @@ const rootReducer = combineReducers({
   assignments,
   units, 
   quiz,
+  enrollments,
 })
 
 export default rootReducer
