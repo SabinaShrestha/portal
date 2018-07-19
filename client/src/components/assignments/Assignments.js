@@ -5,6 +5,7 @@ import {
   Icon,
   Divider,
   Container,
+  Dropdown,
 } from 'semantic-ui-react'
 import { connect } from 'react-redux'
 import { Link } from 'react-router-dom'
@@ -13,6 +14,8 @@ import AssignmentForm from './AssignmentForm'
 import Permission from '../hoc/Permission'
 import { CommonButton, Pointer } from '../styles/CommonStyles'
 import moment from 'moment'
+import { deleteAssignment, editAssignment } from '../../reducers/assignments'
+
 
 
 class Assignments extends React.Component {
@@ -27,9 +30,27 @@ class Assignments extends React.Component {
     this.setState({showForm: !this.state.showForm})
   }
 
+  dropChange = (e, { value }, assignment) => {
+    switch(value) {
+      case 'delete':
+        this.props.dispatch(deleteAssignment(assignment.course_id, assignment, this.props.history))
+        break
+      case 'publish':
+        assignment.published = !assignment.published
+        this.props.dispatch(editAssignment(assignment.course_id, assignment))
+        break
+      default:
+    }
+  }
+
   render() {
     const { showForm } = this.state
     const { assignments } = this.props
+    const settings = [
+      { key: 'delete', text: 'delete', value: 'delete' },
+      { key: 'publish', text: 'publish', value: 'publish' }
+    ]
+
     return(
       <Container>
           <Header as="h1" textAlign='center'>Assignments</Header>
@@ -77,12 +98,13 @@ class Assignments extends React.Component {
                 {moment(assignment.due_date).format('MM/DD/YYYY')}
               </Table.Cell>
               <Table.Cell textAlign='center'>
-                {assignment.published === true && <p>Published</p>}
+                {assignment.published === true && <Icon fitted name='check'/>}
               </Table.Cell>
               <Permission type="staff">
                 <Table.Cell textAlign='center'>
                   <Pointer>
-                      <Icon fitted name='setting' onClick={this.handleEdit} />
+                    <Icon fitted name='setting' onClick={this.handleEdit} />
+                    <Dropdown upward floating onChange={(e, obj) => this.dropChange(e, obj, assignment)}  options={settings} text=' ' />
                   </Pointer>
                 </Table.Cell>
               </Permission>

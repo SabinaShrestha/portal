@@ -47,13 +47,13 @@ export const editAssignment = (courseId, assignment) => {
   }
 }
 
-export const deleteAssignment = (courseId, assignment, history) => {
+export const deleteAssignment = (courseId, assignment, history = {}) => {
   return (dispatch) => {
     axios.delete(`/api/courses/${courseId}/assignments/${assignment.id}`)
       .then( res => {
         dispatch(setHeaders(res.headers))
         dispatch(setFlash('Assignment deleted', 'green'))
-        dispatch({ type: DELETE_ASSIGNMENT, assignment })
+        dispatch({ type: DELETE_ASSIGNMENT, id: assignment.id })
         history.push(`/courses/${courseId}/assignments`)
       })
       .catch( e => {
