@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2018_07_10_230624) do
+ActiveRecord::Schema.define(version: 2018_07_19_222726) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -173,7 +173,7 @@ ActiveRecord::Schema.define(version: 2018_07_10_230624) do
     t.datetime "due_date"
     t.datetime "date_submitted"
     t.boolean "grade_type"
-    t.string "sub_type"
+    t.json "sub_type"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.integer "content_id"
