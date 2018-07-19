@@ -24,6 +24,57 @@ class AssignmentForm extends React.Component {
     unlocks_at: moment(), 
     locks_at: moment() 
   }
+  
+  gradeTypeOption = [
+    {
+      text: 'Graded',
+      value: 'graded',
+      name: 'graded'
+    },
+    {
+      text: 'Not Graded',
+      value: 'not_graded',
+      name: 'not_graded'
+    },
+    {
+      text: 'complete',
+      value: 'complete',
+      name: 'complete'
+    },
+    {
+      text: 'Incomplete',
+      value: 'incomplete',
+      name: 'incomplete'
+    },
+    {
+      text: 'Points',
+      value: 'points',
+      name: 'points'
+    }
+  ]
+  
+  submissionTypeOption = [
+    {
+      text: 'No Submission',
+      value: 'no_submission',
+      name: 'no_submission'
+    },
+    {
+      text: 'Online',
+      value: 'online',
+      name: 'online'
+    },
+    {
+      text: 'On Paper',
+      value: 'on_paper',
+      name: 'on_paper'
+    },
+    {
+      text: 'External Tool',
+      value: 'external_tool',
+      name: 'external_tool'
+    }
+  ]
 
   componentDidMount(){
     if (this.props.assignment)
@@ -70,55 +121,6 @@ class AssignmentForm extends React.Component {
 
   render() {
     const { title, description, due_date, points, unlocks_at, locks_at, submission_type, grade_type } = this.state
-    const gradeTypeOption = [
-      {
-        text: 'Graded',
-        value: 'graded',
-        name: 'graded'
-      },
-      {
-        text: 'Not Graded',
-        value: 'not_graded',
-        name: 'not_graded'
-      },
-      {
-        text: 'complete',
-        value: 'complete',
-        name: 'complete'
-      },
-      {
-        text: 'Incomplete',
-        value: 'incomplete',
-        name: 'incomplete'
-      },
-      {
-        text: 'Points',
-        value: 'points',
-        name: 'points'
-      }
-    ]
-    const submissionTypeOption = [
-      {
-        text: 'No Submission',
-        value: 'no_submission',
-        name: 'no_submission'
-      },
-      {
-        text: 'Online',
-        value: 'online',
-        name: 'online'
-      },
-      {
-        text: 'On Paper',
-        value: 'on_paper',
-        name: 'on_paper'
-      },
-      {
-        text: 'External Tool',
-        value: 'external_tool',
-        name: 'external_tool'
-      }
-    ]
     return(
       <Container>
         {this.props.assignment ?
@@ -194,7 +196,7 @@ class AssignmentForm extends React.Component {
                   label="Grade Type"
                   value={grade_type}
                   placeholder='Grade Type'
-                  options={gradeTypeOption}
+                  options={this.gradeTypeOption}
                   onChange={this.handleDropdownGrade}
                 />
               </Grid.Column>
@@ -204,7 +206,7 @@ class AssignmentForm extends React.Component {
                   label="Submission Type"
                   value={submission_type}
                   placeholder='Submission Type'
-                  options={submissionTypeOption}
+                  options={this.submissionTypeOption}
                   onChange={this.handleDropdownSubmission}
                 />
               </Grid.Column>
@@ -234,4 +236,3 @@ class AssignmentForm extends React.Component {
 }
 
 export default connect()(AssignmentForm)
-

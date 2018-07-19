@@ -16,10 +16,13 @@ import { CommonButton, Pointer } from '../styles/CommonStyles'
 import moment from 'moment'
 import { deleteAssignment, editAssignment } from '../../reducers/assignments'
 
-
-
 class Assignments extends React.Component {
   state = { showForm: false, assignments: [] }
+
+  settings = [
+    { key: 'delete', text: 'delete', value: 'delete' },
+    { key: 'publish', text: 'publish', value: 'publish' }
+  ]
 
   componentDidMount() {
     const { dispatch } = this.props
@@ -40,16 +43,13 @@ class Assignments extends React.Component {
         this.props.dispatch(editAssignment(assignment.course_id, assignment))
         break
       default:
+        return null
     }
   }
 
   render() {
     const { showForm } = this.state
     const { assignments } = this.props
-    const settings = [
-      { key: 'delete', text: 'delete', value: 'delete' },
-      { key: 'publish', text: 'publish', value: 'publish' }
-    ]
 
     return(
       <Container>
@@ -103,8 +103,7 @@ class Assignments extends React.Component {
               <Permission type="staff">
                 <Table.Cell textAlign='center'>
                   <Pointer>
-                    <Icon fitted name='setting' onClick={this.handleEdit} />
-                    <Dropdown upward floating onChange={(e, obj) => this.dropChange(e, obj, assignment)}  options={settings} text=' ' />
+                    <Dropdown icon='setting' upward floating onChange={(e, obj) => this.dropChange(e, obj, assignment)}  options={this.settings} text=' ' />
                   </Pointer>
                 </Table.Cell>
               </Permission>

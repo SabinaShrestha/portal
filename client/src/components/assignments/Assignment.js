@@ -33,31 +33,34 @@ class Assignment extends React.Component {
         {editForm ?
           <AssignmentForm assignment={assignment} course_id={this.props.match.params.course_id} toggleForm={this.toggleForm} />
           :
-          <Container textAlign='center'>
-            <Permission type='admin'>
-              <Flex justifyContent='flex-end'>
-                <CommonButton onClick={this.toggleForm}>Edit</CommonButton>
-                <CommonButton onClick={() => dispatch(deleteAssignment(this.props.match.params.course_id, assignment, this.props.history))}>Delete</CommonButton>
-              </Flex>
-            </Permission>
-            <Segment padded='very'>
-              <Header as='h1'>
-                {assignment.title}
-              </Header>
-              <Divider />
-              <Segment as='h3'>
-                Description: {assignment.description}
+          <div>
+            <Flex justifyContent='flex-end'>
+              <Permission type='admin'>
+                <CommonButton floated='right' onClick={this.toggleForm}>Edit</CommonButton>
+                <CommonButton floated='right' onClick={() => dispatch(deleteAssignment(this.props.match.params.course_id, assignment, this.props.history))}>Delete</CommonButton>
+              </Permission>
+            </Flex>
+            <Divider hidden />
+            <Container textAlign='center'>
+              <Segment padded='very'>
+                <Header as='h1' textAlign='center'>
+                  {assignment.title}
+                </Header>
+                <Divider />
+                <Segment as='h3'>
+                  Description: {assignment.description}
+                </Segment>
+                <p>Points: {assignment.points}</p>
+                <p>Submission Type: {assignment.submission_type}</p>
+                <p>Grade Type: {assignment.grade_type}</p>
+                <p>Due Date: {moment(assignment.due_date).format('MM/DD/YYYY')}</p>
+                <Container>
+                  <p>Unlocks: {moment(assignment.unlocks_at).format('MM/DD/YYYY')} - Locks: {moment(assignment.locks_at).format('MM/DD/YYYY')}</p>
+                  <p>published: {assignment.published && <Icon disabled name='check' />}</p>
+                </Container>
               </Segment>
-              <p>Points: {assignment.points}</p>
-              <p>Submission Type: {assignment.submission_type}</p>
-              <p>Grade Type: {assignment.grade_type}</p>
-              <p>Due Date: {moment(assignment.due_date).format('MM/DD/YYYY')}</p>
-              <Container>
-                <p>Unlocks: {moment(assignment.unlocks_at).format('MM/DD/YYYY')} - Locks: {moment(assignment.locks_at).format('MM/DD/YYYY')}</p>
-                <p>published: {assignment.published && <Icon disabled name='check' />}</p>
-              </Container>
-            </Segment>
-          </Container>
+            </Container>
+          </div>
         }
       </Flex>
     )
@@ -69,4 +72,3 @@ const mapStateToProps = (state, props) => {
 }
 
 export default connect(mapStateToProps)(Assignment)
-
