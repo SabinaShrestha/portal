@@ -1,6 +1,9 @@
 import React, { Component } from 'react'
+import { connect } from 'react-redux'
 import {
-  Header
+  Container,
+  Header,
+  Button,
 } from 'semantic-ui-react'
 
 class BooleanForm extends Component {
@@ -9,12 +12,18 @@ class BooleanForm extends Component {
   render() {
     return(
       <div>
+        <Container>
         <Header>
-          Proof of Concept
+          Proof of Boolean 
         </Header>
+        <Button type='submit' onClick={this.props.toggleBooleanForm}>
+          Cancel
+        </Button>
+
+        </Container>
       </div>
     )
   }
 }
 
-export default BooleanForm
+export default connect()(BooleanForm)

@@ -17,9 +17,11 @@ import {
 } from '../../reducers/quiz'
 import moment from 'moment'
 import BooleanForm from './BooleanForm'
+import MultipleForm from './MultipleForm'
+import EssayForm from './EssayForm'
 
 class EditQuizForm extends Component {
-  state = { booleanForm: false, multipleForm: false, essayForm: false, quiz: { name: '', quizType: '', dueDate: moment(), availableFrom: moment(), availableUntil: moment(), points: '', published: '' } }
+  state = { booleanForm: false, multipleForm: false, essayForm: false, name: '', quizType: '', dueDate: moment(), availableFrom: moment(), availableUntil: moment(), points: '', published: '' }
     
   componentDidMount() {
     const courseId = this.props.match.params.course_id
@@ -28,11 +30,11 @@ class EditQuizForm extends Component {
     const { quiz } = this.props
     const editingQuiz = quiz.filter(q => q.id === quizId)
     const editQuiz = editingQuiz[0]
-    this.setState({ name: editQuiz.name, quizType: editQuiz.quiz_type, dueDate: editQuiz.due_date, availableFrom: editQuiz.available_from, availableUntil: editQuiz.available_until, points: editQuiz.points, published: editQuiz.published })
+    this.setState( { name: editQuiz.name, quizType: editQuiz.quiz_type, dueDate: editQuiz.due_date, availableFrom: editQuiz.available_from, availableUntil: editQuiz.available_until, points: editQuiz.points, published: editQuiz.published } )
   }
 
   handleSubmit = (e) => {
-    const { name, quizType, dueDate, availableFrom, availableUntil, points, published } = this.state.quiz
+    const { name, quizType, dueDate, availableFrom, availableUntil, points, published } = this.state
     const { dispatch, history } = this.props
     const courseId = this.props.quiz.course_id
     const quizId = this.props.quiz.id
@@ -51,7 +53,7 @@ class EditQuizForm extends Component {
   }
   
   handleCheckChange = (e) => {
-    const { published } = this.state.quiz;
+    const { published } = this.state;
     this.setState({published: !published});
   }
 
@@ -74,26 +76,34 @@ class EditQuizForm extends Component {
 
   toggleBooleanForm = () => {
       console.log('Boolean Form')
+      this.handleForms()
       this.setState({booleanForm: !this.state.booleanForm})
-    }
+  }
 
   toggleEssayForm = () => {
     console.log('Essay Form')
     this.setState({essayForm: !this.state.essayForm})
-    //TODO build the essay form component and render here
   }
 
   toggleMultipleForm = () => {
     console.log('MultipleChoiceForm')
     this.setState({multipleForm: !this.state.multipleForm})
-    // TODO build the multiple choice form componeent and rnder here. 
   }
-  
+
+  handleForms = () => {
+      if (this.state.booleanForm === true ) {
+        return(<BooleanForm quiz_id={this.props.quiz.id} toggleBooleanForm={this.toggleBooleanForm}/>)
+      } else if (this.state.multipleForm === true) {
+        return(<MultipleForm quiz_id={this.props.quiz.id} toggleMultipleForm={this.toggleMultipleForm}/>)
+      } else if (this.state.essayForm === true) {
+        return(<EssayForm quiz_id={this.props.quiz.id} toggleEssayForm={this.toggleEssayForm}/>)
+      } else {
+        return ''
+      }
+    }
+
   render() {
-    const { showBoolean } = this.state.booleanForm
-    const { showEssay } = this.state.essayForm 
-    const { showMultiple } = this.state.multipleForm 
-    const { name, quizType, dueDate, availableFrom, availableUntil, points, published } = this.state.quiz
+    const { name, quizType, dueDate, availableFrom, availableUntil, points, published } = this.state
     const quizTypeOption = [
       {
         text: 'Graded',
@@ -191,29 +201,45 @@ class EditQuizForm extends Component {
 
             <Divider />
 
+          <Container>
+            {this.handleForms()}
+          </Container>
+
           <Form.Group>
-            <Pointer>
+            <Container>
               <Flex justifyContent="space-between">
-              { showBoolean ? 
+              {/* { this.state.booleanForm ? 
                 <Fragment>
-                  <BooleanForm quiz_id={this.props.quiz.id} toggleForm={this.toggleBooleanForm} />
+                  <BooleanForm quiz_id={this.props.quiz.id} toggleBooleanForm={this.toggleBooleanForm}/>
                 </Fragment>
-                :
+                : */}
                 <CommonButton type='button' onClick={this.toggleBooleanForm}>
                   Add Boolean Question
                 </CommonButton>      
-              }
-                <CommonButton type='button' onClick={this.toggleEssayForm}>
-                  Add Essay Question
-                </CommonButton>
+              {/* } */}
 
+              {/* { this.state.multipleForm ?
+                <Fragment>
+                  <MultipleForm quiz_id={this.props.quiz.id} toggleMultipleForm={this.toggleMultipleForm}/>
+                </Fragment>
+                : */}
                 <CommonButton type='button' onClick={this.toggleMultipleForm}>
-                  Add Mulitiple Choice 
+                  Add Mulitple Choice
                 </CommonButton>
-              </Flex>
-            </Pointer>
-          </Form.Group>
+              {/* } */}
 
+              {/* { this.state.essayForm ?
+                <Fragment>
+                  <EssayForm quiz_id={this.props.quiz.id} toggleEssayForm={this.toggleEssayForm}/>
+                </Fragment>
+                : */}
+                <CommonButton type='button' onClick={this.toggleEssayForm}>
+                  Add Essay Question 
+                </CommonButton>
+              {/* } */}
+              </Flex>
+            </Container>
+          </Form.Group>
         </Form>
       </Container>
     )

@@ -64,7 +64,7 @@ class Quiz extends React.Component {
           </Link>
         </Header>
           <Divider /> 
-            <Table cell padded>
+            <Table padded>
               <Table.Header>
                 <Table.Row>
                   <Table.HeaderCell>Quiz Name</Table.HeaderCell>
