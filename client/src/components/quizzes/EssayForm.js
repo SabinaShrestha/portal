@@ -1,24 +1,26 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import {
-  Container, 
   Header, 
   Button,
 } from 'semantic-ui-react'
+import {
+  FormContainer
+} from '../styles/CommonStyles'
 
 class EssayForm extends Component {
 
   render() {
     return(
       <div>
-        <Container>
+        <FormContainer>
           <Header>
-            Proof of Essay Question
+            Add Essay Question
           </Header>
-          <Button type='submit' onClick={this.props.toggleEssayForm}>
+          <Button onClick={this.props.toggleEssayForm}>
             Cancel
           </Button>
-        </Container>
+        </FormContainer>
       </div>
     )
   }

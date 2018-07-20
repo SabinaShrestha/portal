@@ -50,3 +50,7 @@ export const FullWidth = styled.div`
 export const Pointer = styled.div`
   cursor: pointer;
 `
+export const FormContainer = styled.div`
+  padding: 50px;
+  text-align: center;
+`
