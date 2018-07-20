@@ -12,12 +12,17 @@ import { Flex, CommonButton } from '../styles/CommonStyles'
 import AssignmentForm from './AssignmentForm'
 import { getAssignments, deleteAssignment } from '../../reducers/assignments'
 import Permission from '../hoc/Permission'
+import SubmissionForm from './SubmissionForm'
 
 class Assignment extends React.Component {
-  state = { editForm: false }
+  state = { editForm: false, submissionForm: false }
 
   toggleForm = (state) => {
     this.setState({ editForm: !this.state.editForm })
+  }
+
+  toggleSubmissionForm = () => {
+    this.setState({ submissionForm: !this.state.submissionForm })
   }
 
   componentDidMount() {
@@ -25,9 +30,10 @@ class Assignment extends React.Component {
     dispatch(getAssignments(this.props.match.params.course_id))
   }
 
+
   render() {
     const { assignment = {}, dispatch } = this.props
-    const { editForm } = this.state
+    const { editForm, submissionForm } = this.state
     return (
       <Flex>
         {editForm ?
@@ -39,6 +45,7 @@ class Assignment extends React.Component {
                 <CommonButton floated='right' onClick={this.toggleForm}>Edit</CommonButton>
                 <CommonButton floated='right' onClick={() => dispatch(deleteAssignment(this.props.match.params.course_id, assignment, this.props.history))}>Delete</CommonButton>
               </Permission>
+                <CommonButton floated='right' onClick={this.toggleSubmissionForm}>Submit</CommonButton>
             </Flex>
             <Divider hidden />
             <Container textAlign='center'>
@@ -57,6 +64,9 @@ class Assignment extends React.Component {
                 <Container>
                   <p>Unlocks: {moment(assignment.unlocks_at).format('MM/DD/YYYY')} - Locks: {moment(assignment.locks_at).format('MM/DD/YYYY')}</p>
                   <p>published: {assignment.published && <Icon disabled name='check' />}</p>
+                </Container>
+                <Container fluid>
+                { submissionForm && <SubmissionForm assignment={ assignment } toggleSubmissionForm={this.toggleSubmissionForm} />}
                 </Container>
               </Segment>
             </Container>

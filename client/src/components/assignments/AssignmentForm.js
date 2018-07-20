@@ -134,7 +134,7 @@ class AssignmentForm extends React.Component {
               label='Assignment Title'
               name='title'
               value={title}
-              placceholder='Assignment Title'
+              placeholder='Assignment Title'
               autoFocus={"true"}
               required
               onChange={this.handleChange}

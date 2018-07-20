@@ -19,29 +19,29 @@ export const addSubmission = (courseId, submission) => {
   }
 }
 
-export const getAssignmentSubmissions = (courseId) => {
-  return (dispatch) => {
-    axios.get(`/api/courses/${courseId}/submissions`)
-      .then( res => {
-        dispatch({ type: GET_ASSIGNMENT_SUBMISSIONS, submissions: res.data, headers: res.headers })
-      }).catch( err => {
-        dispatch(setFlash(`Failed to retrieve submissions for assignments: ${assignment_id}`))
-        dispatch(setHeaders(err.headers))
-      })
-  }
-}
+// export const getAssignmentSubmissions = (courseId) => {
+//   return (dispatch) => {
+//     axios.get(`/api/courses/${courseId}/submissions`)
+//       .then( res => {
+//         dispatch({ type: GET_ASSIGNMENT_SUBMISSIONS, submissions: res.data, headers: res.headers })
+//       }).catch( err => {
+//         dispatch(setFlash(`Failed to retrieve submissions for assignments: ${assignment_id}`))
+//         dispatch(setHeaders(err.headers))
+//       })
+//   }
+// }
 
-export const getQuizSubmissions = (courseId) => {
-  return (dispatch) => {
-    axios.get(`/api/courses/${courseId}/submissions`)
-      .then( res => {
-        dispatch({ type: GET_QUIZ_SUBMISSIONS, submissions: res.data, headers: res.headers })
-      }).catch( err => {
-        dispatch(setFlash(`Failed to Retrieve submissions for quizzes: ${quiz_id}`))
-        dispatch(setHeaders(err.headers))
-      })
-  }
-}
+// export const getQuizSubmissions = (courseId) => {
+//   return (dispatch) => {
+//     axios.get(`/api/courses/${courseId}/submissions`)
+//       .then( res => {
+//         dispatch({ type: GET_QUIZ_SUBMISSIONS, submissions: res.data, headers: res.headers })
+//       }).catch( err => {
+//         dispatch(setFlash(`Failed to Retrieve submissions for quizzes: ${quiz_id}`))
+//         dispatch(setHeaders(err.headers))
+//       })
+//   }
+// }
 
 export default (state = [], action) => {
   switch (action.type) {

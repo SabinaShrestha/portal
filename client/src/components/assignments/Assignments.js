@@ -30,11 +30,11 @@ class Assignments extends React.Component {
   }
 
   toggleForm = () => {
-    this.setState({showForm: !this.state.showForm})
+    this.setState({ showForm: !this.state.showForm })
   }
 
   dropChange = (e, { value }, assignment) => {
-    switch(value) {
+    switch (value) {
       case 'delete':
         this.props.dispatch(deleteAssignment(assignment.course_id, assignment, this.props.history))
         break
@@ -51,13 +51,14 @@ class Assignments extends React.Component {
     const { showForm } = this.state
     const { assignments } = this.props
 
-    return(
+    return (
       <Container>
-          <Header as="h1" textAlign='center'>Assignments</Header>
+        <Header as="h1" textAlign='center'>Assignments</Header>
+        <Permission type='admin'>
           <Container textAlign="center">
-            { showForm ?
+            {showForm ?
               <Fragment>
-                <AssignmentForm assignments={assignments} course_id={this.props.match.params.course_id} toggleForm={this.toggleForm}/>
+                <AssignmentForm assignments={assignments} course_id={this.props.match.params.course_id} toggleForm={this.toggleForm} />
               </Fragment>
               :
               <CommonButton type='button' onClick={this.toggleForm}>
@@ -65,7 +66,8 @@ class Assignments extends React.Component {
               </CommonButton>
             }
           </Container>
-          <Divider />
+        </Permission>
+        <Divider />
         <Table padded>
           <Table.Header>
             <Table.Row>
@@ -74,43 +76,43 @@ class Assignments extends React.Component {
               <Table.HeaderCell textAlign='center'>Description</Table.HeaderCell>
               <Table.HeaderCell textAlign='center'>Due</Table.HeaderCell>
               <Table.HeaderCell textAlign='center'>Published</Table.HeaderCell>
-                <Permission type="staff">
-                  <Table.HeaderCell textAlign='center'>Settings</Table.HeaderCell>
-                </Permission>
-            </Table.Row>
-          </Table.Header>
-        {assignments.map(assignment =>
-          <Table.Body key={assignment.id}>
-            <Table.Row>
-              <Table.Cell width='4'>
-                <Link to={`/courses/${assignment.course_id}/assignments/${assignment.id}`}>
-                  <Icon name='file alternate'/>
-                  {assignment.title}
-                </Link>
-              </Table.Cell>
-              <Table.Cell textAlign='center'>
-                {assignment.points}
-              </Table.Cell>
-              <Table.Cell textAlign='center'>
-                {assignment.description}
-              </Table.Cell>
-              <Table.Cell textAlign='center'>
-                {moment(assignment.due_date).format('MM/DD/YYYY')}
-              </Table.Cell>
-              <Table.Cell textAlign='center'>
-                {assignment.published === true && <Icon fitted name='check'/>}
-              </Table.Cell>
               <Permission type="staff">
-                <Table.Cell textAlign='center'>
-                  <Pointer>
-                    <Dropdown icon='setting' upward floating onChange={(e, obj) => this.dropChange(e, obj, assignment)}  options={this.settings} text=' ' />
-                  </Pointer>
-                </Table.Cell>
+                <Table.HeaderCell textAlign='center'>Settings</Table.HeaderCell>
               </Permission>
             </Table.Row>
-          </Table.Body>
+          </Table.Header>
+          {assignments.map(assignment =>
+            <Table.Body key={assignment.id}>
+              <Table.Row>
+                <Table.Cell width='4'>
+                  <Link to={`/courses/${assignment.course_id}/assignments/${assignment.id}`}>
+                    <Icon name='file alternate' />
+                    {assignment.title}
+                  </Link>
+                </Table.Cell>
+                <Table.Cell textAlign='center'>
+                  {assignment.points}
+                </Table.Cell>
+                <Table.Cell textAlign='center'>
+                  {assignment.description}
+                </Table.Cell>
+                <Table.Cell textAlign='center'>
+                  {moment(assignment.due_date).format('MM/DD/YYYY')}
+                </Table.Cell>
+                <Table.Cell textAlign='center'>
+                  {assignment.published === true && <Icon fitted name='check' />}
+                </Table.Cell>
+                <Permission type="staff">
+                  <Table.Cell textAlign='center'>
+                    <Pointer>
+                      <Dropdown icon='setting' upward floating onChange={(e, obj) => this.dropChange(e, obj, assignment)} options={this.settings} text=' ' />
+                    </Pointer>
+                  </Table.Cell>
+                </Permission>
+              </Table.Row>
+            </Table.Body>
           )
-        }
+          }
         </Table>
       </Container>
     )
