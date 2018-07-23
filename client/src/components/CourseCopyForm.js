@@ -1,8 +1,11 @@
 import React from 'react'
 import { connect } from 'react-redux'
 import { copyCourse } from '../reducers/courses'
-import { Form } from 'semantic-ui-react'
+import { Button, Header, Divider, Grid, Form } from 'semantic-ui-react'
 import { CommonButton } from './styles/CommonStyles'
+import DatePicker from 'react-datepicker'
+import 'react-datepicker/dist/react-datepicker.css'
+import moment from 'moment';
 
 class CourseCopyForm extends React.Component {
   initialState = {
@@ -10,8 +13,8 @@ class CourseCopyForm extends React.Component {
     name: '',
     description: '',
     department: 'Full-Time',
-    starts: '',
-    ends: '',
+    starts: moment(),
+    ends: moment(),
     lock_after_end: false,
     lock_before_start: false,
     published: false,
@@ -47,26 +50,25 @@ class CourseCopyForm extends React.Component {
     toggleCopyForm()
   }
 
-  departmentOptions = () => {
-    return [
-      { key: 1, value: 'Full-Time', text: 'Full Time' },
-      { key: 2, value: 'Part-Time', text: 'Part Time' },
-      { key: 3, value: 'Code On', text: 'Code On' },
-    ]
-  }
-
   handleOption = (e, { value }) => {
     this.setState({ department: value })
   }
 
+  handleStartDate = (date) => {
+    this.setState({ starts: date })
+  }
+
+  handleEndDate = (date) => {
+    this.setState({ ends: date })
+  }
+
   render() {
-    const {
-      name,
-      description,
-      starts,
-      ends,
-      department,
-    } = this.state
+    const { name, description, starts, ends, department, } = this.state
+    const departmentOptions = [
+      { value: 'Full-Time', text: 'Full Time', name: 'Full-Time' },
+      { value: 'Part-Time', text: 'Part Time', name: 'Part-Time' },
+      { value: 'Code On', text: 'Code On', name: 'Code On' },
+    ]
 
     return (
       <Form onSubmit={this.handleSubmit}>
@@ -86,26 +88,36 @@ class CourseCopyForm extends React.Component {
           label="description"
           required
         />
-        <Form.Select
-          label="deparment"
-          options={this.departmentOptions()}
-          value={department}
+        <Divider hidden />
+        <Grid textAlign='center' verticalAlign='middle' >
+          <Grid.Row columns={2} centered>
+            <Grid.Column>
+              <Header as='h3' floated='left'>Starts On</Header>
+              <DatePicker
+                name="starts"
+                selected={moment(starts)}
+                onChange={this.handleStartDate}
+              />
+            </Grid.Column>
+            <Grid.Column>
+              <Header as='h3' floated='left'>Ends On</Header>
+              <DatePicker
+                name="ends"
+                selected={moment(ends)}
+                onChange={this.handleEndDate}
+              />
+            </Grid.Column>
+          </Grid.Row>
+        </Grid>
+        <Divider hidden />
+        <Form.Dropdown
+          selection
+          label='department'
           name="department"
           onChange={this.handleOption}
-        />
-        <Form.Input
-          name="starts"
-          value={starts}
-          type="date"
-          onChange={this.handleChange}
-          label="starts"
-        />
-        <Form.Input
-          name="ends"
-          value={ends}
-          type="date"
-          onChange={this.handleChange}
-          label="ends"
+          value={department}
+          placeholder='department'
+          options={departmentOptions}
         />
         <CommonButton type='submit'>Save</CommonButton>
       </Form>

@@ -7,6 +7,7 @@ import units from './units'
 import quiz from './quiz'
 import assignments from './assignments'
 import enrollments from './enrollments'
+import wikis from './wikis'
 
 const rootReducer = combineReducers({
   user,
@@ -17,6 +18,7 @@ const rootReducer = combineReducers({
   units, 
   quiz,
   enrollments,
+  wikis,
 })
 
 export default rootReducer

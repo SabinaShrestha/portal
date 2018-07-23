@@ -1,54 +1,53 @@
 import React from 'react'
-import axios from 'axios'
-import { setHeaders } from '../reducers/headers'
 import { connect } from 'react-redux'
 import { Container, Divider, Header, Segment } from 'semantic-ui-react'
 import { Flex, FlexNum, CommonButton } from './styles/CommonStyles'
-
+import WikiForm from './WikiForm'
+import { deleteWiki, getWikis, getWiki } from '../reducers/wikis'
 
 class Wikis extends React.Component {
-  //TODO -> add visibility toggle
-  state = { wikis: [] }
+  state = { visible: false }
 
   componentDidMount() {
     const { dispatch } = this.props
-    axios.get(`/api/courses/${this.props.match.params.course_id}/wikis`)
-      .then(res => {
-        dispatch(setHeaders(res.headers))
-        this.setState({ wikis: res.data })
-      })
+    const courseId = this.props.match.params.course_id
+    dispatch(getWikis(courseId))
   }
 
-  handleNew() {
-    console.log("New function")
-    //TODO -> toggle visibility of all wiki handles and drop in the Wiki form
+  toggleForm = () => {
+    this.setState({ visible: !this.state.visible })
   }
 
-  handleEdit() {
-    console.log("Edit function")
-    //TODO -> same as on New
+  handleNew = () => {
+    this.toggleForm()
   }
 
-  handleDelete() {
-    console.log("Delete function")
-    //TODO -> make the call to delete the wiki
-    //TODO -> give a confirm before deleting
+  handleDelete = (id) => {
+    const { dispatch } = this.props
+    const courseId = this.props.match.params.course_id
+    dispatch(deleteWiki(courseId, id))
   }
 
-  handleShow() {
-    console.log("Show function")
-    //TODO -> Render an individual Wiki component
+  handleShow = (id) => {
+    const { dispatch } = this.props
+    const course_id = this.props.match.params.course_id
+    dispatch(getWiki(course_id, id))
   }
 
   render() {
-    const { wikis } = this.state
+    const { visible } = this.state
+    const { wikis } = this.props
+    const course_id = this.props.match.params.course_id
     return (
       <Container>
-        <Flex alignContent="flex-end">
-          Put something here?
-        </Flex>
+        { visible ? 
+          <Segment>
+            <WikiForm course_id={course_id} toggleForm={this.toggleForm}/>
+          </Segment> : 
+          null 
+        }
         <Flex alignContent="center" direction="column" alignItems="center">
-          <Header as="h1" textAlign="center">Course Wiki</Header>
+          <Header as="h1" textAlign="center">Course Wikis</Header>
           <CommonButton style={{ width: '180px' }} onClick={this.handleNew}>Create New Wiki</CommonButton>
         </Flex>
         <Divider hidden />
@@ -60,17 +59,21 @@ class Wikis extends React.Component {
                   <FlexNum num={2} alignSelf="center">
                     {w.title}
                   </FlexNum>
-                  <CommonButton onClick={this.handleEdit}>Edit</CommonButton>
-                  <CommonButton onClick={this.handleDelete}>Delete</CommonButton>
-                  <CommonButton onClick={this.handleShow}>View</CommonButton>
+                  <CommonButton onClick={() => this.handleDelete(w.id)}>Delete</CommonButton>
+                  <CommonButton onClick={() => this.handleShow(w.id)}>View</CommonButton>
                 </Flex>
               </Segment>
             </div>
           )
-        })}
+        })
+        }
       </Container>
     )
   }
 }
 
-export default connect()(Wikis)
+const mapStateToProps = (state) => {
+  return { wikis: state.wikis}
+}
+
+export default connect(mapStateToProps)(Wikis)
