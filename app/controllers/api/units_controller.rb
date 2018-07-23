@@ -48,7 +48,7 @@ class Api::UnitsController < ApplicationController
     end
 
     def unit_params
-      params.require(:unit).permit(:item_type, :item_id)
+      params.require(:unit).permit(:course_id, :name, :position)
     end
 end
 

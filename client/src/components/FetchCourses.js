@@ -11,7 +11,7 @@ import BuildQuiz from './quizzes/BuildQuiz'
 import QuizForm from './quizzes/QuizForm'
 import EditQuizForm from './quizzes/EditQuizForm'
 import CourseSettings from './CourseSettings'
-import AllUnits from './AllUnits'
+import Units from './Units'
 import Assignments from './assignments/Assignments'
 import Assignment from './assignments/Assignment'
 import Wikis from './Wikis'
@@ -39,7 +39,7 @@ class FetchCourses extends React.Component {
           <Route exact path='/courses/:course_id/edit_quiz/:quiz_id' component={EditQuizForm} />
           <Route exact path="/courses/:course_id/attendances/:id" component={Attendance} />
           <Route exact path="/courses/:course_id/settings" component={CourseSettings} />
-          <Route exact path='/courses/:id/modules' component={AllUnits} />
+          <Route exact path='/courses/:course_id/modules' component={Units} />
           <Route exact path="/courses/:course_id/assignments" component={Assignments} />
           <Route exact path="/courses/:course_id/assignments/:id" component={Assignment} />
           <Route exact path="/courses/:course_id/wiki" component={Wikis} />
