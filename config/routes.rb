@@ -8,9 +8,10 @@ Rails.application.routes.draw do
       end
       resources :assignments
       resources :attendances
+      get '/attendances/:user_id', to: 'attendances#index'
+      post '/attendances/:user_id', to: 'attendances#create'
       resources :enrollments
       get '/get_students', to: 'enrollments#get_students'
-      resources :announcements
       resources :units
       resources :wikis
       resources :groups

@@ -11,7 +11,7 @@ class Api::AttendancesController < ApplicationController
   end
 
   def create
-    attendance = Attendance.new(attendance_params)
+    attendance = @enrollment.attendances.new(attendance_params)
     if attendance.save
       render json: attendance
     else
@@ -26,7 +26,7 @@ class Api::AttendancesController < ApplicationController
       render json: @attendance.errors
     end
   end
-
+  
   def destroy
     @attendance.destroy
   end
@@ -37,7 +37,7 @@ class Api::AttendancesController < ApplicationController
     end 
 
     def set_enrollment
-      @enrollment = Enrollment.find(params[:enrollment_id])
+      @enrollment = Enrollment.find_by(course_id: params[:course_id], user_id: params[:user_id])
     end
 
     def attendance_params
