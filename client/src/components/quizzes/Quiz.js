@@ -34,11 +34,8 @@ class Quiz extends React.Component {
           {quiz.points}
         </Table.Cell>
         <Table.Cell textAlign='center'>
-          Questions
-        </Table.Cell>
-        <Table.Cell textAlign='center'>
           {quiz.published === true && 
-            <p>Published</p>
+            <Icon name='check' />
           }
         </Table.Cell>
           <Permission type="staff">
@@ -69,7 +66,6 @@ class Quiz extends React.Component {
                 <Table.Row>
                   <Table.HeaderCell>Quiz Name</Table.HeaderCell>
                   <Table.HeaderCell textAlign='center'>Points</Table.HeaderCell>
-                  <Table.HeaderCell textAlign='center'>Questions</Table.HeaderCell>
                   <Table.HeaderCell textAlign='center'>Published</Table.HeaderCell>
                     <Permission type="staff">
                       <Table.HeaderCell textAlign='center'>Edit</Table.HeaderCell>

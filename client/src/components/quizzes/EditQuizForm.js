@@ -23,14 +23,24 @@ import EssayForm from './EssayForm'
 class EditQuizForm extends Component {
   state = { booleanForm: false, multipleForm: false, essayForm: false, name: '', quizType: '', dueDate: moment(), availableFrom: moment(), availableUntil: moment(), points: '', published: '' }
     
+  // componentDidMount() {
+  //   const courseId = this.props.match.params.course_id
+  //   const quizId = parseInt(this.props.match.params.quiz_id)
+  //   this.props.dispatch(getQuiz(courseId, quizId))
+  //   const { quiz } = this.props
+  //   const editingQuiz = quiz.filter(q => q.id === quizId)
+  //   const editQuiz = editingQuiz[0]
+  //   this.setState( { name: editQuiz.name, quizType: editQuiz.quiz_type, dueDate: editQuiz.due_date, availableFrom: editQuiz.available_from, availableUntil: editQuiz.available_until, points: editQuiz.points, published: editQuiz.published } )
+  //}
+
   componentDidMount() {
-    const courseId = this.props.match.params.course_id
-    const quizId = parseInt(this.props.match.params.quiz_id)
-    this.props.dispatch(getQuiz(courseId, quizId))
-    const { quiz } = this.props
-    const editingQuiz = quiz.filter(q => q.id === quizId)
-    const editQuiz = editingQuiz[0]
-    this.setState( { name: editQuiz.name, quizType: editQuiz.quiz_type, dueDate: editQuiz.due_date, availableFrom: editQuiz.available_from, availableUntil: editQuiz.available_until, points: editQuiz.points, published: editQuiz.published } )
+    if (this.props.quiz.id)
+      this.setState({ ...this.props.quiz })
+  }
+
+  componentDidUpdate(prevProps) {
+    if (prevProps.quiz !== this.props.quiz)
+      this.setState({...this.props.quiz})
   }
 
   handleSubmit = (e) => {
@@ -246,9 +256,12 @@ class EditQuizForm extends Component {
   }
 }
 
-const mapStateToProps = (state) => {
+const mapStateToProps = (state, props) => {
+  const quizzes = state.quiz
+  const id = parseInt(props.match.params.quiz_id)
+  const quiz = quizzes.find( q => q.id === id)
   return {
-    quiz: state.quiz, 
+    quiz: quiz || {}, 
     course: state.course
   }
 }
