@@ -1,5 +1,5 @@
 import React from 'react'
-import { CommonButton, Pointer, Flex} from '../styles/CommonStyles'
+import { CommonButton, Flex} from '../styles/CommonStyles'
 import { connect } from 'react-redux'
 import {
   Header,
@@ -8,15 +8,15 @@ import {
   Container,
   Button,
 } from 'semantic-ui-react'
-import moment from 'moment'
 import {addSubmission} from '../../reducers/submissions'
 
 class SubmissionForm extends React.Component {
   state = {
-    sub_type: '',
-    due_date: '',
+    sub_type: {
+      url: '',
+      file: '',
+    },
     date_submitted: '',
-    grade_type: '',
   }
 
   componentDidMount(){
@@ -29,10 +29,10 @@ class SubmissionForm extends React.Component {
   }
 
   handleSubmit = (e) => {
-    const { dispatch, course_id, toggleSubmissionForm } = this.props
+    const { dispatch, assignment, toggleSubmissionForm } = this.props
     e.preventDefault()
     let submission = {...this.state}
-    dispatch(addSubmission( course_id, submission ))
+    dispatch(addSubmission( assignment.course_id, submission ))
     toggleSubmissionForm()
   }
   
@@ -44,15 +44,24 @@ class SubmissionForm extends React.Component {
         <Form onSubmit={this.handleSubmit}>
         <Flex justifyContent='center'>
           <Form.Input
-              label='Submission Type'
-              name='sub_type'
-              value={this.state.sub_type}
-              placeholder='Submission Type'
-              autoFocus={"true"}
-              required
-              onChange={this.handleChange}
-              width={8}
-              type="file"
+            label='Submission Type'
+            name='sub_type'
+            value={sub_type.file}
+            placeholder='Submission Type'
+            autoFocus={"true"}
+            onChange={this.handleChange}
+            width={8}
+            type="file"
+          />
+        </Flex>
+        <Header as='h3'>Or</Header>
+        <Flex justifyContent='center'>
+          <Form.Input
+            name='sub_type'
+            value={sub_type.url}
+            placeholder='URL'
+            onChange={this.handleChange}
+            width={8}
           />
           </Flex>
           <Divider hidden />

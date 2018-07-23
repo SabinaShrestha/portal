@@ -15,7 +15,6 @@ Rails.application.routes.draw do
       resources :wikis
       resources :groups
       resources :course_navs, only: [:index]
-      resources :enrollments, only: [:index]
       resources :submissions
       post '/copy_course/:id', to: 'courses#copy_course'
       get '/assignment_submissions', to: 'submissions#assignment_submissions'

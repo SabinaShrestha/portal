@@ -1,6 +1,6 @@
 class Api::SubmissionsController < ApplicationController
-  before_action :set_submission, only: [:show, :update, :destroy]
   before_action :set_enrollment
+  before_action :set_submission, only: [:show, :update, :destroy ]
   
   def index
     render json: @enrollment.submissions
@@ -27,7 +27,8 @@ class Api::SubmissionsController < ApplicationController
   end
 
   def create
-    submission = @enrollment.submissions.create(submission_params)
+    submission = @enrollment.submissions.new(submission_params)
+    submission.date_submitted = DateTime.now
     if submission.save
       render json: submission
     else

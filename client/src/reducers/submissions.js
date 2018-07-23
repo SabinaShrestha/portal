@@ -7,11 +7,13 @@ export const GET_ASSIGNMENT_SUBMISSIONS = 'GET_ASSIGNMENT_SUBMISSIONS'
 export const GET_QUIZ_SUBMISSIONS = 'GET_QUIZ_SUBMISSIONS'
 
 export const addSubmission = (courseId, submission) => {
-  return (dispatch) => {
-    axios.post(`/api/courses/${courseId}/submissions`, submission)
+  return (dispatch, getState) => {
+    const { enrollment_id } = getState().course
+    axios.post(`/api/courses/${courseId}/submissions`, {submission, enrollment_id})
       .then( res => {
         dispatch({ type: ADD_SUBMISSION, submission: res.data, headers: res.headers })
         dispatch(setFlash(`Submitted Successfully!`, 'green'))
+        dispatch(setHeaders(res.headers))
       }).catch( err => {
         dispatch(setFlash(`Failed to Submit ${submission.sub_type}`, 'red'))
         dispatch(setHeaders(err.headers))
@@ -50,7 +52,7 @@ export default (state = [], action) => {
     case GET_QUIZ_SUBMISSIONS:
       return action.submissions
     case ADD_SUBMISSION:
-      return action.submission
+      return [...state, action.submission]
     default:
       return state;
   }
