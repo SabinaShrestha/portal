@@ -216,16 +216,6 @@ quiz_type = [ 'Multiple Choice', 'Essay', 'Short Answer']
 
 puts "Seeding database...\n "
 
-@student = User.create(
-  first_name: 'student',
-  last_name: 'student',
-  email: 'student@student.com',
-  password: 'password',
-  bio: Faker::RickAndMorty.quote,
-  nickname: Faker::Seinfeld.character,
-  is_admin: false,
-  image: Faker::Fillmurray.image(true)
-)
 @admin = User.create(
   first_name: 'admin',
   last_name: 'admin',
@@ -256,32 +246,32 @@ puts "Created Student, email: student@student.com and password: password"
     department: department.sample,
     description: "This is a course about #{Faker::BackToTheFuture.character}.",
     starts: 'Mon, 12 November 2018 14:00:00 +0800',
-    ends: 'Fri, 27 December 2018 14:00:00 +0800')
+    ends: 'Fri, 27 December 2018 14:00:00 +0800',
+    published: true)
 
   Enrollment.create(
     role: 'teacher',
     user_id: @teacher.id,
     course_id: @course.id)
 
+  counter = 1
   10.times do
     first_name = Faker::Name.first_name
     last_name = Faker::Name.last_name
+    email = "student#{counter}@student.com"
     student = User.create(
-      email: Faker::Internet.email,
+      email: email,
       password: 'password',
       first_name: first_name,
       last_name: last_name,
-      bio: "#{Faker::Demographic.race},
-      #{Faker::Demographic.educational_attainment},
-      #{Faker::Demographic.marital_status},
-      #{Faker::Demographic.sex},
-      #{Faker::Demographic.height}",
-      image: "https://robohash.org/#{Faker::Number.number(4)}",
+      bio: Faker::RickAndMorty.quote,
+      image: Faker::Fillmurray.image(true),
       nickname: Faker::Pokemon.name)
     Enrollment.create(
     role: 'student',
     user_id: student.id,
     course_id: @course.id)
+    counter += 1
   end
 
   3.times do
